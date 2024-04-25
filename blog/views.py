@@ -1,6 +1,8 @@
+from typing import Any
 from django.shortcuts import render,get_object_or_404,redirect
-from .models import Post
+from .models import Post,Category
 from .forms import CommentForm
+from django.views.generic import ListView
 
 def home(request):
     context = {'posts':Post.newManager.all()}
@@ -21,3 +23,20 @@ def post_single(request,id):
                "comments":comments,
                'commentForm':commentForm,}
     return render(request, 'single.html',context = context,)
+class catList(ListView):
+    template_name = 'categoryView.html'
+    context_object_name = 'catList'
+    def get_queryset(self):
+      
+        content = {
+            "cat":self.kwargs['category'],
+            'posts':Post.newManager.filter(category__name =self.kwargs['category'])
+        }
+        return content
+    
+def categorylist(request):
+    context = {
+        'category': Category.objects.all()
+        # 'category': Category.objects.exclude(name = 'Default')
+    }
+    return context

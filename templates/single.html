@@ -45,20 +45,29 @@
 
     <div class="container">
       <div class="col-md-8">
-        <div class="col-12 h4">{{post.title}}</div>
-        <hr />
-        <div class="col-12">{{post.content}}</div>
-        <hr />
-        {% for comment in comments %}
-        <div class="col-12">
-          {{comment.name}} | ----{{comment.published_date}}| {{comment.content}}
+        <div class="card" style="width: 40rem">
+          <img
+            class="card-img-top"
+            src="https://picsum.photos/id/{{post.id}}4/200/100"
+          />
+          <div class="card-body">
+            <div class="col-12 h4">{{post.title}}</div>
+            <hr />
+            <div class="col-12">{{post.content}}</div>
+            <hr />
+            {% for comment in comments %}
+            <div class="col-12">
+              {{comment.name}} | ----{{comment.published_date}}|
+              {{comment.content}}
+            </div>
+            {%endfor%}
+            <hr />
+            <form method="POST">
+              {% csrf_token %} {{commentForm.as_p }}
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
         </div>
-        {%endfor%}
-        <hr />
-        <form method="POST">
-          {% csrf_token %} {{commentForm.as_p }}
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
       </div>
     </div>
   </body>

@@ -10,7 +10,6 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
@@ -32,20 +31,9 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
-            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-              <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Categoty
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                    {%for cat in category%}
-                    <li><a class="dropdown-item" href="{{cat.name}}">{{cat.name|title}}</a></li>
-                    {%endfor%}
-                  </ul>
-                </li>
-              </ul>
-            </div>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Features</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Pricing</a>
             </li>
@@ -58,12 +46,15 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-8">
-        {% for post in posts%}
-        <div class="col-12 h4"> <a href="{% url 'post_single' post.id %}">{{post.title}}</a>  </div>
-        <div class="col-12">  {{post.content|truncatechars:10}}</div>
-        
+            <div class="alert alert-primary" role="alert">
+                <p>list of blog in {{catList.cat}}</p>
+            </div>
+                {% for post in catList.posts%}
+                <div class="col-12 h4"> <a href="{% url 'post_single' post.id %}">{{post.title}}</a>  </div>
+                <div class="col-12">  {{post.content}}</div>
+                
 
-      {%endfor%}
+                {%endfor%}
         </div>
     </div>
   </body>
