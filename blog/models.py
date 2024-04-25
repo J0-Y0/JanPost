@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
 
 class Post(models.Model):
     class NewManager(models.Manager):
@@ -15,9 +19,12 @@ class Post(models.Model):
     slug = models.SlugField(max_length = 250, unique_for_date = 'published_date')
     published_date = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='blog_posts')
+    category = models.ForeignKey(Category, on_delete=models.PROTECT,default=1)
+
     excerpt = models.TextField()
     content = models.TextField()
     status = models.CharField(max_length=15,choices=options,default='draft')
+    
     objects = models.Manager()
     newManager = NewManager()
     class Meta:

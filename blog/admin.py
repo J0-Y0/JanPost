@@ -7,6 +7,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ('status','published_date')
     search_fields = ('name','email','content')
 
+admin.site.register(Category)
 admin.site.register(Post,PostAdmin)
 admin.site.register(Comment,CommentAdmin)
 
