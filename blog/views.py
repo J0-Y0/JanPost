@@ -15,7 +15,7 @@ def post_single(request,id):
             comment = commentForm.save(commit = False)
             comment.post = post
             comment.save()
-            commentForm =  CommentForm()
+            return redirect('post_single', id = 2)
     else:
         commentForm =  CommentForm()
     context = {'post':post,

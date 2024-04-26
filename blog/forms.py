@@ -5,7 +5,7 @@ from mptt.forms import TreeNodeChoiceField
 class CommentForm(forms.ModelForm):
     parent = TreeNodeChoiceField(
         queryset=Comment.objects.all(),
-        widget=forms.Select(attrs={'class': 'form-control'}),
+        widget=forms.Select(attrs={'class': 'form-control d-none'}),
         required=False
     )  
     class Meta:

@@ -50,9 +50,8 @@ class Comment(MPTTModel):
     published_date = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(default=True)
     
-    class  MPTTMeta:
-        order_insertion_by = ['published_date']
+    class MPTTMeta:
+        order_insertion_by = ['-published_date']
         
-    
     def __str__(self):
         return f"commented by {self.name}"
