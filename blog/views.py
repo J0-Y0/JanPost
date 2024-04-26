@@ -1,4 +1,3 @@
-from typing import Any
 from django.shortcuts import render,get_object_or_404,redirect
 from .models import Post,Category
 from .forms import CommentForm

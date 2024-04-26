@@ -1,18 +1,38 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {%load mptt_tags%}
 <!---->
 {%block content%}
-<div class="col-12 h4">{{post.title}}</div>
-<hr />
-<div class="col-12">{{post.content}}</div>
-<hr />
-{% for comment in comments %}
-<div class="col-12">
-  {{comment.name}} | ----{{comment.published_date}}| {{comment.content}}
+<div class="card">
+  <div class="card-body">
+    <div class="col-12 h4">{{post.title}}</div>
+    <hr />
+    <div class="col-12">{{post.content}}</div>
+    <hr />
+    <h5 class="text-secondary">{{comments|length}} comments</h5>
+
+    {% recursetree comments %}
+    <div class="card my-1">
+      <div class="card-body">
+        <b> {{node.name}} </b>
+
+        {{node.content}}<span class="text-secondary ms-5"
+          >{{node.published_date}}</span
+        >
+      </div>
+    </div>
+    <!---->
+    {%if not node.is_leaf_node%}
+    <div class="px-3">{{children}}</div>
+    {%endif%} {% endrecursetree %} {% comment %} {% for comment in comments %}
+    <div class="col-12">
+      {{comment.name}} | ----{{comment.published_date}}| {{comment.content}}
+    </div>
+    {%endfor%} {% endcomment %}
+
+    <hr />
+    <form method="POST">
+      {% csrf_token %} {{commentForm.as_p }}
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
 </div>
-{%endfor%}
-<hr />
-<form method="POST">
-  {% csrf_token %} {{commentForm.as_p }}
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
 {% endblock %}

@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from mptt.models import MPTTModel,TreeForeignKey
+
+def postImageDirectory(instance,filename):
+    return 'posts/{0}/{1}'.format(instance.id,filename)
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -17,12 +21,15 @@ class Post(models.Model):
                 )
     title = models.CharField(max_length = 250)
     slug = models.SlugField(max_length = 250, unique_for_date = 'published_date')
-    published_date = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='blog_posts')
+    image = models.ImageField(upload_to=postImageDirectory,default='posts/default.jpg')
+    
+   
     category = models.ForeignKey(Category, on_delete=models.PROTECT,default=1)
 
     excerpt = models.TextField()
     content = models.TextField()
+    published_date = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='blog_posts')
     status = models.CharField(max_length=15,choices=options,default='draft')
     
     objects = models.Manager()
@@ -34,17 +41,18 @@ class Post(models.Model):
         verbose_name_plural = 'posts'
     def __str__ (self):
         return self.title
-class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='comments')  
-    name  = models.CharField(max_length=50)
+class Comment(MPTTModel):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='comments') 
+    parent = TreeForeignKey('self',on_delete=models.CASCADE,null=True,blank=True,related_name="children" )
+    name  = models.CharField(max_length=50 ,verbose_name='Commented by')
     email  = models.EmailField(max_length=50)
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(default=True)
     
-    class  Meta:
-        ordering = ('-published_date',)
+    class  MPTTMeta:
+        order_insertion_by = ['published_date']
         
     
     def __str__(self):
-        return "commented by {self.name}"
+        return f"commented by {self.name}"
