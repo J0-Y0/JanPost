@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.utils.timesince import timesince
+
 from mptt.models import MPTTModel,TreeForeignKey
 
 def postImageDirectory(instance,filename):
@@ -48,8 +50,12 @@ class Comment(MPTTModel):
     email  = models.EmailField(max_length=50)
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True)
-    status = models.BooleanField(default=True)
     
+    status = models.BooleanField(default=True)
+    def time_difference(self):
+        now = timezone.now()
+        # time_diff = now - self.created_at
+        return timesince(self.published_date, now)
     class MPTTMeta:
         order_insertion_by = ['-published_date']
         
