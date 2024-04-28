@@ -17,4 +17,6 @@ class CommentForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
         }
-        
+class PostSearchForm(forms.Form):
+    searchField = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control bg-secondary','placeholder':'Search'}  ),required=False)
+           

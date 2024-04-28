@@ -1,10 +1,21 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from .models import Post,Category
-from .forms import CommentForm
+from .forms import CommentForm,PostSearchForm
 from django.views.generic import ListView
 
 def home(request):
-    context = {'posts':Post.newManager.all()}
+    postSearchForm = PostSearchForm()
+    posts = Post.newManager.all()
+    if request.method == 'GET':
+        postSearchForm = PostSearchForm(request.GET)
+        if postSearchForm.is_valid():
+            keyword = postSearchForm.cleaned_data['searchField']
+            posts = Post.newManager.filter(title__contains = keyword )
+    context = {
+        'postSearchForm':postSearchForm,
+        'posts':posts
+    }
+    
     return render(request, 'index.html',context = context)
 def post_single(request,id):
     post  = get_object_or_404(Post,id = id)
@@ -39,3 +50,17 @@ def categorylist(request):
         # 'category': Category.objects.exclude(name = 'Default')
     }
     return context
+
+def searchPost(request):
+    postSearchForm = PostSearchForm()
+    posts = ""
+    if request.method == 'GET':
+        postSearchForm = PostSearchForm(request.GET)
+        if form.is_valid():
+            keyword = form.cleaned_data['searchField']
+            posts = Post.newManager.filter(title__contains = keyword )
+    context = {
+        'postSearchForm':postSearchForm,
+        'posts':posts
+    }
+    return render(request,)
