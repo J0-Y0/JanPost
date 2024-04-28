@@ -1,12 +1,4 @@
 {% extends 'base.html' %}
 <!---->
 {%block content%} {% for post in posts %} {% include "post.html" %} {%endfor%}
-{%endblock %} {% comment %} {% extends 'base.html' %}
-<!---->
-{%block content%} {% for post in posts%}
-<div class="col-12 h4">
-  <a href="{% url 'post_single' post.id %}">{{post.title}}</a>
-</div>
-<div class="col-12">{{post.content|truncatechars:10}}</div>
-
-{%endfor%} {% endblock %} {% endcomment %}
+{%endblock %} 
