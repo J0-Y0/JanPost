@@ -5,6 +5,63 @@
 }
 body {
     font-family: serif;
-    background-color: red !important;
-    color: blue !important;
+
+     background-color: rgb(214, 233, 205);
+    
+
+}
+.post{
+    margin: 20px;
+    &-profile{
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+        // justify-content: center;
+        // width: 200px;
+        // height: 200px;
+        border: 1px solid rgb(214, 208, 208);
+        background-color: rgb(186, 204, 191);
+        border-radius: 20px;
+        &-image{
+            width: 100px; /* Adjust size as needed */
+            height: 100px; /* Adjust size as needed */
+            border-radius: 50%;
+            overflow: hidden;
+            justify-content: center;
+        }
+    }
+    &-postview{
+        overflow: hidden;
+        img{
+            max-width: 100%; /* Ensures images don't exceed their container width */
+            height: 300px ; /* Maintains aspect ratio */
+            // margin: 0 auto; /* Centers the image horizontally */
+            overflow: hidden;
+        }
+        
+       
+    }
+}
+
+// scroll bars
+/* Hide scrollbar */
+::-webkit-scrollbar {
+    width: 5px; /* Set the width of the scrollbar */
+    background-color: transparent; /* Make the scrollbar background transparent */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent; /* Make the scrollbar track transparent */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5); /* Set the color and transparency of the scrollbar handle */
+    border-radius: 10px; /* Set border radius to make it round */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.7); /* Change color on hover */
 }

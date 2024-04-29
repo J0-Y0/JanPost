@@ -36,6 +36,9 @@ class Post(models.Model):
     
     objects = models.Manager()
     newManager = NewManager()
+    def time_difference(self):
+        now = timezone.now()
+        return timesince(self.published_date, now)
     class Meta:
         ordering =('-published_date',)
        

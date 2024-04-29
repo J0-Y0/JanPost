@@ -1,23 +1,50 @@
-<div class="card m-3">
-  <img src="{{post.image.url}}" class="card-img-top h-25" style="hight= 50" />
-  <div class="card-body">
-    <div class="d-flex justify-content-between">
-      <h5 class="card-title">{{post.title}}</h5>
-      <p class="text-secondary">{{post.published_date}}</p>
-    </div>
-    <p class="card-text">{{post.content}}</p>
+<div class="row post">
+  <div class="col-4 post-profile  my-3 p-4">
+    <div class="m-3 text-center">
+      <img src="{{post.image.url}}" class="post-profile-image"/>
+      <p class= "text-center">{{user}}</p>
+      <p>{% lorem how_many_paragraphs %}</p>
+      {% comment %} <p class= "text-center">student,tutorer,teacher,</p>
+      <p class= "text-center">student,tutorer,teacher,</p>
+      <p class= "text-center">student,tutorer,teacher,</p> {% endcomment %}
 
-    <div class="d-flex justify-content-between">
-      <a
-        class="btn btn-primary rounded-1"
-        href="{% url 'post_single' post.id %}"
-        >read more</a
-      >
-      <div class="d-flex">
-        <p class="text-secondary px-1">comment:{{post.comments|length}}</p>
-        <p class="text-secondary px-1">up:{{post.comments|length}}</p>
-        <p class="text-secondary px-1">down:{{post.comments|length}}</p>
-      </div>
     </div>
+
+    
+  </div>
+  <div class="col-8 post-postview">
+    <div class="card my-3">
+      <img src="{{post.image.url}}" class="card-img-top"/>
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h5 class="card-title">{{post.title}}</h5>
+          <p class="text-secondary">{{post.published_date}}</p>
+        </div>
+        <p class="card-text">{{post.content|truncatewords:100}}</p>
+
+        
+      </div>
+       
+        <div class="card-footer p-0 d-flex justify-content-between">
+        
+
+          <p class = "text-secondary ps-2">Posted  {{post.time_difference}} ago</p>
+          <div class="btn-group" role="group" aria-label="Basic example">
+
+              <button class="btn btn-primary rounded-0"><i class="fa-regular fa-thumbs-up"></i> 444</button>
+              <button class="btn btn-primary rounded-0"><i class="fa-regular fa-thumbs-down"></i> 444</button>
+              <button class="btn btn-primary rounded-0"><i class="fa-solid fa-comment-dots"></i> 444</button>
+
+              
+             
+
+        
+              <a class="btn btn-primary rounded-0" href="{% url 'post_single' post.id %}">Read more </a>             
+              <button title ='report this post' class="ms-1 btn btn-primary text-warning rounded-0"><i class="fa-solid fa-triangle-exclamation"></i> </button>
+
+        </div>
+        </div>
+    </div>
+
   </div>
 </div>

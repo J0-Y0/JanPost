@@ -2,17 +2,22 @@ from django.shortcuts import render,get_object_or_404,redirect
 from .models import Post,Category
 from .forms import CommentForm,PostSearchForm
 from django.views.generic import ListView
+from .filter import PostFilterForm
 
 def home(request):
-    postSearchForm = PostSearchForm()
+    # postSearchForm =PostSearchForm(request.GET)
     posts = Post.newManager.all()
-    if request.method == 'GET':
-        postSearchForm = PostSearchForm(request.GET)
-        if postSearchForm.is_valid():
-            keyword = postSearchForm.cleaned_data['searchField']
-            posts = Post.newManager.filter(title__contains = keyword )
+    # if request.method == 'GET':
+    #     postSearchForm = PostSearchForm(request.GET)
+    #     if postSearchForm.is_valid():
+    #         keyword = postSearchForm.cleaned_data['searchField']
+    #         posts = Post.newManager.filter(title__contains = keyword )  
+
+    postFilterForm = PostFilterForm(request.GET,queryset=posts)
+    posts = postFilterForm.qs
     context = {
-        'postSearchForm':postSearchForm,
+        # 'postSearchForm':postSearchForm,
+        'postFilterForm':postFilterForm,
         'posts':posts
     }
     
