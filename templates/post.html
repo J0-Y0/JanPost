@@ -4,11 +4,8 @@
       <img src="{{post.image.url}}" class="post-profile-image"/>
       <p class= "text-center">{{user}}</p>
       <p>{% lorem how_many_paragraphs %}</p>
-      {% comment %} <p class= "text-center">student,tutorer,teacher,</p>
-      <p class= "text-center">student,tutorer,teacher,</p>
-      <p class= "text-center">student,tutorer,teacher,</p> {% endcomment %}
-
-    </div>
+     
+    </div> 
 
     
   </div>
@@ -40,7 +37,8 @@
 
         
               <a class="btn btn-primary rounded-0" href="{% url 'post_single' post.id %}">Read more </a>             
-              <button title ='report this post' class="ms-1 btn btn-primary text-warning rounded-0"><i class="fa-solid fa-triangle-exclamation"></i> </button>
+             
+              <button title ='report this post' class="ms-1 btn btn-primary text-warning rounded-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" ><i class="fa-solid fa-triangle-exclamation"></i> </button>
 
         </div>
         </div>
@@ -48,3 +46,42 @@
 
   </div>
 </div>
+
+
+
+<!-- Report  Modal -->
+<div class="modal  fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop2Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-bg-success">
+        <h1 class="modal-title fs-5" id="staticBackdrop2Label">Reporting</h1>
+        <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-4 pt-4">
+        <form method="get" >
+          {% for field in reportForm%} 
+              <b class = "pt-3 text-secondary ">{{field.label}}</b>
+              
+              {{field}}
+
+              {%endfor%}
+          <div class="btn-group mt-5 w-100" role="group" aria-label="Basic example">
+            <button class="btn btn-primary  " type="submit">
+            Send report
+            </button>
+          {% comment %} <button  class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button> {% endcomment %}
+          
+       
+        </div>
+        <br>
+          <hr>
+            <p class = "text-secondary text-center mb-0 ">Thankyou for telling us the abuse</p>
+
+      </form>
+
+      </div>
+      
+    </div>
+  </div>
+</div> 
+

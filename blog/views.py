@@ -1,11 +1,18 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from .models import Post,Category
-from .forms import CommentForm,PostSearchForm
+from .forms import CommentForm,ReportForm
 from django.views.generic import ListView
 from .filter import PostFilterForm
 
 def home(request):
-    # postSearchForm =PostSearchForm(request.GET)
+    reportForm = ReportForm() 
+    if request.method =='POST':
+        reportForm = ReportForm(request.POST)
+        if reportForm.is_valid():
+            report = reportForm.save(commit = False)
+            
+            report.save()
+
     posts = Post.newManager.all()
     # if request.method == 'GET':
     #     postSearchForm = PostSearchForm(request.GET)
@@ -15,8 +22,9 @@ def home(request):
 
     postFilterForm = PostFilterForm(request.GET,queryset=posts)
     posts = postFilterForm.qs
+    
     context = {
-        # 'postSearchForm':postSearchForm,
+        'reportForm':reportForm,
         'postFilterForm':postFilterForm,
         'posts':posts
     }

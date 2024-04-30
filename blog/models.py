@@ -64,3 +64,27 @@ class Comment(MPTTModel):
         
     def __str__(self):
         return f"commented by {self.name}"
+    
+class Report(models.Model):
+    report_types = (('none_educational', 'None Educational'),
+                    ('ethnic', 'Ethnic Violence'),
+                    ('political','Political Content'),
+                    ('explicit','Explicit Content'),
+                    ('spam','looks a spam'),
+                    ('other','other')
+                   )
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='reports') 
+    name  = models.CharField(max_length=50 ,verbose_name='Commented by')
+    type = models.CharField(max_length=50,choices=report_types,verbose_name='Report type')
+    detail = models.TextField(verbose_name="Additional Details")
+    published_date = models.DateTimeField(auto_now_add=True)
+    def time_difference(self):
+        now = timezone.now()
+        # time_diff = now - self.created_at
+        return timesince(self.published_date, now)
+    class  Meta:
+        verbose_name = 'Report'
+        verbose_name_plural = 'Reports'
+        ordering =('-published_date',)
+    def __str__(self):
+        return f"{self.name}:{self.type}"
