@@ -29,7 +29,7 @@ def home(request):
         'posts':posts
     }
     
-    return render(request, 'index.html',context = context)
+    return render(request, 'blog/index.html',context = context)
 def post_single(request,id):
     post  = get_object_or_404(Post,id = id)
     comments = post.comments.filter(status  =True)
@@ -45,9 +45,9 @@ def post_single(request,id):
     context = {'post':post,
                "comments":comments,
                'commentForm':commentForm,}
-    return render(request, 'single.html',context = context,)
+    return render(request, 'blog/single.html',context = context,)
 class catList(ListView):
-    template_name = 'categoryView.html'
+    template_name = 'blog/categoryView.html'
     context_object_name = 'catList'
     def get_queryset(self):
       

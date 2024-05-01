@@ -1,0 +1,79 @@
+{%load static %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-fluid">
+      <img src="{% static 'img/logo.png' %}" class="  img-fluid navbar-brand" width="30" height="24" alt="logo">
+      <a class="navbar-brand" href="/">      <b>JanPost</b> </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Category
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+              {% for cat in category %}
+              <li><a class="dropdown-item" href="{{ cat.name }}">{{ cat.name|title }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Pricing</a>
+          </li>
+        </ul>
+        
+          <form method="GET">
+            <div class="input-group ">
+              {{postFilterForm.form.content}}
+
+              <button type='submit' class="btn btn-primary rounded-0"><i class="fas fa-search pe-1"></i></button>
+              <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <i class="fa-solid fa-filter"></i>   
+              </button>
+            
+          </div>
+          
+        </form>
+       
+      </div>
+    </div>
+</nav>
+<!--navbar Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-bg-dark">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Post Filtered Search</h1>
+          <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4 pt-4">
+          <form method="get" >
+            {% for field in postFilterForm.form%} 
+            <b class = "pt-3 text-secondary">
+              {{field.label}}
+  
+            </b> {{field}} {%endfor%}
+            
+  
+            
+            <div class="btn-group mt-5 w-100" role="group" aria-label="Basic example">
+              <button class="btn btn-outline-primary  " type="submit">
+                <i class="fa-solid fa-filter"></i>Apply filter
+              </button>
+            <button  class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+            
+         
+          </div>
+        </form>
+  
+        </div>
+        
+      </div>
+    </div>
+</div> 
+  
+  

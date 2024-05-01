@@ -1,0 +1,32 @@
+{% extends '../base/base.html' %}
+
+{%load static %}
+<!---->
+{% block navbar %}
+    {%include '../base/navbar.html'%}
+{% endblock %}
+
+{%block content%}
+ 
+  <div class="search-bar m-3">
+        <nav class="navbar   bg-light   mb-2">    
+            <form class="container-fluid">
+              <div class="input-group">
+                    <span class="input-group-text pe-1" type="button" title="Advanced search">
+                      <img src="{% static 'img/logo.png' %}" class="img-fluid navbar-brand me-1" width="25" alt="logo">
+                    </span>    
+                  {{postFilterForm.form.content}}
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+                  <button type="button" class="btn btn-outline-success " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <i class="fa-solid fa-filter"></i>   
+                  </button>
+                  <button class="btn btn-outline-success ms-md-5" type="submit">Ask Community</button>
+
+                </div>
+              
+              </form>
+        </nav><!-- END OF SEARCH NAV BAR    -->
+  </div>
+
+  {% for post in posts %} {% include "blog/post.html" %} {%endfor%}
+{%endblock %} 
