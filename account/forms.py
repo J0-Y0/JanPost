@@ -1,9 +1,40 @@
 from django import forms
+from django.core.models import User
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=40, required=True,
                                widget=forms.TextInput(attrs={'class':'form-control','placeholder':"Username"}))
     password = forms.CharField(max_length=40, required=True,
                                widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'password'}))
-                               
-
+                            
+                            
+class SignupForm(forms.ModelForm):
+    
+    class Meta:
+        model = User
+        fields  = ('username','email', 'password1','password2')
+        widgets = {
+            'password1' :forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Password','type':'password'}),
+            'username' :forms.TextInput( attrs={'class': 'form-control', 'placeholder':'UserName'}),
+            'password2' : forms.TextInput(attrs={'class': 'form-control', 'placeholder':'re-type the Password','type':'password'}), 
+            'email' : forms.EmailInput(attrs={'class': 'form-control', 'placeholder':'re-type the Password','type':'email'}), 
+        }
+        def clean_password2(self):
+            password1 = self.cleaned_data['password1']
+            password2 = self.cleaned_data['password2']
+            if password1 and password2 and password1!= password2:
+                raise forms.ValidationError("Passwords don't match")
+            return password2
+        def clean_username(self):
+            username = self.cleaned_data['username']
+            if User.objects.filter(username=username).exists():
+                raise forms.ValidationError("Username already exists")
+            return username
+        def clean_email(self):
+            email = self.cleaned_data['email']
+            if User.objects.filter(email=email).exists():
+                raise forms.ValidationError("Email already taken")
+            return email
+        
+        
+    

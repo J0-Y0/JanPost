@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate,login,logout
+from django.core.mail import send_mail
+
 from .forms import *
 def user_login(request):
     error_msg = ''
@@ -25,3 +27,18 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('login')
+
+def user_signup(request):
+    error_msg = ''
+    if request.method == 'POST':
+        signupForm  = SignupForm(request.POST)
+        if signupForm.is_valid():
+           user = signupForm(commit=False)
+           user.active = False
+           user.save()
+           subject = "Account Activation"
+           
+           (, message, from_email, recipient_list)
+
+           send_mail
+            
