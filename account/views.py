@@ -37,8 +37,8 @@ def user_signup(request):
            user.active = False
            user.save()
            subject = "Account Activation"
-           
-           (, message, from_email, recipient_list)
+           from_email =None
+           recipient_list = user.email
+           send_mail(subject=subject, message, from_email, recipient_list)
 
-           send_mail
             
