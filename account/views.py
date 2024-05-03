@@ -1,9 +1,16 @@
-from django.shortcuts import render,redirect,HttpResponse
+from django.shortcuts import render,redirect
+from django.contrib.auth import authenticate,login,logout,get_user_model
+from django.http import HttpResponse
+from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site  
 
-from django.contrib.auth import authenticate,login,logout
 from django.core.mail import send_mail
+from .token import account_activation_token
 from django.conf import settings
 import os
+
+
 
 from .forms import *
 def user_login(request):
@@ -37,13 +44,12 @@ def user_signup(request):
             user = signupForm.save(commit=False)
             user.active = False
             user.save()
-            email = signupForm.cleaned_data['email']
-            username = signupForm.cleaned_data['username']
+           
+        # will be back ground task 
             while True:
-               sent =   sent_activation(email,username)
+               sent =   sent_activation(user)
                if sent:
                   break 
-
             return HttpResponse("email delivered")
     else:
          signupForm  = SignupForm()
@@ -52,7 +58,7 @@ def user_signup(request):
         
     }
     return  render(request,'account/signup.html',context)  
-def mailHtmlFormatter(title,subject,name,text):
+def mailHtmlFormatter(title,subject,name,text,link):
     htmlContent  = """
         <!DOCTYPE html>
         <html lang="en">
@@ -99,18 +105,33 @@ def mailHtmlFormatter(title,subject,name,text):
     
     """
     return htmlContent
-def sent_activation(email,username):
-    print("-------------------os--------------------------------")
-    print(os.getenv('dev_email'))
-    print(settings.EMAIL_HOST_PASSWORD)
+def sent_activation(request,user):
+    token  = account_activation_token.make_token(user)
+    current_site = get_current_site(request)  
+    link = fr"https:{current_site.domain}/account/activate{user.id}/{token}"
+    print("link token -------------------------------------------")
+    print(link)
     try:
         subject = "Account Activation"
         title = "Activate"
         text = "Your account has been created! To start using it, you'll need to activate it. Simply click the link/button below to get started."
-        htmlMessage = mailHtmlFormatter(title = title,subject= subject,name = username,text = text)
+        htmlMessage = mailHtmlFormatter(title = title,subject= subject,name = user.username,text = text,link = link)
         send_mail(auth_user =settings.EMAIL_HOST_PASSWORD, subject=subject, message = "Plain text version of the email"
-        ,html_message = htmlMessage, from_email = settings.EMAIL_HOST_USER, recipient_list = [email,])
+        ,html_message = htmlMessage, from_email = settings.EMAIL_HOST_USER, recipient_list = [user.email,])
         return  True        
     except Exception as e:
         print("=============="+str(e))
         return  False        
+def activate_account(uidb64, token):  
+    User = get_user_model()
+    try:
+        uid = str(urlsafe_base64_decode(uidb64), 'utf-8')
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+    else:
+        return HttpResponse('Activation link is invalid!')
