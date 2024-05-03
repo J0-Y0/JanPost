@@ -47,7 +47,7 @@ def user_signup(request):
            
         # will be back ground task 
             while True:
-               sent =   sent_activation(user)
+               sent =   sent_activation(request,user)
                if sent:
                   break 
             return HttpResponse("email delivered")
@@ -108,7 +108,7 @@ def mailHtmlFormatter(title,subject,name,text,link):
 def sent_activation(request,user):
     token  = account_activation_token.make_token(user)
     current_site = get_current_site(request)  
-    link = fr"https:{current_site.domain}/account/activate{user.id}/{token}"
+    link = fr"https://{current_site.domain}/account/activate/{user.id}/{token}"
     print("link token -------------------------------------------")
     print(link)
     try:

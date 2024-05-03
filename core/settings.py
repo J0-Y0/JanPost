@@ -141,4 +141,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv('dev_email')
 EMAIL_HOST_PASSWORD = os.getenv('pass_key')
-EMAIL_USE_TLS = False
+EMAIL_USE_TLS = True
