@@ -1,5 +1,6 @@
 from django import forms
-from django.core.models import User
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=40, required=True,
@@ -8,8 +9,9 @@ class LoginForm(forms.Form):
                                widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'password'}))
                             
                             
-class SignupForm(forms.ModelForm):
-    
+class SignupForm(UserCreationForm):
+    password1 = forms.CharField(label='Password', required=True,widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'password'}))
+    password2 = forms.CharField(label='Confirm Password', required=True,widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'confirm'}))
     class Meta:
         model = User
         fields  = ('username','email', 'password1','password2')
@@ -17,7 +19,7 @@ class SignupForm(forms.ModelForm):
             'password1' :forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Password','type':'password'}),
             'username' :forms.TextInput( attrs={'class': 'form-control', 'placeholder':'UserName'}),
             'password2' : forms.TextInput(attrs={'class': 'form-control', 'placeholder':'re-type the Password','type':'password'}), 
-            'email' : forms.EmailInput(attrs={'class': 'form-control', 'placeholder':'re-type the Password','type':'email'}), 
+            'email' : forms.EmailInput(attrs={'required' :'True' ,'class': 'form-control', 'placeholder':'Email','type':'email'}), 
         }
         def clean_password2(self):
             password1 = self.cleaned_data['password1']
