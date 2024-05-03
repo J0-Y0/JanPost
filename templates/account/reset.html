@@ -6,24 +6,30 @@
         <div class="card ">
             <img src="media/posts/default.jpg" alt="hulu-logo" class="card-img-top  bg-warning ">
             <div class="card-body p-5">
-                <h4 class="card-title text-success text-center">WELCOME BACK</h4>
+                <h4 class="card-title text-success text-center">Accont Reseting </h4>
                 <hr>
-                    <form method = 'POST' class=" text-success text-start">
-
+                    <form method = "POST" class=" text-success text-start">
+                       
                         {% csrf_token %}
-                        {%for field in loginForm%}
+                        {%for field in form  %}
+                        
                         {{ field.label }}
                         {{ field }}
-                        <br>
+                        <div class="alert alert-danger py-0 mt-2 " role="alert">
+                            {{ field.error }}
+                        </div>
+
                         {% endfor %}
+                        {{form.errors}}
                         <p class="form-control bg-danger-subtle {%if not error_msg %} d-none {%endif%}" role="alert">
-                            {{error_msg}}
+                            {{error}}
+                            
                           </p>
                         
 
                        
                         <br>
-                        <button style="width: 100%;" type="submit" class="btn btn-outline-success btn-lg" href="#">__| Login |__</button>
+                        <button style="width: 100%;" type="submit" class="btn btn-outline-success btn-lg">__| Sent request |__</button>
                         
                         <br>
                         <br>
@@ -31,7 +37,7 @@
                     </form>
                       <!--FORGET AND HAVE NO ACCOUNT BUTTON-->
                       <div class="text-start d-flex justify-content-center">
-                        <a class="text-secondary me-3 " href="{%url 'reset_request'%}"> forget password</a>
+                        <a class="text-secondary me-3 " href="{%url 'login'%}"> I get my  password</a>
 
                         <a class="text-secondary " href="{%url 'signup'%}"> have no account ? </a>
                     </div><!--END OF FORGET HAV NO ACCOUNT BUTTON -->
