@@ -1,18 +1,53 @@
 {% extends 'base/base.html' %}
 {% block content %}
+<div class="row align-items-center justify-content-center">
+    <!--SIGNUP CARD-->
+    <div class="col-9 col-md-6 px-xl-5  col-xl-6">
+        <div class="card ">
+            <img src="images/hulu.png" alt="hulu-logo" class="card-img-top  bg-dark ">
+            <div class="card-body p-5">
+                <h4 class="card-title text-success text-center">JOIN OUR COMMUNITY</h4>
+                <hr>
+                    <form method = "post" action="" class=" text-success text-start">
+                        {% csrf_token %}
 
-<form action="" method="post">
-    {% csrf_token %}
+                        {% for field in signupForm %}
+                            {{field.label}}
+                            {{field}}
+                        {%endfor%}
+                        {{signupForm.errors}}
+                        <br>
 
-    {% for field in signupForm %}
-        {{field.label}}
-        {{field}}
-    {%endfor%}
-    {{signupForm.errors}}
+                        <button style="width: 100%;" type="submit" class="btn btn-outline-success btn-lg" href="#">__| signup |__</button>
+                        <br>
+                        <div class="text-center">
+                            <a class="text-secondary " href="{%url 'login'%}"> already a member -&gt; <span class="text-primary">login</span></a>
 
-    <button type = 'submit' class = "btn btn-primary">Signup</button>
+                        </div>
+                    </form>
+                
 
-</form>
+
+
+            </div>
+        </div>
+    </div><!--END OF SIGNUP CARD COLUMN-->
+
+
+    <!--befit of creating an account -->
+    <div class="col-md-6 ps-lg-5  mt-5 d-none d-md-block position-relative">
+            <!-- <img src="images/hulu-tutor.png" alt="hulu-logo" width="30%" height="20%" class="position-absolute top-0 start-100  mb-4" > -->
+            <h4 class="text-success display-6 text-nowrap overflow-hidden" style="overflow-wrap: break-word;">Benefit of creating an account</h4>
+            <hr>
+                <ul>
+                    <li class="h5">You will join our Community</li>
+                    <li class="h5">You can ask, upload your questions</li>
+                    <li class="h5">Able to vote and comment answered questions</li>
+                    <li class="h5">You can working with us, as tutor provider,for more read our agreement policy <a href="#">here</a></li>
+                    <li class="h5">To get VIP customer membership discount,for more read our customer handling forum <a href="#">here</a> </li>
+                </ul>               
+    </div><!--END OF BENEFIT OF CREATING ACCOUNT-->
+</div>
 
 
 {%endblock content %}
