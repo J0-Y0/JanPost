@@ -1,9 +1,13 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login,logout,get_user_model
 from django.http import HttpResponse
-from django.utils.http import urlsafe_base64_decode
-from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.utils.encoding import force_str
+
 from django.contrib.sites.shortcuts import get_current_site  
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 from django.core.mail import send_mail
 from .token import account_activation_token
@@ -38,11 +42,12 @@ def user_logout(request):
     return redirect('login')
 
 def user_signup(request):
+    
     if request.method == 'POST':
         signupForm  = SignupForm(request.POST)
         if signupForm.is_valid():
             user = signupForm.save(commit=False)
-            user.active = False
+            user.is_active = False
             user.save()
            
         # will be back ground task 
@@ -59,7 +64,7 @@ def user_signup(request):
     }
     return  render(request,'account/signup.html',context)  
 def mailHtmlFormatter(title,subject,name,text,link):
-    htmlContent  = """
+    htmlContent  =fr"""
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -80,8 +85,8 @@ def mailHtmlFormatter(title,subject,name,text,link):
                                 <p>Hello {name}, </p>
                                     <br>
 
-                                <p>{text} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quos veniam dolorem aut quisquam placeat error, fugit iure vel maiores laborum necessitatibus similique itaque facilis saepe a recusandae ea ipsum quam.</p>
-                                <a title="{title}" href="{link}" style="text-decoration: none; background-color: rgb(0, 136, 215); color: rgb(255, 255, 255); font-size: larger; margin: 5%; padding: 0.5% 3%;">{title}</a>
+                                <p>{text} </p>
+                                <a title="{title}" href="{link}" style="text-decoration: none; background-color: rgb(0, 136, 215); color: rgb(255, 255, 255); font-size: larger; margin-y: 5%; padding: 0.5% 3%;">{title}</a>
 
                         
                     </div>
@@ -106,32 +111,58 @@ def mailHtmlFormatter(title,subject,name,text,link):
     """
     return htmlContent
 def sent_activation(request,user):
+    print(settings.EMAIL_HOST_USER)
+    print(settings.EMAIL_HOST_PASSWORD)
     token  = account_activation_token.make_token(user)
+    uid =  urlsafe_base64_encode(force_bytes(user.pk))
+
     current_site = get_current_site(request)  
-    link = fr"https://{current_site.domain}/account/activate/{user.id}/{token}"
-    print("link token -------------------------------------------")
-    print(link)
+    
+    link = fr"http://{current_site.domain}/account/activate/{uid}/{token}"
     try:
         subject = "Account Activation"
         title = "Activate"
         text = "Your account has been created! To start using it, you'll need to activate it. Simply click the link/button below to get started."
         htmlMessage = mailHtmlFormatter(title = title,subject= subject,name = user.username,text = text,link = link)
-        send_mail(auth_user =settings.EMAIL_HOST_PASSWORD, subject=subject, message = "Plain text version of the email"
-        ,html_message = htmlMessage, from_email = settings.EMAIL_HOST_USER, recipient_list = [user.email,])
+        recipient_email = user.email
+        send_mail(
+            subject=subject,
+            message="Plain text version of the email",
+            html_message=htmlMessage,
+            from_email=settings.EMAIL_HOST_USER,  # Sender's email address
+            recipient_list=[recipient_email],  # Recipient's email address
+            auth_user=settings.EMAIL_HOST_USER,  # Email username   
+            auth_password=settings.EMAIL_HOST_PASSWORD  # Email password
+        )
+      
+      
         return  True        
     except Exception as e:
         print("=============="+str(e))
         return  False        
-def activate_account(uidb64, token):  
-    User = get_user_model()
+def activate_account(request, uidb64, token):  
     try:
-        uid = str(urlsafe_base64_decode(uidb64), 'utf-8')
+        uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-    if user is not None and default_token_generator.check_token(user, token):
+
+    if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return HttpResponse('Thank you for your email confirmation. Now you can login to your account.')
     else:
-        return HttpResponse('Activation link is invalid!')
+        return HttpResponse('Activation link is invalid or expired.')
+def user_profile(request):
+    if request.method == "POST":
+        password_form = PasswordChangeForm(request.user, request.POST)
+        if password_form.is_valid():
+            user =password_form.save()
+            update_session_auth_hash(request, user)  # Important to update the session hash
+
+            return redirect('logout')
+            
+    else:
+        password_form = PasswordChangeForm(request.user)
+
+    return render( request,'account/profile.html' ,{"password_form":password_form})

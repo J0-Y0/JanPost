@@ -134,11 +134,16 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+# django sent mail configurations
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.getenv('dev_email')
-EMAIL_HOST_PASSWORD = os.getenv('pass_key')
+EMAIL_HOST_USER = os.getenv('jo_dev_mail')
+EMAIL_HOST_PASSWORD =os.getenv('jo_dev_token')
 EMAIL_USE_TLS = True
+
+
+
