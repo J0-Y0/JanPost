@@ -26,7 +26,7 @@
           </li>
         </ul>
         
-          <form method="GET">
+          {% comment %} <form method="GET">
             <div class="input-group ">
               {{postFilterForm.form.content}}
 
@@ -37,9 +37,52 @@
             
           </div>
           
-        </form>
+        </form> {% endcomment %}
        
       </div>
+
+      {%if user.is_authenticated%}
+        <div class="navbar-brand dropdown me-2 border  px-3">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <!-- <i class="fa-solid fa-user pe-1"></i> -->
+            <img
+              style="width: 40px; height: 40px"
+              class="rounded-circle account-img"
+              src="{{ request.user.profile.avatar.url }}"
+            />
+      
+            <p class="d-none d-sm-inline">
+              {{request.user.first_name}}
+            </p>
+          </a>
+          <ul class="dropdown-menu w-auto">
+            <li>
+              <a class="dropdown-item" href="{%url 'profile'%}">Profile</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{%url 'logout' %}">Logout</a>
+            </li>
+            <li><a class="dropdown-item" href="#">Theme</a></li>
+          </ul>
+        </div>
+      {%else%}
+      <div class="navbar-brand dropdown me-2 border  px-3">
+        <a
+          class="nav-link "
+          href="{%url 'login' %}"
+          role="button"
+          aria-expanded="false"
+        > <i class="fa-solid fa-arrow-right-to-bracket pe-2"></i>Login </a>       
+    </div>
+      {%endif%}
+
+
     </div>
 </nav>
 <!--navbar Modal -->

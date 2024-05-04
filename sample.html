@@ -1,42 +1,28 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JanPost</title>
-</head>
-
-<body style="font-family: 'Times New Roman', Times, serif;">
-<table cellpadding="0" cellspacing="0" border="0" align="center" style="background-color: rgb(217, 216, 216);
- margin: 4% 10%; border-bottom: outset 6px rgb(11, 125, 170); border-radius: 0 30px;">
-    <tr>
-        <td>
-            <div style="color: rgb(1, 101, 189); background-color: rgba(159, 214, 240, 0.863); padding: 1px 2
-0px; border-bottom: inset 3px rgb(7, 111, 163); border-top-right-radius: 30px;">
-                        <h2 >Password Reset</h2>
-            </div>
-            <div style="padding: 5%; font-size:larger">
-                        <p>Hey there!, </p>
-
-                        <p>We received a request to reset your password. If you initiated this, click the lin
-k/Button below to choose a new strong password.If you didn't request a password reset, you can safely disrega
-rd this email. Your account remains secure. </p>
-
-            <br>
-                        <a title="Reset" href="http://127.0.0.1:8000/account/password_reset/Mzc/c6ijga-e4268d
-b4c364296314e5cdab77d6a8bc"
-                        style="text-decoration: none; background-color: rgb(0, 136, 215); color: rgb(255, 255
-, 255);
-                        font-size: larger; margin-y: 5%; padding: 0.5% 3%;">Reset</a>
-
-            </div>
-            <hr>
-            <h4 style="padding-left: 10px; width: 90%; text-align: center; font-style: italic; color: rgb(70,
- 80, 80);">From <i>JanPost:</i></h4>
-        </td>
-    </tr>
-</table>
-</body>
-</html>
+<div class="navbar-brand dropdown me-3">
+    <a
+      class="nav-link dropdown-toggle"
+      href="#"
+      role="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <!-- <i class="fa-solid fa-user pe-1"></i> -->
+      <img
+        style="width: 40px; height: 40px"
+        class="rounded-circle account-img"
+        src="{{ request.user.profile.avatar.url }}"
+      />
+      <p>
+        {{request.user.first_name}}
+      </p>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="dropdown-item" href="{%url 'profile'%}">Profile</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{%url 'logout' %}">Logout</a>
+      </li>
+      <li><a class="dropdown-item" href="#">Theme</a></li>
+    </ul>
+</div>
