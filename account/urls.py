@@ -11,7 +11,7 @@ urlpatterns = [
     path('activate/<str:uidb64>/<str:token>',views.activate_account,name='activate'),
 
     #Password reset| using django default class view 
-    path('password_reset_request/',auth_views.PasswordResetView.as_view(form_class=PwdResetRequestForm),name='pwdreset_request'),
+    path('password_reset_request/',auth_views.PasswordResetView.as_view(form_class=PwdResetRequestForm,html_email_template_name="registration/password_reset_email.html"),name='pwdreset_request'),
     path('password_reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(form_class=PwdResetForm), name="pwdreset"),
     path('password_reset/done/',auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/done',auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
