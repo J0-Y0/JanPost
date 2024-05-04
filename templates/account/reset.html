@@ -9,9 +9,9 @@
                 <h4 class="card-title text-success text-center">Accont Reseting </h4>
                 <hr>
                     <form method = "POST" class=" text-success text-start">
-                       
+                       {{forms.as_p}}
                         {% csrf_token %}
-                        {%for field in form  %}
+                        {%for field in form.form  %}
                         
                         {{ field.label }}
                         {{ field }}

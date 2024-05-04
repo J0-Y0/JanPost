@@ -193,28 +193,28 @@ def password_reset_Request(request):
         'error':error,
     }
     return render(request,'account/password_reset_request.html',context)
-def reset_account(request, uidb64, token):  
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
+# def reset_account(request, uidb64, token):  
+#     try:
+#         uid = force_str(urlsafe_base64_decode(uidb64))
+#         user = User.objects.get(pk=uid)
+#     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+#         user = None
 
-    if user is not None and account_activation_token.check_token(user, token):
+#     if user is not None and account_activation_token.check_token(user, token):
     
-        if request.method == 'POST':
-            form = SetPasswordForm(user, request.POST)
-            if form.is_valid():
-                form.save()
-                # Redirect to password reset success page
-                return redirect('login')
-        else:
-            # Render the password reset form
-            form = SetPasswordForm(user)
-        return render(request, 'account/reset.html',
-                      {'form': form})
-    else:
-        return HttpResponse('link is invalid or expired.')
+#         if request.method == 'POST':
+#             form = SetPasswordForm(user, request.POST)
+#             if form.is_valid():
+#                 form.save()
+#                 # Redirect to password reset success page
+#                 return redirect('login')
+#         else:
+#             # Render the password reset form
+#             form = SetPasswordForm(user)
+#         return render(request, 'account/reset.html',
+#                       {'form': form})
+#     else:
+#         return HttpResponse('link is invalid or expired.')
 
 
 

@@ -44,17 +44,17 @@ class PwdResetRequestForm(forms.Form):
         if not User.objects.filter(email=email).exists():
             raise forms.ValidationError("Sorry, we could not find your account.")
         return email
-# class PwdResetForm(SetPasswordForm):
-#     new_password1 = forms.CharField(
-#         label='New password', widget=forms.PasswordInput(
-#             attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-newpass'}))
-#     new_password2 = forms.CharField(
-#         label='Repeat password', widget=forms.PasswordInput(
-#             attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-new-pass2'}))
+class PwdResetForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label='New password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-newpass'}))
+    new_password2 = forms.CharField(
+        label='Repeat password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-new-pass2'}))
     
-#     def clean_new_password2(self):
-#             password1 = self.cleaned_data['password1']
-#             password2 = self.cleaned_data['password2']
-#             if password1 and password2 and password1!= password2:
-#                 raise forms.ValidationError("Passwords don't match")
-#             return new_password2
+    def clean_new_password2(self):
+            password1 = self.cleaned_data['password1']
+            password2 = self.cleaned_data['password2']
+            if password1 and password2 and password1!= password2:
+                raise forms.ValidationError("Passwords don't match")
+            return new_password2
