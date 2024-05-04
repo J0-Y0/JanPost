@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-<!---->
-{%block content%} {% for post in catList.posts%}
-<p class="p-3 mt-5 h3">list of blog in {{catList.cat}}</p>
-
-{% include "post.html" %} {%endfor%}
-
-<!---->
-{% endblock%}

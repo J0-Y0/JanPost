@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
-
+from .forms import PwdResetRequestForm,PwdResetForm
 
 urlpatterns = [
     path('login/',views.user_login,name='login'),
@@ -10,11 +10,12 @@ urlpatterns = [
     path('signup/',views.user_signup,name='signup'),
     path('activate/<str:uidb64>/<str:token>',views.activate_account,name='activate'),
 
-    path('reset_request/',views.password_reset_Request,name='reset_request'),
-    path('reset/<uidb64>/<token>',views.reset_account,
-        name='reset'),    
-    
-
+    #Password reset| using django default class view 
+    path('password_reset_request/',auth_views.PasswordResetView.as_view(form_class=PwdResetRequestForm),name='pwdreset_request'),
+    path('password_reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(form_class=PwdResetForm), name="pwdreset"),
+    path('password_reset/done/',auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/done',auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+              
     path('profile/',views.user_profile,name='profile'),
 ]
 
