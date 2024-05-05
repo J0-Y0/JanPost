@@ -17,6 +17,12 @@ urlpatterns = [
     path('reset/done',auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
               
     path('profile/',views.user_profile,name='profile'),
+    path('save_post',views.save_post,name='save_post'),
+    path('activity',views.activity,name='activity'),
+    
+    
+    
+    
 ]
 
 # +static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

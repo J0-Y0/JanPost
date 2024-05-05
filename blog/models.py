@@ -21,24 +21,28 @@ class Post(models.Model):
     options = (('draft','Draft'),
                ('published','Published')
                 )
+    
     title = models.CharField(max_length = 250)
     slug = models.SlugField(max_length = 250, unique_for_date = 'published_date')
     image = models.ImageField(upload_to=postImageDirectory,default='posts/default.jpg')
-    
-   
     category = models.ForeignKey(Category, on_delete=models.PROTECT,default=1)
-
     excerpt = models.TextField()
     content = models.TextField()
     published_date = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='blog_posts')
     status = models.CharField(max_length=15,choices=options,default='draft')
     
+    favorite = models.ManyToManyField(User, default=None, blank=True, related_name='favorite', )
+    liked = models.ManyToManyField(User, default=None, blank=True, related_name='disliked' )
+    disliked = models.ManyToManyField(User, default=None, blank=True, related_name='liked')
+    
+    
     objects = models.Manager()
     newManager = NewManager()
     def time_difference(self):
         now = timezone.now()
         return timesince(self.published_date, now)
+   
     class Meta:
         ordering =('-published_date',)
        
@@ -78,10 +82,12 @@ class Report(models.Model):
     type = models.CharField(max_length=50,choices=report_types,verbose_name='Report type')
     detail = models.TextField(verbose_name="Additional Details")
     published_date = models.DateTimeField(auto_now_add=True)
+    
     def time_difference(self):
         now = timezone.now()
         # time_diff = now - self.created_at
         return timesince(self.published_date, now)
+   
     class  Meta:
         verbose_name = 'Report'
         verbose_name_plural = 'Reports'

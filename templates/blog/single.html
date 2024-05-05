@@ -4,7 +4,17 @@
 {% block content %}
 <div class="card">
   <div class="card-body">
-    <p class='h5'>{{ post.title }}</p>
+    <div class="d-flex justify-content-between pb-3">
+      <p class='h5'>{{ post.title }}</p>
+      <div class = "h4 ">
+
+        <a href = "#"><i class="fa-regular fa-thumbs-up ps-2 "></i>45</a>
+        <a href = "#"><i class="fa-regular fa-thumbs-down ps-2 "></i>5</a>
+        <a title = 'bookmark' href = "#"  id = "save_toggle_btn"  onclick="save_toggle({{post.id}})"><i class="fa-regular fa-bookmark ps-2 "></i></a>
+        <hr class = "p-0 m-0">
+      </div>
+     </div>
+    
     <div class="col-12">{{ post.content }}</div>
 
     <hr />
@@ -67,4 +77,27 @@
     </div>
   </div>
 </div>
+<script>
+  function save_toggle(pid) {
+    var save_toggle_btn = document.getElementById('save_toggle_btn')
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'save_post'  %}",
+         data: {
+             "pid": pid
+         },
+        success: function(response) {
+            console.log(response); // Log the entire response to see its structure
+            var spaceData = response;
+            save_toggle_btn.innerHTML = `<i class="fa-${response.class} fa-bookmark pe-2 title = ${response.title}"></i>`
+
+
+        },
+        error: function(response) {
+            console.log('Error:', response);
+        }
+    });
+}
+</script>
 {% endblock %}
+

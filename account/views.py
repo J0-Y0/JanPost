@@ -1,9 +1,11 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import authenticate,login,logout,get_user_model
 from django.http import HttpResponse
 from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.utils.encoding import force_str
+from django.http import JsonResponse
+
 
 from django.contrib.sites.shortcuts import get_current_site  
 from django.contrib.auth.forms import PasswordChangeForm,SetPasswordForm
@@ -15,6 +17,7 @@ from .token import account_activation_token
 from django.conf import settings
 
 from .forms import *
+from blog.models import Post
 def user_login(request):
     error_msg = ''
     if request.method == 'POST':
@@ -150,6 +153,35 @@ def activate_account(request, uidb64, token):
         return HttpResponse('Thank you for your email confirmation. Now you can login to your account.')
     else:
         return HttpResponse('Activation link is invalid or expired.')
+
+
+def activity(request):
+    
+    return render(request,'account/activity.html')
+
+def save_post(request):
+    if request.method == 'GET':
+        pid = request.GET.get('pid')
+        print("================================"+str(pid))
+        post = get_object_or_404(Post, pk=pid)
+        print("================================"+str(post.author))
+
+        if not  post.favorite.filter(id = request.user.id).exists(): 
+                post.favorite.add(request.user)
+                data  = {
+                    'class':"solid",
+                    'title': "add to favorites"
+                }
+                return JsonResponse(data)
+        else:
+            post.favorite.remove(request.user)
+            data = {
+                'class':"regular",
+                'title': "remove from favorites"
+            }
+            return JsonResponse(data)
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
 
 def user_profile(request):
     if request.method == "POST":
