@@ -44,6 +44,33 @@ body {
        
     }
 }
+.left-menu {
+    // background-color: #44494f;
+    //  : #f0ab2f;
+    height: 100vh;
+        display: block;
+        margin-bottom: 2px;
+        font-size: x-large;
+        padding: 10%;
+        text-decoration: none;
+        text-wrap: nowrap;
+        // color: #f0ab2f;
+    
+        // &:hover {
+        //     border-right: solid rgb(245, 245, 245) 1px;
+        // }
+    }
+    
+    .admin {
+        margin-top: 41vh;
+    }
+}
+
+
+
+
+
+
 
 // scroll bars
 /* Hide scrollbar */

@@ -1,15 +1,9 @@
-<div class="row post">
-  <div class="col-4 post-profile  my-3 p-4">
-    <div class="m-3 text-center">
-      <img src="{{post.image.url}}" class="post-profile-image"/>
-      <p class= "text-center">{{user}}</p>
-      <p>{% lorem how_many_paragraphs %}</p>
-     
-    </div> 
-
+<div class=" post">
+  
+{% comment %} {%include '../blog/author_profile.html'%} {% endcomment %}
     
   </div>
-  <div class="col-8 post-postview">
+  <div class=" post-postview">
     <div class="card my-3">
       <img src="{{post.image.url}}" class="card-img-top"/>
       <div class="card-body">
@@ -19,7 +13,6 @@
         </div>
         <p class="card-text">{{post.content|truncatewords:100}}</p>
 
-        
       </div>
        
         <div class="card-footer p-0 d-flex justify-content-between">

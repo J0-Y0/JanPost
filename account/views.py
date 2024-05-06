@@ -156,8 +156,9 @@ def activate_account(request, uidb64, token):
 
 
 def activity(request):
-    
-    return render(request,'account/activity.html')
+    saved = Post.objects.filter(favorite__exact = request.user)
+    context = {'saved':saved}
+    return render(request,'account/activity.html',context)
 
 def save_post(request):
     if request.method == 'GET':
