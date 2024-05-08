@@ -1,7 +1,6 @@
 from dotenv import load_dotenv
 
 from pathlib import Path
-
 import os
 
 
@@ -60,7 +59,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "blog.views.categorylist",
+                "blog.views.globalContext",
             ],
         },
     },
@@ -138,3 +137,5 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv("jo_dev_mail")
 EMAIL_HOST_PASSWORD = os.getenv("jo_dev_token")
 EMAIL_USE_TLS = True
+
+COMPANY_NAME = "TemariNet"

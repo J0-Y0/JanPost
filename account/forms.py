@@ -7,6 +7,15 @@ class LoginForm(forms.Form):
                                widget=forms.TextInput(attrs={'class':'form-control','placeholder':"Username"}))
     password = forms.CharField(max_length=40, required=True,
                                widget=forms.PasswordInput(attrs={'class':'form-control ','placeholder':'password'}))
+     
+     
+     
+     
+     
+     
+     
+     
+     
                                                        
 class SignupForm(UserCreationForm):
     password1 = forms.CharField(label='Password', required=True,widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'password'}))

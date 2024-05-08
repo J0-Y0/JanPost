@@ -23,21 +23,28 @@
       {% block navbar %}
         
       {% endblock %}
+      
 
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-              <div class="col-md-2 " style="width: fit-content;">
-                {% block sideBar %}
+      <div class="border pb-5  mb-5 border-0 border-bottom border-dark-subtle border-3 bord">
+        <div class="container  ps-0  ">
+           {% block landingIntro %}
+          {% endblock %}
+        </div>
+         
+      </div>
+      <div class="row justify-content-center">
+      <div class="col-md-2 " style="width: fit-content;">
+      {% block sideBar %}
         
-                {% endblock %}
-              </div>
-              <div class="col-md-10">
-                {% block content %}
+        {% endblock %}
+      </div>
+      <div class="col-md-10">
+        {% block content %}
                   
-                {% endblock %}
-              </div>
-            </div>
-          </div> 
+        {% endblock %}
+      </div>
+      </div>
+      </div> 
     </body>
 
 </html>

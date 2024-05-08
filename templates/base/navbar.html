@@ -1,29 +1,18 @@
 {%load static %}
-<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-    <div class="container-fluid">
-      <img src="{% static 'img/logo.png' %}" class="  img-fluid navbar-brand" width="30" height="24" alt="logo">
-      <a class="navbar-brand" href="/">      <b>JanPost</b> </a>
+<nav class="navbar navbar-expand-lg bg-body-tertiaryd ps-0" >
+    <div class="container ps-0">
+      <img src="{% static 'img/logo.png' %}" class="  img-fluid navbar-brand" width="40" height="24" alt="logo">
+      <a class="navbar-brand " href="/"> {{companyName}} </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button>
+      </button> 
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
-          </li>
-          {% comment %} <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Category
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-              {% for cat in category %}
-              <li><a class="dropdown-item" href="{{ cat.name }}">{{ cat.name|title }}</a></li>
-              {% endfor %}
-            </ul>
-          </li> {% endcomment %}
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
+          </li> --> 
+          
+         
         </ul>
         
           {% comment %} <form method="GET">
@@ -39,12 +28,12 @@
           
         </form> {% endcomment %}
        
-      </div>
+ 
 
       {%if user.is_authenticated%}
-        <div class="navbar-brand dropdown me-2 border  px-3">
+        <div class="navbar-brand dropdown me-2 border  px-3  rounded-5 pe-5 ps-0 text-bg-dark">
           <a
-            class="nav-link dropdown-toggle"
+            class="nav-link dropdown-toggle "
             href="#"
             role="button"
             data-bs-toggle="dropdown"
@@ -57,7 +46,7 @@
               src="{{ request.user.profile.avatar.url }}"
             />
       
-            <p class="d-none d-sm-inline">
+            <p class="px-2 d-none d-sm-inline">
               {{request.user.first_name}}
             </p>
           </a>
@@ -75,21 +64,21 @@
           </ul>
         </div>
       {%else%}
-      <div class="navbar-brand dropdown me-2 border  px-3">
-        <a
-          class="nav-link "
-          href="{%url 'login' %}"
-          role="button"
-          aria-expanded="false"
-        > <i class="fa-solid fa-arrow-right-to-bracket pe-2"></i>Login </a>       
-    </div>
+        <div class=" rounded rounded-5 navbar-brand  me-2 border  px-3">
+              <a
+                class="nav-link btn rounded-4 "
+                href="{%url 'login' %}"
+                role="button"
+                aria-expanded="false"
+              > <i class="fa-solid fa-arrow-right-to-bracket pe-2"></i>Login </a>       
+        </div>
       {%endif%}
 
-
+     </div>
     </div>
 </nav>
 <!--navbar Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header text-bg-dark">
@@ -122,4 +111,4 @@
     </div>
 </div> 
   
-  
+   -->
