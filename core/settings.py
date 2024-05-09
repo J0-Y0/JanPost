@@ -138,4 +138,4 @@ EMAIL_HOST_USER = os.getenv("jo_dev_mail")
 EMAIL_HOST_PASSWORD = os.getenv("jo_dev_token")
 EMAIL_USE_TLS = True
 
-COMPANY_NAME = "TemariNet"
+COMPANY_NAME = "BOA VoteNet"  # "TemariNet"
