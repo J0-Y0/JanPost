@@ -4,10 +4,15 @@ from .forms import CommentForm, ReportForm
 from django.views.generic import ListView
 from .filter import PostFilterForm
 from django.conf import settings
-
-
 def landingPage(request):
-    return render(request, "blog/landingPage.html")
+   
+    
+    context = {
+        "tags":Post.tags.all()
+        
+    }
+    
+    return render(request, "blog/landingPage.html",context = context)
 
 
 def home(request):
