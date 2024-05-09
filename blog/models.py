@@ -2,14 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.timesince import timesince
-
-
-
-
-
-
-
 from mptt.models import MPTTModel, TreeForeignKey
+from taggit.managers import TaggableManager
 
 
 def postImageDirectory(instance, filename):
@@ -54,7 +48,7 @@ class Post(models.Model):
     disliked = models.ManyToManyField(
         User, default=None, blank=True, related_name="liked"
     )
-
+    tags = TaggableManager()
     objects = models.Manager()
     newManager = NewManager()
 

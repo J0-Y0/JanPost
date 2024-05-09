@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "account",
     "mptt",
     "fontawesomefree",
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,4 @@ EMAIL_HOST_PASSWORD = os.getenv("jo_dev_token")
 EMAIL_USE_TLS = True
 
 COMPANY_NAME = "BOA VoteNet"  # "TemariNet"
+TAGGIT_CASE_INSENSITIVE = True
