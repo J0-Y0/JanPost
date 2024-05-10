@@ -1,0 +1,99 @@
+{%load static %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary ps-0   " >
+    <div class="container-fluid ps-0">
+      <img src="{% static 'img/logo.png' %}" class="  img-fluid navbar-brand" width="45" height="24" alt="logo">
+      <a class="navbar-brand fs-3 " href="/"> {{companyName}} </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> 
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <!-- <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li> --> 
+          
+         
+        </ul>
+
+      {%if user.is_authenticated%}
+        <div class="navbar-brand dropdown me-2 border  px-3  rounded-5 pe-5 ps-0 ">
+          <a
+            class="nav-link dropdown-toggle "
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <!-- <i class="fa-solid fa-user pe-1"></i> -->
+            <img
+              style="width: 40px; height: 40px"
+              class="rounded-circle account-img"
+              src="{{ request.user.profile.avatar.url }}"
+            />
+      
+            <p class=" d-none d-sm-inline ">
+              {{request.user.first_name}}
+            </p>
+          </a>
+          <ul class="dropdown-menu w-auto">
+            <li>
+              <a class="dropdown-item" href="{%url 'profile'%}">Profile</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{%url 'activity' %}">Activity log</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{%url 'logout' %}">Logout</a>
+            </li>
+            <li><a class="dropdown-item" href="#">Theme</a></li>
+          </ul>
+        </div>
+      {%else%}
+        <div class=" rounded   rounded-5 navbar-brand  me-2 border  px-3">
+              <a
+                class="nav-link btn rounded-4 fs-4 "
+                href="{%url 'login' %}"
+                role="button"
+                aria-expanded="false"
+              > <i class="fa-solid fa-arrow-right-to-bracket pe-2"></i>Login </a>       
+        </div>
+      {%endif%}
+
+     </div>
+    </div>
+</nav>
+<!--navbar Modal -->
+<!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-bg-dark">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Post Filtered Search</h1>
+          <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4 pt-4">
+          <form method="get" >
+            {% for field in postFilterForm.form%} 
+            <b class = "pt-3 text-secondary">
+              {{field.label}}
+  
+            </b> {{field}} {%endfor%}
+            
+  
+            
+            <div class="btn-group mt-5 w-100" role="group" aria-label="Basic example">
+              <button class="btn btn-outline-primary  " type="submit">
+                <i class="fa-solid fa-filter"></i>Apply filter
+              </button>
+            <button  class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+            
+         
+          </div>
+        </form>
+  
+        </div>
+        
+      </div>
+    </div>
+</div> 
+  
+   -->

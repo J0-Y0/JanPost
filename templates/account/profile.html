@@ -1,0 +1,92 @@
+{% extends 'base/base.html' %} 
+{% block navbar %}
+{% include 'base/navbar.html' %} 
+
+{% endblock %}
+
+
+{% block content%}
+
+<div class="mainContent card bg-success-subtle rounded-0 w-100 pb-5">
+  <div class="card-header h3 text-success">
+    <i class="fa-solid fa-user pe-2"></i> Profile
+  </div>
+  <div class="card-body">
+    <div class="row px-5">
+      <div class="col-md-4 col-12 me-5">
+        <div class="d-flex justify-content-center">
+          <img
+            style="width: 120px; height: 120px"
+            class="mb-3 me-5 rounded-circle account-img"
+            src="{{ request.user.profile.avatar.url }}"
+          />
+        </div>
+        <table class="table table-success">
+          <tr>
+            <td class="card-text text-end">First Name</td>
+            <td class="card-text">{{request.user.profile.first_name}}</td>
+          </tr>
+          <tr>
+            <td class="card-text text-end">Last Name</td>
+            <td class="card-text">{{request.user.profile.last_name}}</td>
+          </tr>
+          <tr>
+            <td class="card-text text-end">Email</td>
+            <td class="card-text">{{request.user.profile.email}}</td>
+          </tr>
+          <tr>
+            <td class="card-text text-end">Phone Number</td>
+
+            <td class="card-text">{{request.user.profile.phone}}</td>
+          </tr>
+          <tr>
+            <td class="card-text text-end">Username</td>
+
+            <td class="card-text">{{request.user}}</td>
+          </tr>
+          <tr>
+            <td class="card-text text-end">Group Level</td>
+
+            <td class="card-text">{{request.user.profile.user_group}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="col-md-6 col-12 justify-content-center p-md-5 my-md-5">
+        <p class="h3">Change Password</p>
+        <hr />
+        <form method="POST">
+          {% csrf_token %} {% for field in password_form%}
+          <div class="d-flex justify-content-between">
+            <p class="text-secondary p-0 m-0">{{field.label}}</p>
+
+            <span class="text-danger">
+              {% for error in field.errors %} {% if forloop.first %}
+              <!-- Code to execute only during the first iteration -->
+              <i class="fa-solid fa-triangle-exclamation pe-2"></i>
+              {% endif %} {{ error }} {% endfor %}
+            </span>
+          </div>
+
+          <input
+            placeholder="{{field.label}}"
+            class="form-control userfield"
+            type="{{ field.field.widget.input_type }}"
+            autocomplete="{{ field.field.widget.attrs.autocomplete }}"
+            required="{{ field.field.required }}"
+            name="{{ field.name }}"
+            id="{{field.id_for_label}} "
+          />
+          {%endfor%}
+          <input
+            type="submit"
+            class="btn btn-outline-success rounded-0 px-3 mt-3 form-control"
+            value="Save"
+          />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content%}

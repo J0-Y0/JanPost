@@ -1,0 +1,103 @@
+{% extends 'base/base.html' %}
+{% load mptt_tags %}
+{% include "base/navebar.html"%}
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <div class="d-flex justify-content-between pb-3">
+      <p class='h5'>{{ post.title }}</p>
+      <div class = "h4 ">
+
+        <a href = "#"><i class="fa-regular fa-thumbs-up ps-2 "></i>45</a>
+        <a href = "#"><i class="fa-regular fa-thumbs-down ps-2 "></i>5</a>
+        <a title = 'bookmark' href = "#"  id = "save_toggle_btn"  onclick="save_toggle({{post.id}})"><i class="fa-regular fa-bookmark ps-2 "></i></a>
+        <hr class = "p-0 m-0">
+      </div>
+     </div>
+    
+    <div class="col-12">{{ post.content }}</div>
+
+    <hr />
+    <h5 class="text-secondary">{{ comments|length }} comments</h5>
+    <hr />
+  
+    <div class="accordion accordion-flush me-0" id="accordionFlushExample">
+
+      {% recursetree comments %}
+      <div class="accordion-item">
+        <p class="accordion-header " id="flush-heading{{ node.id }}">
+          <div class="ms-2 d-flex justify-content-between">
+                
+                <p class = "h5 text-secondary py-3"> <i class="fa-regular fa-circle-user pe-1 h2 "> </i>{{ node.name }}</p>
+                <p  class = "  py-3" > {{ node.content }}</p>     
+                <p  class = "  py-3"  > {{ node.time_difference }} ago</p>
+                {%if not node.get_descendant_count == 0  %}
+                <p  class = "  py-3"  > {{ node.get_descendant_count }}  replays</p>
+                {%endif%}
+                
+
+                
+
+                <p  class = "  py-3"  > {{ node.published_date }}</p>
+
+                <button class="w-25 h-25 accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ node.id }}" aria-expanded="false" aria-controls="flush-collapse{{ node.id }}" data-bs-parent="#accordionFlushExample">
+                
+                  replay
+                  
+                </button>
+        </div>
+        </p>
+        <div id="flush-collapse{{ node.id }}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{ node.id }}" data-bs-parent="#accordionFlushExample">
+          <div class="accordion-body">
+           
+            <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="parent" value="{{ node.id }}" />
+              <p>
+                <label for="id_name">Commented by:</label>
+                <input type="text" name="name" class="form-control" maxlength="50" required="" id="id_name" />
+              </p>
+              <p>
+                <label for="id_email">Email:</label>
+                <input type="email" name="email" class="form-control" maxlength="50" required="" id="id_email" />
+              </p>
+              <p>
+                <label for="id_content">Content:</label>
+                <textarea name="content" cols="40" rows="10" class="form-control" required="" id="id_content" spellcheck="false"></textarea>
+              </p>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% if not node.is_leaf_node %}
+      <div class="ps-3 bg-black">{{ children }}</div>
+      {% endif %}
+      {% endrecursetree %}
+    </div>
+  </div>
+</div>
+<script>
+  function save_toggle(pid) {
+    var save_toggle_btn = document.getElementById('save_toggle_btn')
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'save_post'  %}",
+         data: {
+             "pid": pid
+         },
+        success: function(response) {
+            console.log(response); // Log the entire response to see its structure
+            var spaceData = response;
+            save_toggle_btn.innerHTML = `<i class="fa-${response.class} fa-bookmark pe-2 title = ${response.title}"></i>`
+
+
+        },
+        error: function(response) {
+            console.log('Error:', response);
+        }
+    });
+}
+</script>
+{% endblock %}
+

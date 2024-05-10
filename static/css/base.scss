@@ -6,12 +6,13 @@
 body {
     font-family: serif;
 
-     background-color: rgb(214, 233, 205);
+    //  background-color: rgb(81, 255, 0);
     
 
 }
 .post{
-    margin: 20px;
+    // margin: 20px;
+
     &-profile{
         display: flex;
         flex-direction: column;
@@ -22,6 +23,8 @@ body {
         border: 1px solid rgb(214, 208, 208);
         background-color: rgb(186, 204, 191);
         border-radius: 20px;
+        border-top-right-radius: 0% ;
+        border-bottom-right-radius: 0% ;
         &-image{
             width: 100px; /* Adjust size as needed */
             height: 100px; /* Adjust size as needed */
@@ -30,7 +33,9 @@ body {
             justify-content: center;
         }
     }
+
     &-postview{
+        
         overflow: hidden;
         img{
             max-width: 100%; /* Ensures images don't exceed their container width */
@@ -38,10 +43,42 @@ body {
             // margin: 0 auto; /* Centers the image horizontally */
             overflow: hidden;
         }
-        
+        a{
+            text-decoration: none;
+            color:rgb(56, 57, 57);
+        }
        
     }
 }
+.left-menu {
+    // background-color: #44494f;
+    //  : #f0ab2f;
+    height: 100vh;
+        display: block;
+        margin-bottom: 2px;
+        font-size: x-large;
+        padding: 10%;
+        text-decoration: none;
+        text-wrap: nowrap;
+        // color: #f0ab2f;
+    
+        // &:hover {
+        //     border-right: solid rgb(245, 245, 245) 1px;
+        // }
+    
+    
+    
+    
+    }
+    
+    
+
+
+
+
+
+
+
 
 // scroll bars
 /* Hide scrollbar */

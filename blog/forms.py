@@ -1,5 +1,7 @@
 from django import forms
 from .models import Comment, Report
+
+
 from mptt.forms import TreeNodeChoiceField
 
 
@@ -22,7 +24,9 @@ class CommentForm(forms.ModelForm):
 
 
 # class PostSearchForm(forms.Form):
-#     searchField = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control bg-primary-subtle','placeholder':'Search'}  ),required=False)
+#     searchField = forms.CharField(widget=
+# forms.TextInput(attrs={'class': 'form-control bg-primary-subtle',
+# 'placeholder':'Search'}  ),required=False)
 
 
 class ReportForm(forms.ModelForm):
