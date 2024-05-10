@@ -15,7 +15,7 @@ class Profile(models.Model):
     )
     bio = models.TextField(max_length=500, blank=True, default="just am using")
     avatar = models.ImageField(
-        upload_to=user_avatar_path, blank=True, default="user/default.jpg"
+        upload_to=user_avatar_path, blank=True, default="users/default.jpg"
     )
 
     def __str__(self):

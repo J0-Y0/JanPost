@@ -9,7 +9,7 @@
       <p>{% lorem how_many_paragraphs %}</p>
     </div>
   </div>  
-
+ 
 
 
   <div class="col-8 post-postview ">
@@ -30,19 +30,22 @@
         
         <div class="dropdown open">
           <a
-            class="btn btn-outline-dark dropdown-toggle rounded rounded-5"
+            class="  rounded rounded-5"
             type="button"
             id="triggerId"
             data-bs-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
           >
-           ---
+           ... 
           </a>
           <div class="dropdown-menu" aria-labelledby="triggerId">
-            <a class="dropdown-item" href="#"><i class="fa-solid fa-user-plus"></i>  Connect</a>
-            <a class="dropdown-item" href="#"><i class="fas fa-user-check"></i> follow</a>
+            <a class="dropdown-item" href="#"><i class="fa-solid fa-user-plus"></i> Connect</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i> Follow</a>
             <a class="dropdown-item" href="#"><i class="fa-regular fa-id-badge"></i> Profile</a>
+
+
+
           </div>
         </div>
 
@@ -54,25 +57,26 @@
 
       <div class="card-body">
 
-        <div class="d-flex justify-content-between">
+
+
+        
+        <div class="d-flex justify-content-between ">
           <h5 class="card-title">{{post.title}}</h5>
-          <p class="text-secondary">{{post.published_date}}</p>
+          <p class="text-secondary text-nowrap">{{post.published_date}}</p>
         </div>
         <p class="card-text">{{post.content|truncatewords:100}}</p>
       </div>
        <img src="{{post.image.url}}" class="card-img-top"/>
 
        
-      <div class="card-footer p-0 d-flex justify-content-between">
-        <p class="text-secondary ps-2">Posted {{post.time_difference}} ago</p>
-        <div class="btn-group" role="group" aria-label="Basic example">
-          <button class="btn btn-primary rounded-0"><i class="fa-regular fa-thumbs-up"></i> 444</button>
-          <button class="btn btn-primary rounded-0"><i class="fa-regular fa-thumbs-down"></i> 444</button>
-          <button class="btn btn-primary rounded-0"><i class="fa-solid fa-comment-dots"></i> 444</button>
-          <a class="btn btn-primary rounded-0" href="{% url 'post_single' post.id %}">Read more</a>             
-          <button title='report this post' class="ms-1 btn btn-primary text-warning rounded-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
-        </div>
-      </div>
+      <div class="card-footer p-0  d-flex justify-content-between">
+       <p class="text-secondary ps-2">Posted {{ post.time_difference }} ago</p> 
+        <button class="btn  rounded-0"><i class="fa-regular fa-thumbs-up"></i> 444</button>
+        <button class="btn rounded-0"><i class="fa-regular fa-thumbs-down"></i> 444</button>
+        <button class="btn rounded-0"><i class="fa-solid fa-comment-dots"></i> 444</button>
+        <a class="btn rounded-0" href="{% url 'post_single' post.id %}">Read more</a>
+        <button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
+    </div>
     </div>
   </div>
 

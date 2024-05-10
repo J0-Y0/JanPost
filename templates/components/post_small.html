@@ -6,9 +6,9 @@
   <div class="card my-3">
     <img src="{{ post.image.url }}" class="card-img-top"/>
     <div class="card-body">
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between flex-column">
         <h5 class="card-title">{{ post.title }}</h5>
-        <p class="text-secondary">{{ post.published_date }}</p>
+        <p class="text-secondary text-nowrap">{{ post.published_date }}</p>
       </div>
       <p class="card-text">{{ post.content|truncatechars:500 }}</p>
     </div>
