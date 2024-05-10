@@ -1,0 +1,114 @@
+
+
+
+<div class="row post ms-1 ">
+  <div class=" col-4  post-profile  p-4 my-3">
+    <div class="m-3 text-center ">
+      <img src="{{post.image.url}}" class="post-profile-image"/>
+      <p class= "text-center">{{user}}</p>
+      <p>{% lorem how_many_paragraphs %}</p>
+    </div>
+  </div>  
+
+
+
+  <div class="col-8 post-postview ">
+    <div class="card my-3">
+              
+    <h5 class="card-header  d-flex justify-content-between">
+      <a href = "#" title = "Author">
+        <img
+              style="width: 40px; height: 40px"
+              class="rounded-circle account-img"
+              src="{{post.author.profile.avatar.url }}"
+            />
+            <p class=" d-none d-sm-inline ">
+              {{post.author}}
+            </p>
+      </a>
+
+        
+        <div class="dropdown open">
+          <a
+            class="btn btn-outline-dark dropdown-toggle rounded rounded-5"
+            type="button"
+            id="triggerId"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+           ---
+          </a>
+          <div class="dropdown-menu" aria-labelledby="triggerId">
+            <a class="dropdown-item" href="#"><i class="fa-solid fa-user-plus"></i>  Connect</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-user-check"></i> follow</a>
+            <a class="dropdown-item" href="#"><i class="fa-regular fa-id-badge"></i> Profile</a>
+          </div>
+        </div>
+
+        
+        
+    </h5>
+
+     
+
+      <div class="card-body">
+
+        <div class="d-flex justify-content-between">
+          <h5 class="card-title">{{post.title}}</h5>
+          <p class="text-secondary">{{post.published_date}}</p>
+        </div>
+        <p class="card-text">{{post.content|truncatewords:100}}</p>
+      </div>
+       <img src="{{post.image.url}}" class="card-img-top"/>
+
+       
+      <div class="card-footer p-0 d-flex justify-content-between">
+        <p class="text-secondary ps-2">Posted {{post.time_difference}} ago</p>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button class="btn btn-primary rounded-0"><i class="fa-regular fa-thumbs-up"></i> 444</button>
+          <button class="btn btn-primary rounded-0"><i class="fa-regular fa-thumbs-down"></i> 444</button>
+          <button class="btn btn-primary rounded-0"><i class="fa-solid fa-comment-dots"></i> 444</button>
+          <a class="btn btn-primary rounded-0" href="{% url 'post_single' post.id %}">Read more</a>             
+          <button title='report this post' class="ms-1 btn btn-primary text-warning rounded-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>  
+  
+
+
+
+
+
+
+
+
+
+<!-- Report Modal -->
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop2Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-bg-success">
+        <h1 class="modal-title fs-5" id="staticBackdrop2Label">Reporting</h1>
+        <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-4 pt-4">
+        <form method="get">
+          {% for field in reportForm %}
+            <b class="pt-3 text-secondary">{{field.label}}</b>
+            {{field}}
+          {% endfor %}
+          <div class="btn-group mt-5 w-100" role="group" aria-label="Basic example">
+            <button class="btn btn-primary" type="submit">Send report</button>
+          </div>
+          <br>
+          <hr>
+          <p class="text-secondary text-center mb-0">Thank you for telling us about the abuse</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> 

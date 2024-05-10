@@ -1,7 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en"   data-bs-theme="darkf">
-    <head>
+<html lang="en" data-bs-theme="darkf">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
@@ -13,38 +13,31 @@
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/regular.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
-
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
 
-
-    </head>
-    <body>
-      {% block navbar %}
-        
-      {% endblock %}
-      
-
-      <div class="border pb-5 p-5 p-lg-0  mb-5 border-0 border-bottom border-dark-subtle border-3 bord">
-        <div class="container  ps-0  d-flex flex-column text-center d-lg-block  text-lg-start">
-           {% block landingIntro %}
-          {% endblock %}
-        </div>
-         
-      </div>
-      <div class="row justify-content-center">
-      <div class="col-lg-2 " style="width: fit-content;">
-      {% block sideBar %}
-        
+        {% block navbar %}
+            <!-- Navbar content goes here -->
         {% endblock %}
-      </div>
-      <div class="col-lg-10">
-        {% block content %}
-                  
-        {% endblock %}
-      </div>
-      </div>
-      </div> 
-    </body>
+        <main>
 
+                {% block landingIntro %}
+                    <!-- Landing intro content goes here -->
+                {% endblock %}
+            
+                {% block sideBar %}
+                    <!-- Sidebar content goes here -->
+                {% endblock %}
+
+                {% block content %}
+                    <!-- Main content goes here -->
+                {% endblock %}
+         </main>
+          <footer>
+            <!-- place footer here -->
+        </footer>
+</body>
 </html>
+
+

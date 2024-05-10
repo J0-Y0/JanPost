@@ -1,8 +1,8 @@
 {%load static %}
-<nav class="navbar navbar-expand-lg bg-body-tertiaryd ps-0" >
-    <div class="container ps-0">
-      <img src="{% static 'img/logo.png' %}" class="  img-fluid navbar-brand" width="40" height="24" alt="logo">
-      <a class="navbar-brand " href="/"> {{companyName}} </a>
+<nav class="navbar navbar-expand-lg bg-body-tertiary ps-0   " >
+    <div class="container-fluid ps-0">
+      <img src="{% static 'img/logo.png' %}" class="  img-fluid navbar-brand" width="45" height="24" alt="logo">
+      <a class="navbar-brand fs-3 " href="/"> {{companyName}} </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button> 
@@ -14,24 +14,9 @@
           
          
         </ul>
-        
-          {% comment %} <form method="GET">
-            <div class="input-group ">
-              {{postFilterForm.form.content}}
-
-              <button type='submit' class="btn btn-primary rounded-0"><i class="fas fa-search pe-1"></i></button>
-              <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                <i class="fa-solid fa-filter"></i>   
-              </button>
-            
-          </div>
-          
-        </form> {% endcomment %}
-       
- 
 
       {%if user.is_authenticated%}
-        <div class="navbar-brand dropdown me-2 border  px-3  rounded-5 pe-5 ps-0 text-bg-dark">
+        <div class="navbar-brand dropdown me-2 border  px-3  rounded-5 pe-5 ps-0 ">
           <a
             class="nav-link dropdown-toggle "
             href="#"
@@ -46,7 +31,7 @@
               src="{{ request.user.profile.avatar.url }}"
             />
       
-            <p class="px-2 d-none d-sm-inline">
+            <p class=" d-none d-sm-inline ">
               {{request.user.first_name}}
             </p>
           </a>
@@ -64,9 +49,9 @@
           </ul>
         </div>
       {%else%}
-        <div class=" rounded rounded-5 navbar-brand  me-2 border  px-3">
+        <div class=" rounded   rounded-5 navbar-brand  me-2 border  px-3">
               <a
-                class="nav-link btn rounded-4 "
+                class="nav-link btn rounded-4 fs-4 "
                 href="{%url 'login' %}"
                 role="button"
                 aria-expanded="false"

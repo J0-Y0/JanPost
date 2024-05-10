@@ -3,18 +3,58 @@
 {%load static %}
 <!---->
 {% block navbar %}
-    {%include '../base/navbar.html'%}
+<div class=" bg-body-tertiary" >
+    <div class = "container p-0">{%include '../base/navbar.html'%}</div> 
+</div>
+
 {% endblock %}
 {% block landingIntro %}
-<p class="pt-4  display-4">{{companyName}}</p>
-<p class=" fs-4 text-muted ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem sapiente laudantium nisi similique consectetur. Incidunt, quos sequi maxime accusantium aliquid vel debitis rerum neque, exercitationem quidem nam expedita asperiores iure.</p>
-<button class="btn btn-dark rounded-5  my-2 w-auto">Start reading</button>
+<div class="bg-body-tertiary border pb-5 p-5 p-lg-0  mb-5 border-0 border-bottom border-dark-subtle border-3 bord">
+    <div class="container  ps-0  d-flex flex-column text-center d-lg-block  text-lg-start pb-4">
+                    
+        <p class="pt-4  display-4">{{companyName}}</p>
+        <p class=" fs-4 text-muted ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem sapiente laudantium nisi similique consectetur. Incidunt, quos sequi maxime accusantium aliquid vel debitis rerum neque, exercitationem quidem nam expedita asperiores iure.</p>
+        <a
+            type="button"
+            class="btn btn-outline-dark rounded-5 my-2"
+            href="{%url 'home'%}"
+        >
+            Start reading
+
+      </a>
+    </div>
+
+</div>
+
 {% endblock %}
 
 
 {%block content%}
+<div class="container">
+   <div class="row ">
+    <div class="col-xl-8">
+        <p class="h2 text-secondary">Top Rated contents</p>
+        <div class="row d-flex">
+  
+            
+                {% for post in posts %} 
+               <div class="col-md-6 ">
+                    {% include "components/post_small.html" %} 
+                </div>
 
-    {% for tag  in tags %}
+                {%endfor%}
+
+        </div>
+          
+    </div>
+    <div class="col-xl-4 text-center">
+        <p class="h2 text-secondary">What people engaged in..</p>
+         {% for tag  in tags %}
         <a class="btn border border-secondary rounded-5 btn-outline-dark" href="http://{{tag.slug}}">{{tag.name}}</a>
-    {%endfor%}
+        {%endfor%}
+
+    </div>
+</div> 
+</div>
+
 {%endblock %} 
