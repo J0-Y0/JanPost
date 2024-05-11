@@ -25,7 +25,7 @@ class Post(models.Model):
     options = (("draft", "Draft"), ("published", "Published"))
 
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250, unique_for_date="published_date")
+    slug = models.SlugField(max_length=255, blank=True, null=True)
     image = models.ImageField(upload_to=postImageDirectory, default="posts/default.jpg")
     category = models.ForeignKey(Category, on_delete=models.PROTECT, default=1)
     excerpt = models.TextField()

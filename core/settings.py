@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     "mptt",
     "fontawesomefree",
     "taggit",
-    "django_seed",
 ]
 
 MIDDLEWARE = [
