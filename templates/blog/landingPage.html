@@ -50,7 +50,7 @@
     <div class="col-xl-4 text-center">
         <p class="h2 text-secondary">What people engaged in..</p>
          {% for tag  in tags %}
-        <a class="btn border border-secondary rounded-5 btn-outline-dark" href="http://{{tag.slug}}">{{tag.name}}</a>
+        <a class="btn border border-secondary rounded-5 btn-outline-dark" href="{% url 'postsInTag' tag.slug %}">{{tag.name}}</a>
         {%endfor%}
 
     </div>

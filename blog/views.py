@@ -6,10 +6,13 @@ from .filter import PostFilterForm
 from django.conf import settings
 
 
+def globalContext(request):
+    context = {"category": Category.objects.all(), "companyName": settings.COMPANY_NAME}
+    return context
+
+
 def landingPage(request):
-
     context = {"tags": Post.tags.all(), "posts": Post.objects.all()}
-
     return render(request, "blog/landingPage.html", context=context)
 
 
@@ -41,8 +44,8 @@ def home(request):
     return render(request, "blog/home.html", context=context)
 
 
-def post_single(request, id):
-    post = get_object_or_404(Post, id=id)
+def postDetail(request, tag):
+    post = get_object_or_404(Post, slug=slug)
     comments = post.comments.filter(status=True)
     if request.method == "POST":
         commentForm = CommentForm(request.POST)
@@ -65,6 +68,12 @@ def post_single(request, id):
     )
 
 
+def postsInTag(request, tag):
+    posts = Post.objects.filter(tags__slug__in=[tag])
+    context = {"posts": posts, "tag": tag}
+    return render(request, "blog/postsInTag.html", context)
+
+
 class catList(ListView):
     template_name = "blog/categoryView.html"
     context_object_name = "catList"
@@ -76,11 +85,6 @@ class catList(ListView):
             "posts": Post.newManager.filter(category__name=self.kwargs["category"]),
         }
         return content
-
-
-def globalContext(request):
-    context = {"category": Category.objects.all(), "companyName": settings.COMPANY_NAME}
-    return context
 
 
 def searchPost(request):

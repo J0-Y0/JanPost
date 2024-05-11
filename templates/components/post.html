@@ -74,14 +74,13 @@
         <button class="btn  rounded-0"><i class="fa-regular fa-thumbs-up"></i> 444</button>
         <button class="btn rounded-0"><i class="fa-regular fa-thumbs-down"></i> 444</button>
         <button class="btn rounded-0"><i class="fa-solid fa-comment-dots"></i> 444</button>
-        <a class="btn rounded-0" href="{% url 'post_single' post.id %}">Read more</a>
+        <a class="btn rounded-0" href="{% url 'postDetail' post.slug %}>Read more</a>
         <button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
     </div>
     </div>
   </div>
 
-</div>  
-  
+</div>
 
 
 

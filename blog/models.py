@@ -1,13 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
+from django.utils import timezone, text
 from django.utils.timesince import timesince
 from mptt.models import MPTTModel, TreeForeignKey
 from taggit.managers import TaggableManager
+import string
+import random
 
 
+# model field utility methods
+# post based image directory
 def postImageDirectory(instance, filename):
     return "posts/{0}/{1}".format(instance.id, filename)
+
+
+# a random character to maintain slug uniqueness, append after title
+def randomSlugPostfix():
+    chars = string.ascii_letters + string.digits
+    return "".join(random.choice(chars) for _ in range(6))
+
+
+# models
 
 
 class Category(models.Model):
@@ -27,7 +40,9 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=255, blank=True, null=True)
     image = models.ImageField(upload_to=postImageDirectory, default="posts/default.jpg")
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, default=1)
+    category = models.ForeignKey(
+        Category, on_delete=models.PROTECT, default=1, null=True
+    )
     excerpt = models.TextField()
     content = models.TextField()
     published_date = models.DateTimeField(default=timezone.now)
@@ -64,6 +79,15 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    # overriding the save method
+    def save(self, *args, **kwargs):
+
+        if self.slug is None:
+            self.slug = text.slugify(self.title + "_" + randomSlugPostfix())
+        super().save(
+            *args, **kwargs
+        )  # Call the superclass's save() method to perform the actual save
 
 
 class Comment(MPTTModel):

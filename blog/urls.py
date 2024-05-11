@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("", views.landingPage, name="landingPage"),
     path("home", views.home, name="home"),
-    path("<int:id>", views.post_single, name="post_single"),
+    path("<slug:slug>", views.postDetail, name="postDetail"),
+    path("tags/<slug:tag>", views.postsInTag, name="postsInTag"),
     # path('<str:category>',views.catList.as_view(),name = 'categoryView')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

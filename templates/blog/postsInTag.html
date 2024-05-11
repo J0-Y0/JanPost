@@ -1,0 +1,12 @@
+{% extends '../base/base.html' %}
+
+
+{% block navbar %}
+    {% include '../base/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+  <h1>{{tag}}</h1>
+  
+  {{posts}}
+{% endblock %}
