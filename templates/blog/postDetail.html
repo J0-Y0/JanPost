@@ -1,13 +1,16 @@
-<div class=" post">
-  {% comment %} <div class="col-4 post-profile p-4 my-3">
-    <div class="m-3 text-center">
-      <img src="{{post.image.url}}" class="post-profile-image"/>
-      <p class="text-center">{{user}}</p>
-      <p>{% lorem how_many_paragraphs %}</p>
-    </div>
-  </div>   {% endcomment %}
+{% extends '../base/base.html' %}
 
-  <div class="post-postview">
+
+{% block navbar %}
+    {% include '../base/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+   
+    <div class="col-10">
+        <div class="post-postview">
     <div class="card my-3">
       <h5 class="card-header d-flex justify-content-between">
         <a href="#" title="Author">
@@ -44,32 +47,13 @@
       </div>
     </div>
   </div>
-</div>
-
-<!-- Report Modal -->
-<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop2Label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header text-bg-dark">
-        <h1 class="modal-title fs-5" id="staticBackdrop2Label">Reporting</h1>
-        <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body px-4 pt-4">
-        <form method="post">
-          {% csrf_token %}
-          {% for field in reportForm %}
-            <b class="pt-3 text-secondary">{{field.label}}</b>
-            {{field}}
-          {% endfor %}
-          <div class="btn-group mt-5 w-100" role="group" aria-label="Basic example">
-            {{reportForm.error}}
-            <button class="btn btn-outline-dark rounded rounded-5" type="submit">Send report</button>
-          </div>
-          <br>
-          <hr>
-          <p class="text-secondary text-center mb-0">Thank you for telling us about the abuse</p>
-        </form>
-      </div>
+      
+    </div>
+    <div class="col-2  border-bottom-0 border-top-0  border-right-0 border-start-4">
+      lklkl
     </div>
   </div>
 </div>
+
+
+{% endblock %}
