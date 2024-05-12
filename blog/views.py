@@ -11,32 +11,35 @@ def globalContext(request):
     return context
 
 
-def landingPage(request):
-    context = {"tags": Post.tags.all(), "posts": Post.objects.all()}
-    return render(request, "blog/landingPage.html", context=context)
-
-
-def home(request):
+def saveReport(request):
     reportForm = ReportForm()
     if request.method == "POST":
         reportForm = ReportForm(request.POST)
         if reportForm.is_valid():
             report = reportForm.save(commit=False)
-
             report.save()
+            reportForm = ReportForm()
+    return reportForm
+
+
+def landingPage(request):
+    context = {
+        "tags": Post.tags.all(),
+        "posts": Post.objects.all(),
+        "reportForm": saveReport(request),
+    }
+    return render(request, "blog/landingPage.html", context=context)
+
+
+def home(request):
 
     posts = Post.newManager.all()
-    # if request.method == 'GET':
-    #     postSearchForm = PostSearchForm(request.GET)
-    #     if postSearchForm.is_valid():
-    #         keyword = postSearchForm.cleaned_data['searchField']
-    #         posts = Post.newManager.filter(title__contains = keyword )
 
     postFilterForm = PostFilterForm(request.GET, queryset=posts)
     posts = postFilterForm.qs
 
     context = {
-        "reportForm": reportForm,
+        "reportForm": saveReport(request),
         "postFilterForm": postFilterForm,
         "posts": posts,
     }
@@ -44,7 +47,7 @@ def home(request):
     return render(request, "blog/home.html", context=context)
 
 
-def postDetail(request, tag):
+def postDetail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     comments = post.comments.filter(status=True)
     if request.method == "POST":
@@ -63,14 +66,14 @@ def postDetail(request, tag):
     }
     return render(
         request,
-        "blog/single.html",
+        "blog/postDetail.html",
         context=context,
     )
 
 
 def postsInTag(request, tag):
-    posts = Post.objects.filter(tags__slug__in=[tag])
-    context = {"posts": posts, "tag": tag}
+    posts = Post.newManager.filter(tags__slug__in=[tag])
+    context = {"posts": posts, "tag": tag, "reportForm": saveReport(request)}
     return render(request, "blog/postsInTag.html", context)
 
 
