@@ -10,6 +10,13 @@ body {
     
 
 }
+// .navbar{
+//     position: fixed;
+//     top: 0;
+//     width: 100vw;
+//     z-index: 2;
+    
+// }
 .post{
     // margin: 20px;
 
@@ -73,6 +80,13 @@ body {
     }
 
 }
+.post-content{
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+
+
 .left-menu {
     // background-color: #44494f;
     //  : #f0ab2f;

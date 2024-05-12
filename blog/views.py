@@ -51,7 +51,7 @@ def home(request):
 
 def postDetail(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    relatedPost = post.tags.similar_objects()[:5]
+    authorsPost = Post.newManager.filter(author=post.author)[:5]
     comments = post.comments.filter(status=True)
     if request.method == "POST":
         commentForm = CommentForm(request.POST)
@@ -66,7 +66,8 @@ def postDetail(request, slug):
         "post": post,
         "comments": comments,
         "commentForm": commentForm,
-        "relatedPost": relatedPost,
+        "relatedPost": post.tags.similar_objects()[:5],
+        "authorsPost": authorsPost,
     }
     return render(
         request,
