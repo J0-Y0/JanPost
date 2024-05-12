@@ -1,11 +1,5 @@
 <div class=" post">
-  {% comment %} <div class="col-4 post-profile p-4 my-3">
-    <div class="m-3 text-center">
-      <img src="{{post.image.url}}" class="post-profile-image"/>
-      <p class="text-center">{{user}}</p>
-      <p>{% lorem how_many_paragraphs %}</p>
-    </div>
-  </div>   {% endcomment %}
+ 
 
   <div class="post-postview">
     <div class="card my-3">
@@ -26,11 +20,12 @@
       </h5>
 
       <div class="card-body">
-        <div class="d-flex justify-content-between">
-          <h5 class="card-title">{{post.title}}</h5>
+        <div class="d-flex justify-content-between flex-column">
+          <a class="" href="{% url 'postDetail' post.slug %}"><h5 class="card-title">{{post.title}}</h5></a>
+          
           <p class="text-secondary text-nowrap">{{post.published_date}}</p>
         </div>
-        <p class="card-text">{{post.content}}</p>
+        <p class="card-text">{{post.content|truncatechars:500}} <a class="" href="{% url 'postDetail' post.slug %}">>></a></p>
       </div>
       <img src="{{post.image.url}}" class="card-img-top"/>
       
@@ -39,7 +34,7 @@
         <button class="btn rounded-0"><i class="fa-regular fa-thumbs-up"></i> 444</button>
         <button class="btn rounded-0"><i class="fa-regular fa-thumbs-down"></i> 444</button>
         <button class="btn rounded-0"><i class="fa-solid fa-comment-dots"></i> 444</button>
-        <a class="btn rounded-0" href="{% url 'postDetail' post.slug %}">Read more</a>
+        <a class="btn rounded-0" href="{% url 'postDetail' post.slug %}">...</a>
         <button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
       </div>
     </div>

@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-   <div class="container   p-5">
+   <div class="container   py-5">
         <br>
         <div class="search-bar ">
               <nav class="navbar   bg-light   mb-2">    
@@ -26,10 +26,20 @@
                   </form>
               </nav><!-- END OF SEARCH NAV BAR -->
         </div> 
+        <div
+          class="row justify-content-center align-items-center g-5 p-2"
+        >
+          
+             {% for post in posts %}
+             <div class="col-md-6 ">
+              {% include "components/post.html" %}  
+            </div>
+          {% endfor %}
         
-        {% for post in posts %}
-            {% include "components/post.html" %}
-        {% endfor %}
+         
+        </div>
+        
+         
      
       
       

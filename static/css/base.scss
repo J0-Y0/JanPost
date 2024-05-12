@@ -50,6 +50,29 @@ body {
        
     }
 }
+.related-post{
+
+    a{
+        text-decoration: none;
+    }
+    .author{
+        color: rgb(96, 96, 96);
+        font-size: larger;
+        &:hover{
+            color: rgb(0, 119, 255);
+            // text-decoration: underline
+        }
+    }
+    .title{
+        font-size: larger;
+        color: rgb(66, 64, 64);
+        &:hover{
+            color: rgb(0, 119, 255) !important;
+            // text-decoration: underline
+        }
+    }
+
+}
 .left-menu {
     // background-color: #44494f;
     //  : #f0ab2f;

@@ -6,11 +6,6 @@ from .filter import PostFilterForm
 from django.conf import settings
 
 
-def globalContext(request):
-    context = {"category": Category.objects.all(), "companyName": settings.COMPANY_NAME}
-    return context
-
-
 def saveReport(request):
     reportForm = ReportForm()
     if request.method == "POST":
@@ -22,11 +17,19 @@ def saveReport(request):
     return reportForm
 
 
+def globalContext(request):
+    context = {
+        "category": Category.objects.all(),
+        "companyName": settings.COMPANY_NAME,
+        "reportForm": saveReport(request),
+    }
+    return context
+
+
 def landingPage(request):
     context = {
         "tags": Post.tags.all(),
         "posts": Post.objects.all(),
-        "reportForm": saveReport(request),
     }
     return render(request, "blog/landingPage.html", context=context)
 
@@ -39,7 +42,6 @@ def home(request):
     posts = postFilterForm.qs
 
     context = {
-        "reportForm": saveReport(request),
         "postFilterForm": postFilterForm,
         "posts": posts,
     }
@@ -49,6 +51,7 @@ def home(request):
 
 def postDetail(request, slug):
     post = get_object_or_404(Post, slug=slug)
+    relatedPost = post.tags.similar_objects()[:5]
     comments = post.comments.filter(status=True)
     if request.method == "POST":
         commentForm = CommentForm(request.POST)
@@ -63,6 +66,7 @@ def postDetail(request, slug):
         "post": post,
         "comments": comments,
         "commentForm": commentForm,
+        "relatedPost": relatedPost,
     }
     return render(
         request,
@@ -73,7 +77,10 @@ def postDetail(request, slug):
 
 def postsInTag(request, tag):
     posts = Post.newManager.filter(tags__slug__in=[tag])
-    context = {"posts": posts, "tag": tag, "reportForm": saveReport(request)}
+    context = {
+        "posts": posts,
+        "tag": tag,
+    }
     return render(request, "blog/postsInTag.html", context)
 
 

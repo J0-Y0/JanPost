@@ -1,108 +1,64 @@
-{% extends 'base/base.html' %}
-{% load mptt_tags %}
-{% include "base/navebar.html"%}
+{% extends '../base/base.html' %}
+{% block navbar %}
+{% include '../base/navbar.html' %}
+{% endblock %}
+
+
 {% block content %}
+<div class="container">
+  <div class="row justify-content-center">
 
+    <div class="col-10">
+      <div class="post-postview">
+        <div class="card my-3">
+          <h5 class="card-header d-flex justify-content-between">
+            <a href="#" title="Author">
+              <img style="width: 40px; height: 40px" class="rounded-circle account-img"
+                src="{{post.author.profile.avatar.url}}" />
+              <p class="d-none d-sm-inline">{{post.author.first_name}} {{post.author.last_name}}</p>
+            </a>
 
-{% include "components/post.html" %}
-<div
-  class="container"
->
-  <div
-    class="row justify-content-center align-items-center g-2"
-  >
-    <div class="col-4">Column</div>
-    <div class="col-4">Column</div>
-    <div class="col">Column</div>
-  </div>
-  
-</div>
+            <div class="dropdown open">
+              <a class="rounded rounded-5" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">...</a>
+              <div class="dropdown-menu" aria-labelledby="triggerId">
+                <a class="dropdown-item" href="#"><i class="fa-solid fa-user-plus"></i> Connect</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i> Follow</a>
+                <a class="dropdown-item" href="#"><i class="fa-regular fa-id-badge"></i> Profile</a>
+              </div>
+            </div>
+          </h5>
 
-<div class="card">
- 
+          <div class="card-body">
+            <div class="d-flex justify-content-between flex-column">
+              <h5 class="card-title h3">{{post.title}}</h5>
+              <p class="text-secondary text-nowrap">{{post.published_date}}</p>
+            </div>
+            <p class="card-text">{{post.content}}</p>
+          </div>
+          <img src="{{post.image.url}}" class="card-img-top" />
 
-    <hr />
-    <h5 class="text-secondary">{{ comments|length }} comments</h5>
-    <hr />
-  
-
-    <div class="accordion accordion-flush me-0" id="accordionFlushExample">
-
-      {% recursetree comments %}
-      <div class="accordion-item">
-        <p class="accordion-header " id="flush-heading{{ node.id }}">
-          <div class="ms-2 d-flex justify-content-between">
-                
-                <p class = "h5 text-secondary py-3"> <i class="fa-regular fa-circle-user pe-1 h2 "> </i>{{ node.name }}</p>
-                <p  class = "  py-3" > {{ node.content }}</p>     
-                <p  class = "  py-3"  > {{ node.time_difference }} ago</p>
-                {%if not node.get_descendant_count == 0  %}
-                <p  class = "  py-3"  > {{ node.get_descendant_count }}  replays</p>
-                {%endif%}
-                
-
-                
-
-                <p  class = "  py-3"  > {{ node.published_date }}</p>
-
-                <button class="w-25 h-25 accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ node.id }}" aria-expanded="false" aria-controls="flush-collapse{{ node.id }}" data-bs-parent="#accordionFlushExample">
-                
-                  replay
-                  
-                </button>
-        </div>
-        </p>
-        <div id="flush-collapse{{ node.id }}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{ node.id }}" data-bs-parent="#accordionFlushExample">
-          <div class="accordion-body">
-           
-            <form method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="parent" value="{{ node.id }}" />
-              <p>
-                <label for="id_name">Commented by:</label>
-                <input type="text" name="name" class="form-control" maxlength="50" required="" id="id_name" />
-              </p>
-              <p>
-                <label for="id_email">Email:</label>
-                <input type="email" name="email" class="form-control" maxlength="50" required="" id="id_email" />
-              </p>
-              <p>
-                <label for="id_content">Content:</label>
-                <textarea name="content" cols="40" rows="10" class="form-control" required="" id="id_content" spellcheck="false"></textarea>
-              </p>
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+          <div class="card-footer p-0 d-flex justify-content-between">
+            <p class="text-secondary ps-2">Posted {{ post.time_difference }} ago</p>
+            <button class="btn rounded-0"><i class="fa-regular fa-thumbs-up"></i> 444</button>
+            <button class="btn rounded-0"><i class="fa-regular fa-thumbs-down"></i> 444</button>
+            <button class="btn rounded-0"><i class="fa-solid fa-comment-dots"></i> 444</button>
+            <a class="btn rounded-0" href="{% url 'postDetail' post.slug %}">Read more</a>
+            <button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
           </div>
         </div>
       </div>
-      {% if not node.is_leaf_node %}
-      <div class="ps-3 bg-black">{{ children }}</div>
-      {% endif %}
-      {% endrecursetree %}
+
+
+    </div>
+
+
+    <div class="col-2  border-bottom-0 border-top-0  border-right-0 border-start-4">
+      lklkl
     </div>
   </div>
-</div> 
-<script>
-  function save_toggle(pid) {
-    var save_toggle_btn = document.getElementById('save_toggle_btn')
-    $.ajax({
-        type: 'GET',
-        url: "{% url 'save_post'  %}",
-         data: {
-             "pid": pid
-         },
-        success: function(response) {
-            console.log(response); // Log the entire response to see its structure
-            var spaceData = response;
-            save_toggle_btn.innerHTML = `<i class="fa-${response.class} fa-bookmark pe-2 title = ${response.title}"></i>`
+</div>
 
 
-        },
-        error: function(response) {
-            console.log('Error:', response);
-        }
-    });
-}
-</script>
 {% endblock %}
-

@@ -1,59 +1,153 @@
 {% extends '../base/base.html' %}
-
-
 {% block navbar %}
-    {% include '../base/navbar.html' %}
+{% include '../base/navbar.html' %}
 {% endblock %}
 
-{% block content %}
-<div class="container">
-  <div class="row justify-content-center">
-   
-    <div class="col-10">
-        <div class="post-postview">
-    <div class="card my-3">
-      <h5 class="card-header d-flex justify-content-between">
-        <a href="#" title="Author">
-          <img style="width: 40px; height: 40px" class="rounded-circle account-img" src="{{post.author.profile.avatar.url}}"/>
-          <p class="d-none d-sm-inline">{{post.author.first_name}} {{post.author.last_name}}</p>
-        </a>
 
-        <div class="dropdown open">
-          <a class="rounded rounded-5" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">...</a>
-          <div class="dropdown-menu" aria-labelledby="triggerId">
-            <a class="dropdown-item" href="#"><i class="fa-solid fa-user-plus"></i> Connect</a>
-            <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i> Follow</a>
-            <a class="dropdown-item" href="#"><i class="fa-regular fa-id-badge"></i> Profile</a>
+{% block content %}
+<div class=" container-fluid  ps-5">
+  <div class="row justify-content-center g-5">
+
+    <div class="col-8 pe-5 pt-4">
+      <div class="post-postview">
+        <div class="cadrd ">
+          <h5 class="card-header d-flex justify-content-between">
+            <a href="#" title="Author">
+              <img style="width: 40px; height: 40px" class="rounded-circle account-img"
+                src="{{post.author.profile.avatar.url}}" />
+              <p class="d-none d-sm-inline">{{post.author.first_name}} {{post.author.last_name}}</p>
+            </a>
+
+            <div class="dropdown open">
+              <a class="rounded rounded-5" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">...</a>
+              <div class="dropdown-menu" aria-labelledby="triggerId">
+                <a class="dropdown-item" href="#"><i class="fa-solid fa-user-plus"></i> Connect</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i> Follow</a>
+                <a class="dropdown-item" href="#"><i class="fa-regular fa-id-badge"></i> Profile</a>
+              </div>
+            </div>
+          </h5>
+
+          <div class="card-body mt-3  ">
+            <div class="d-flex justify-content-between flex-column">
+              <h5 class="card-title h3">{{post.title}}</h5>
+              <p class="text-secondary text-nowrap">{{post.published_date}}</p>
+            </div>
+            <p class="card-text">{{post.content}}</p>
+          </div>
+          <img src="{{post.image.url}}" class="card-img-top" />
+
+          <div class="card-footer p-0 d-flex justify-content-between">
+            <p class="text-secondary ps-2">Posted {{ post.time_difference }} ago</p>
+            <button class="btn rounded-0"><i class="fa-regular fa-thumbs-up"></i> 444</button>
+            <button class="btn rounded-0"><i class="fa-regular fa-thumbs-down"></i> 444</button>
+            <button class="btn rounded-0"><i class="fa-solid fa-comment-dots"></i> 444</button>
+            <a class="btn rounded-0" href="{% url 'postDetail' post.slug %}">Read more</a>
+            <button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
           </div>
         </div>
-      </h5>
+      </div>
 
-      <div class="card-body">
-        <div class="d-flex justify-content-between">
-          <h5 class="card-title">{{post.title}}</h5>
-          <p class="text-secondary text-nowrap">{{post.published_date}}</p>
-        </div>
-        <p class="card-text">{{post.content}}</p>
-      </div>
-      <img src="{{post.image.url}}" class="card-img-top"/>
-      
-      <div class="card-footer p-0 d-flex justify-content-between">
-        <p class="text-secondary ps-2">Posted {{ post.time_difference }} ago</p> 
-        <button class="btn rounded-0"><i class="fa-regular fa-thumbs-up"></i> 444</button>
-        <button class="btn rounded-0"><i class="fa-regular fa-thumbs-down"></i> 444</button>
-        <button class="btn rounded-0"><i class="fa-solid fa-comment-dots"></i> 444</button>
-        <a class="btn rounded-0" href="{% url 'postDetail' post.slug %}">Read more</a>
-        <button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
-      </div>
     </div>
-  </div>
+
+
+    <div class="col-4 border-2 border-start ">
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control rounded rounded-5"
+          name=""
+          id=""
+          aria-describedby="helpId"
+          placeholder="Search"
+        />
+      </div><!-- endof search field -->
+
+      <div class = "  ">
+              <p class="h5 text-muted p-2">
+              Related Posts  <hr >
+            </p>
+            {%for post in relatedPost%}
+            <div class = "related-post "> 
+                <a href="#" title="Author">
+                      <img style="width: 40px; height: 40px" class="rounded-circle account-img"
+                        src="{{post.author.profile.avatar.url}}" />
+                  <p class="author d-none d-sm-inline">{{post.author.first_name}} {{post.author.last_name}} </p>
+                    
+                    </a>
+                    <br>
+                    <div class = "ps-5">               
+                      
       
-    </div>
-    <div class="col-2  border-bottom-0 border-top-0  border-right-0 border-start-4">
-      lklkl
+                      <a href = "{% url 'postDetail' post.slug %}" class="title  h5 text-muted">{{post.title}} </a>
+                      <span class=" text-muted"> @{{post.published_date}} </span>
+                    </div>
+                  <br> 
+            </div>
+            {%endfor%}
+
+      </div><!-- endof related post -->
+      <div>
+                
+              <p class="h5 text-muted p-2 mt-5">
+                Posts published by {{post.author.first_name}} {{post.author.last_name}} <hr >
+              </p>
+              {%for post in relatedPost%}
+              <div class = "related-post "> 
+                  <a href="#" title="Author">
+                        <img style="width: 40px; height: 40px" class="rounded-circle account-img"
+                          src="{{post.author.profile.avatar.url}}" />
+                    <p class="author d-none d-sm-inline">{{post.author.first_name}} {{post.author.last_name}} </p>
+                      
+                      </a>
+                      <br>
+                      <div class = "ps-5">               
+                        
+        
+                        <a href = "{% url 'postDetail' post.slug %}" class="title  h5 text-muted">{{post.title}} </a>
+                        <span class=" text-muted"> @{{post.published_date}} </span>
+                      </div>
+                    <br> 
+              </div>
+              {%endfor%}
+      </div><!-- endof authors other post -->
+     
     </div>
   </div>
 </div>
 
+
+
+
+
+<!-- Report Modal -->
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop2Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-bg-dark">
+        <h1 class="modal-title fs-5" id="staticBackdrop2Label">Reporting</h1>
+        <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-4 pt-4">
+        <form method="post">
+          {% csrf_token %}
+          {% for field in reportForm %}
+            <b class="pt-3 text-secondary">{{field.label}}</b>
+            {{field}}
+          {% endfor %}
+          <div class="btn-group mt-5 w-100" role="group" aria-label="Basic example">
+            {{reportForm.error}}
+            <button class="btn btn-outline-dark rounded rounded-5" type="submit">Send report</button>
+          </div>
+          <br>
+          <hr>
+          <p class="text-secondary text-center mb-0">Thank you for telling us about the abuse</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
