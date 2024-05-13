@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.utils.encoding import force_str
-from django.http import JsonResponse
+from django.http import HttpResponse
 
 
 from django.contrib.sites.shortcuts import get_current_site
-from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
+from django.contrib.auth.forms import PasswordChangeForm
 
 from django.contrib.auth import update_session_auth_hash
 
@@ -16,8 +16,8 @@ from django.core.mail import send_mail
 from .token import account_activation_token
 from django.conf import settings
 
-from .forms import *
 from blog.models import Post
+from .forms import *
 
 
 def user_login(request):
@@ -174,23 +174,60 @@ def activity(request):
     return render(request, "account/activity.html", context)
 
 
-def save_post(request):
+def likePost(request, pid):
     if request.method == "GET":
-        pid = request.GET.get("pid")
-        print("================================" + str(pid))
         post = get_object_or_404(Post, pk=pid)
-        print("================================" + str(post.author))
+
+        if not post.liked.filter(id=request.user.id).exists():
+            post.liked.add(request.user)
+            post.save()
+            return HttpResponse(
+                f" <i class='fa-solid fa-thumbs-up'></i> {post.liked.count()}"
+            )
+        else:
+            post.liked.remove(request.user)
+            post.save()
+            return HttpResponse(
+                f" <i class='fa-regular fa-thumbs-up'></i> {post.liked.count()}"
+            )
+    else:
+        return HttpResponse("something went wrong ")
+
+
+def dislikePost(request, pid):
+    if request.method == "GET":
+        post = get_object_or_404(Post, pk=pid)
+
+        if not post.disliked.filter(id=request.user.id).exists():
+            post.disliked.add(request.user)
+            post.save()
+            return HttpResponse(
+                f"<i class='fa-solid fa-thumbs-down'></i> {post.disliked.count()}"
+            )
+        else:
+            post.disliked.remove(request.user)
+            post.save()
+            return HttpResponse(
+                f" <i class='fa-regular fa-thumbs-down'></i> {post.liked.count()}"
+            )
+    else:
+        return HttpResponse("something went wrong ")
+
+
+def savePost(request, pid):
+    if request.method == "GET":
+        post = get_object_or_404(Post, pk=pid)
 
         if not post.favorite.filter(id=request.user.id).exists():
             post.favorite.add(request.user)
-            data = {"class": "solid", "title": "add to favorites"}
-            return JsonResponse(data)
+            post.save()
+            return HttpResponse("<i class='fa-solid fa-bookmark'></i> Saved")
         else:
             post.favorite.remove(request.user)
-            data = {"class": "regular", "title": "remove from favorites"}
-            return JsonResponse(data)
+            post.save()
+            return HttpResponse("<i class='fa-regular fa-bookmark'></i> Save &nbsp")
     else:
-        return JsonResponse({"error": "Invalid request method"})
+        return HttpResponse("something went wrong ")
 
 
 def user_profile(request):

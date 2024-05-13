@@ -5,6 +5,7 @@
 
 
 {% block content %}
+
 <div class=" container-fluid  ps-5">
   <div class="row justify-content-center g-5">
 
@@ -22,7 +23,7 @@
               <a class="rounded rounded-5" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">...</a>
               <div class="dropdown-menu" aria-labelledby="triggerId">
-                <a class="dropdown-item" href="#"><i class="fa-solid fa-bookmark"></i>  Save Post</a>
+                
                 <a class="dropdown-item" href="#"><i class="fa-solid fa-user-plus"></i> Connect</a>
                 <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i> Follow</a>
               </div>
@@ -35,12 +36,55 @@
             <p class="post-content card-text text-muted fs-4">{{post.content}}</p>
           </div>
           <img src="{{post.image.url}}" class="card-img-top" />
-
+           
           <div class="card-footer p-0 d-flex justify-content-between">
             <p class="text-secondary ps-2">Posted {{ post.time_difference }} ago</p>
-            <button class="btn rounded-0"><i class="fa-regular fa-thumbs-up"></i> 444</button>
-            <button class="btn rounded-0"><i class="fa-regular fa-thumbs-down"></i> 444</button>
+            <button class="btn rounded-0"
+                  hx-get="{% url 'likePost' post.id %}"
+                  hx-trigger="click"
+            
+            
+            >
+              {% if not request.user in post.liked.all %} 
+                    <i class="fa-regular fa-thumbs-up"></i> {{post.liked.all|length}}</button>
+              {%else%} 
+                    <i class='fa-solid fa-thumbs-up'></i> {{post.liked.all|length}}
+              {%endif%} 
+
+
+              </i> 
+            </button>
+            <button class="btn rounded-0"
+                  hx-get="{% url 'dislikePost' post.id %}"
+                  hx-trigger="click"
+            
+            
+            >
+              {% if not request.user in post.disliked.all %} 
+                    <i class="fa-regular fa-thumbs-down"></i> {{post.disliked.all|length}}</button>
+              {%else%} 
+                    <i class='fa-solid fa-thumbs-down'></i> {{post.disliked.all|length}}
+              {%endif%} 
+
+
+
+
+              </i> 
+            </button>
             <button class="btn rounded-0"><i class="fa-solid fa-comment-dots"></i> 444</button>
+            <button class="btn rounded-0" 
+                  hx-get="{% url 'savePost' post.id %}"
+                  hx-trigger="click"
+                  >
+                
+                 {% if not request.user in post.favorite.all %} 
+                    <i class="fa-regular fa-bookmark"></i>  Save &nbsp</button>
+                 {%else%} 
+                    <i class='fa-solid fa-bookmark'></i> Saved
+                  {%endif%} 
+                 
+            
+            
             <button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal"
               data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
           </div>
