@@ -11,7 +11,7 @@
 
     <div class=" col-8 pe-5 pt-4">
       <div class="post-postview">
-        <div class="cadrd ">
+        <div class="cadrd post-content ">
           <h5 class="card-header d-flex justify-content-between">
             <a href="#" title="Author">
               <img style="width: 40px; height: 40px" class="rounded-circle account-img"
@@ -32,66 +32,18 @@
 
           <div class="card-body mt-3  ">
               <h5 class="card-title h3">{{post.title}}</h5>
-              <p class="text-secondary text-nowrap">{{post.published_date}}</p>
-            <p class="post-content card-text text-muted fs-4">{{post.content}}</p>
+          <p class="text-secondary text-nowrap">{{post.published_date}} | {{ post.time_difference }} ago </p>
+            <p class=" card-text text-muted fs-4">{{post.content}}</p>
           </div>
           <img src="{{post.image.url}}" class="card-img-top" />
            
-          <div class="card-footer p-0 d-flex justify-content-between">
-            <p class="text-secondary ps-2">Posted {{ post.time_difference }} ago</p>
-            <button class="btn rounded-0"
-                  hx-get="{% url 'likePost' post.id %}"
-                  hx-trigger="click"
-            
-            
-            >
-              {% if not request.user in post.liked.all %} 
-                    <i class="fa-regular fa-thumbs-up"></i> {{post.liked.all|length}}</button>
-              {%else%} 
-                    <i class='fa-solid fa-thumbs-up'></i> {{post.liked.all|length}}
-              {%endif%} 
-
-
-              </i> 
-            </button>
-            <button class="btn rounded-0"
-                  hx-get="{% url 'dislikePost' post.id %}"
-                  hx-trigger="click"
-            
-            
-            >
-              {% if not request.user in post.disliked.all %} 
-                    <i class="fa-regular fa-thumbs-down"></i> {{post.disliked.all|length}}</button>
-              {%else%} 
-                    <i class='fa-solid fa-thumbs-down'></i> {{post.disliked.all|length}}
-              {%endif%} 
-
-
-
-
-              </i> 
-            </button>
-            <button class="btn rounded-0"><i class="fa-solid fa-comment-dots"></i> 444</button>
-            <button class="btn rounded-0" 
-                  hx-get="{% url 'savePost' post.id %}"
-                  hx-trigger="click"
-                  >
-                
-                 {% if not request.user in post.favorite.all %} 
-                    <i class="fa-regular fa-bookmark"></i>  Save &nbsp</button>
-                 {%else%} 
-                    <i class='fa-solid fa-bookmark'></i> Saved
-                  {%endif%} 
-                 
-            
-            
-            <button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
+          <div class="card-footer p-0 d-flex justify-content-between bg-body-tertiary">
+           {%include '../components/post_reaction.html' %}
           </div>
         </div>
       </div>
 
-    </div>
+    </div><!--end of main content-->
 
 
     <div class="col-4 border-2 border-start ">
@@ -162,32 +114,5 @@
 
 
 
-<!-- Report Modal -->
-<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop2Label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header text-bg-dark">
-        <h1 class="modal-title fs-5" id="staticBackdrop2Label">Reporting</h1>
-        <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body px-4 pt-4">
-        <form method="post">
-          {% csrf_token %}
-          {% for field in reportForm %}
-            <b class="pt-3 text-secondary">{{field.label}}</b>
-            {{field}}
-          {% endfor %}
-          <div class="btn-group mt-5 w-100" role="group" aria-label="Basic example">
-            {{reportForm.error}}
-            <button class="btn btn-outline-dark rounded rounded-5" type="submit">Send report</button>
-          </div>
-          <br>
-          <hr>
-          <p class="text-secondary text-center mb-0">Thank you for telling us about the abuse</p>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 
 {% endblock %}
