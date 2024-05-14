@@ -14,7 +14,7 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ("name", "parent", "email", "content")
+        fields = ("author", "parent", "post", "content")
         widgets = {
             "name": forms.TextInput(attrs={"class": "form-control"}),
             "parent": forms.Select(attrs={"class": "form-control"}),

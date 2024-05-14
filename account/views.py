@@ -16,7 +16,7 @@ from django.core.mail import send_mail
 from .token import account_activation_token
 from django.conf import settings
 
-from blog.models import Post
+from blog.models import Post, Comment
 from .forms import *
 
 
@@ -212,6 +212,17 @@ def dislikePost(request, pid):
             )
     else:
         return HttpResponse("something went wrong ")
+
+
+def commentPost(request, pid):
+    print("Commenting====================")
+    # if request.method == "POST":
+    post = get_object_or_404(Post, pk=pid)
+    comment = request.GET.get("comment")
+    Comment.objects.create(post=post, author=request.user, content=comment)
+    return render(
+        request, "../comments/comment_view.html", {"comments": Comment.objects.all()}
+    )
 
 
 def savePost(request, pid):

@@ -1,24 +1,28 @@
 from django.contrib import admin
 from .models import *
-from mptt.admin import MPTTModelAdmin 
+from mptt.admin import MPTTModelAdmin
+
+
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title','author','status','published_date','reports' )
-    
+    list_display = ("title", "author", "status", "published_date", "reports")
+
     def reports(self, obj):
-        return Report.objects.filter(post =obj ).count() 
-        
+        return Report.objects.filter(post=obj).count()
+
+
 class CommentAdmin(MPTTModelAdmin):
-    list_display = ('post','content','name','published_date' )
-    list_filter = ('status','published_date')
-    search_fields = ('name','email','content')
+    list_display = ("post", "author", "content", "published_date")
+    list_filter = ("status", "published_date")
+    search_fields = ("author", "content")
+
+
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ('post','detail','type','name','published_date' )
-    list_filter = ('post','type')
-    search_fields = ('post','detail','name')
+    list_display = ("post", "detail", "type", "name", "published_date")
+    list_filter = ("post", "type")
+    search_fields = ("post", "detail", "name")
+
 
 admin.site.register(Category)
-admin.site.register(Post,PostAdmin)
-admin.site.register(Comment,CommentAdmin)
-admin.site.register(Report,ReportAdmin)
-
-
+admin.site.register(Post, PostAdmin)
+admin.site.register(Comment, CommentAdmin)
+admin.site.register(Report, ReportAdmin)

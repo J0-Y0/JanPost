@@ -95,8 +95,7 @@ class Comment(MPTTModel):
     parent = TreeForeignKey(
         "self", on_delete=models.CASCADE, null=True, blank=True, related_name="children"
     )
-    name = models.CharField(max_length=50, verbose_name="Commented by")
-    email = models.EmailField(max_length=50)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True)
 

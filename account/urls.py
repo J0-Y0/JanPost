@@ -41,6 +41,7 @@ htmxUrl = [
     path("savePost/<int:pid>", views.savePost, name="savePost"),
     path("likePost/<int:pid>", views.likePost, name="likePost"),
     path("dislikePost/<int:pid>", views.dislikePost, name="dislikePost"),
+    path("commentPost/<int:pid>", views.commentPost, name="commentPost"),
 ]
 
 urlpatterns += htmxUrl
