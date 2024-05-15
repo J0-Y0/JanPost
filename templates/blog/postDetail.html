@@ -6,17 +6,17 @@
 
 {% block content %}
 
-<div class=" container-fluid  ps-5">
+<div class=" container-fluid  ps-md-5">
   <div class="row justify-content-center g-5">
 
-    <div class=" col-8 pe-5 pt-4">
+    <div class=" col-md-8 pe-md-3 pt-4">
       <div class="post-postview">
         <div class="cadrd post-content ">
           <h5 class="card-header d-flex justify-content-between">
             <a href="#" title="Author">
               <img style="width: 40px; height: 40px" class="rounded-circle account-img"
                 src="{{post.author.profile.avatar.url}}" />
-              <p class="d-none d-sm-inline">{{post.author.first_name}} {{post.author.last_name}}</p>
+              <p class="d-inline">{{post.author.first_name}} {{post.author.last_name}}</p>
             </a>
 
             <div class="dropdown open">
@@ -46,7 +46,7 @@
     </div><!--end of main content-->
 
 
-    <div class="col-4 border-2 border-start ">
+    <div class="col-md-4 border-2 border-start ">
       <div class="mb-3">
         <input
           type="text"
@@ -67,7 +67,7 @@
                 <a href="#" title="Author">
                       <img style="width: 40px; height: 40px" class="rounded-circle account-img"
                         src="{{post.author.profile.avatar.url}}" />
-                  <p class="author d-none d-sm-inline">{{post.author.first_name}} {{post.author.last_name}} </p>
+                  <p class="author d-inline">{{post.author.first_name}} {{post.author.last_name}} </p>
                     
                     </a>
                     <br>
@@ -92,7 +92,7 @@
                    <a href="#" title="Author">
                         {% comment %} <img style="width: 40px; height: 40px" class=" rounded-circle account-img"
                           src="{{post.author.profile.avatar.url}}" /> {% endcomment %}
-                    <p class="author d-none d-sm-inline">{{post.author.first_name}} {{post.author.last_name}}  </p>
+                    <p class="author d-inline">{{post.author.first_name}} {{post.author.last_name}}  </p>
                       
                       </a> 
                       <div class = "ps-3">               

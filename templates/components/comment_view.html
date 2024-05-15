@@ -1,12 +1,13 @@
 
 {% load mptt_tags %}
-<div>
+<div class = "p-2">
+    
     {% recursetree comments %}
         <div>
             <a href="#" title="Author">
                       <img style="width: 40px; height: 40px" class="rounded-circle account-img"
                         src="{{node.author.profile.avatar.url}}" />
-                  <p class="author d-none d-sm-inline">{{node.author.first_name}} {{node.author.last_name}}  </p>
+                  <p class="author d-inline">{{node.author.first_name}} {{node.author.last_name}}  </p>
                    <i class=" text-muted"> | {{node.time_difference}} ago</i>
 
                     </a>
@@ -16,9 +17,19 @@
                         <p  class="title  h5 text-muted">{{node.content}} </p>
 
                         <a href = "#" class=""
-                            hx-target = "#comment_like"
+                            hx-target = "#comment_like_{{node.id}}"
                             hx-get  = "{%url 'likeComment' node.id %}"
-                        >Like  <span id = "comment_like">{{node.like.all|length}}</span></a> | 
+                        >Like   <span class = "ps-2" id = "comment_like_{{node.id}}">
+
+
+                            {% if not request.user in node.liked.all %} 
+                                        <i class="fa-regular fa-thumbs-up"></i> {{node.liked.all|length}}</button>
+                            {%else%} 
+                                        <i class='fa-solid fa-thumbs-up'></i> {{node.liked.all|length}}</i> 
+                            {%endif%} 
+
+
+                        </span></a> | 
                      
   
             <a class="" type="button" data-bs-toggle="collapse" data-bs-target="#replay-{{node.id}}" aria-expanded="false" aria-controls="replay-{{node.id}}">
@@ -27,10 +38,10 @@
             </p>
              <div class="collapse" id="replay-{{node.id}}">
             <div class="card card-body">
-                <form class="py-1 d-flex g-2 w-75 ">
+                <form class="py-1 d-flex g-2 w-md-75 w-100 ">
                     {% csrf_token %} 
                         <img style="width: 42px; height: 42px" class="rounded-circle account-img" src="{{node.post.author.profile.avatar.url}}" />
-                        <div class="btn-group  w-75 " >
+                        <div class="btn-group  w-100 " >
 
                             <input name = "parent" value = "{{node.id}}" class="d-none" aria-describedby="helpId" placeholder="type your comment . . ." />
                             <input name = "comment" type="text" class="form-control  rounded rounded-5 rounded-end-0"  aria-describedby="helpId" placeholder="type your comment . . ." />

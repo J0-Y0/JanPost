@@ -96,7 +96,9 @@ class Comment(MPTTModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True)
-    liked = models.ManyToManyField(User, default=None, blank=True, related_name="liked")
+    liked = models.ManyToManyField(
+        User, default=None, blank=True, related_name="liked_comment"
+    )
 
     status = models.BooleanField(default=True)
 

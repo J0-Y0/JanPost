@@ -36,7 +36,7 @@ class ReportForm(forms.ModelForm):
         widgets = {
             "name": forms.TextInput(attrs={"class": "form-control"}),
             "post": forms.Select(attrs={"class": "form-control"}),
-            "type": forms.Select(attrs={"class": "form-control"}),
+            "type": forms.RadioSelect(attrs={"class": "form-control"}),
             "detail": forms.Textarea(
                 attrs={
                     "class": "form-control",
