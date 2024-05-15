@@ -1,29 +1,63 @@
 
 {% load mptt_tags %}
-<ul>
-
+<div>
     {% recursetree comments %}
-        <li>
+        <div>
             <a href="#" title="Author">
                       <img style="width: 40px; height: 40px" class="rounded-circle account-img"
                         src="{{node.author.profile.avatar.url}}" />
-                  <p class="author d-none d-sm-inline">{{node.author.first_name}} {{node.author.last_name}} </p>
-                    
+                  <p class="author d-none d-sm-inline">{{node.author.first_name}} {{node.author.last_name}}  </p>
+                   <i class=" text-muted"> | {{node.time_difference}} ago</i>
+
                     </a>
                     <br>
                     <div class = "ps-5">               
-                     <i class=" text-muted"> {{node.published_date}} </i>
 
-                      <p  class="title  h5 text-muted">{{node.content}} </p>
-                    </div>
+                        <p  class="title  h5 text-muted">{{node.content}} </p>
+
+                        <a href = "#" class=""
+                            hx-target = "#comment_like"
+                            hx-get  = "{%url 'likeComment' node.id %}"
+                        >Like  <span id = "comment_like">{{node.like.all|length}}</span></a> | 
+                     
+  
+            <a class="" type="button" data-bs-toggle="collapse" data-bs-target="#replay-{{node.id}}" aria-expanded="false" aria-controls="replay-{{node.id}}">
+                replay
+            </a>
+            </p>
+             <div class="collapse" id="replay-{{node.id}}">
+            <div class="card card-body">
+                <form class="py-1 d-flex g-2 w-75 ">
+                    {% csrf_token %} 
+                        <img style="width: 42px; height: 42px" class="rounded-circle account-img" src="{{node.post.author.profile.avatar.url}}" />
+                        <div class="btn-group  w-75 " >
+
+                            <input name = "parent" value = "{{node.id}}" class="d-none" aria-describedby="helpId" placeholder="type your comment . . ." />
+                            <input name = "comment" type="text" class="form-control  rounded rounded-5 rounded-end-0"  aria-describedby="helpId" placeholder="type your comment . . ." />
+                            <button type="submit" class="btn btn-outline-dark rounded rounded-end-5 rounded-start-0 text-nowrap"
+                            
+                            hx-post = "{%url 'commentPost' node.post.id %}"
+                            hx-target = "#active-view"
+                        ><i class="fa-solid fa-paper-plane"
+                            
+                            
+                            ></i></button>
+
+                        </div>
+                    </form>    
+            </div>
+            </div>
+
+                    
+        </div>  
             {% if not node.is_leaf_node %}
-                <ul class="children">
+                <ul class="children ps-5">
                     {{ children }}
                 </ul>
             {% endif %}
-        </li>
+        </div>
         
         {% endrecursetree %}
 
 
-</ul>
+</div>

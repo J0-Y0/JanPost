@@ -215,15 +215,24 @@ def dislikePost(request, pid):
 
 
 def commentPost(request, pid):
-    print(
-        "Commenting====================================================================="
-    )
-    # if request.method == "POST":
+
+    print("am here ============================================")
     post = get_object_or_404(Post, pk=pid)
     comment = request.POST.get("comment")
-    Comment.objects.create(post=post, author=request.user, content=comment)
+
+    if "parent" in request.POST:
+        parent = parent = request.POST.get("parent")
+        parent = Comment.objects.filter(pk=parent).first()
+        Comment.objects.create(
+            post=post, parent=parent, author=request.user, content=comment
+        )
+    else:
+        Comment.objects.create(post=post, author=request.user, content=comment)
+
     return render(
-        request, "components/comment_view.html", {"comments": Comment.objects.all()}
+        request,
+        "components/post_reaction.html",
+        {"comments": Comment.objects.filter(post=post), "post": post},
     )
 
 
@@ -239,6 +248,25 @@ def savePost(request, pid):
             post.favorite.remove(request.user)
             post.save()
             return HttpResponse("<i class='fa-regular fa-bookmark'></i> Save &nbsp")
+    else:
+        return HttpResponse("something went wrong ")
+
+
+def likeComment(request, cid):
+    if request.method == "GET":
+        comment = get_object_or_404(Comment, pk=cid)
+        if not comment.liked.filter(id=request.user.id).exists():
+            comment.liked.add(request.user)
+            comment.save()
+            return HttpResponse(
+                f" <i class='fa-solid fa-thumbs-up'></i> {comment.liked.count()}"
+            )
+        else:
+            comment.liked.remove(request.user)
+            comment.save()
+            return HttpResponse(
+                f" <i class='fa-regular fa-thumbs-up'></i> {comment.liked.count()}"
+            )
     else:
         return HttpResponse("something went wrong ")
 

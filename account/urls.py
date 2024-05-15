@@ -42,8 +42,8 @@ htmxUrl = [
     path("likePost/<int:pid>", views.likePost, name="likePost"),
     path("dislikePost/<int:pid>", views.dislikePost, name="dislikePost"),
     path("commentPost/<int:pid>", views.commentPost, name="commentPost"),
+    path("likeComment/<int:cid>", views.likeComment, name="likeComment"),
 ]
-
 urlpatterns += htmxUrl
 
 # +static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
