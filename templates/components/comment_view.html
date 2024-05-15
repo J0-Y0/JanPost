@@ -4,7 +4,18 @@
 
     {% recursetree comments %}
         <li>
-            {{ node.content }}
+            <a href="#" title="Author">
+                      <img style="width: 40px; height: 40px" class="rounded-circle account-img"
+                        src="{{node.author.profile.avatar.url}}" />
+                  <p class="author d-none d-sm-inline">{{node.author.first_name}} {{node.author.last_name}} </p>
+                    
+                    </a>
+                    <br>
+                    <div class = "ps-5">               
+                     <i class=" text-muted"> {{node.published_date}} </i>
+
+                      <p  class="title  h5 text-muted">{{node.content}} </p>
+                    </div>
             {% if not node.is_leaf_node %}
                 <ul class="children">
                     {{ children }}

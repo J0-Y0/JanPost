@@ -1,80 +1,84 @@
+<div class = "d-flex justify-content-between">
+                
+          <form class="py-1 d-flex g-2 w-75 ">
+          {% csrf_token %} 
+            <img style="width: 42px; height: 42px" class="rounded-circle account-img" src="{{post.author.profile.avatar.url}}" />
+            <div class="btn-group  w-75 " >
 
-<div hx-post class="py-1 d-flex g-2 w-75 ">
-  {% comment %} {% csrf_token %} {% endcomment %}
-  <img style="width: 42px; height: 42px" class="rounded-circle account-img" src="{{post.author.profile.avatar.url}}" />
-  <div class="btn-group  w-75 " >
+              <input name = "comment" type="text" class="form-control  rounded rounded-5 rounded-end-0" name="comment" aria-describedby="helpId" placeholder="type your comment . . ." />
+              <button type="submit" class="btn btn-outline-dark rounded rounded-end-5 rounded-start-0 text-nowrap"
+                
+                  hx-post = "{%url 'commentPost' post.id%}"
+                  hx-target = "#comment-view"
 
-    <input name = "comment" type="text" class="form-control  rounded rounded-5 rounded-end-0" name="comment" aria-describedby="helpId"
-      placeholder="type your comment . . ." 
-      />
-    <button type="submit" class="btn btn-outline-dark rounded rounded-end-5 rounded-start-0 text-nowrap"><i
-        class="fa-solid fa-paper-plane"
-        
-         hx-get = "{%url 'commentPost' post.id%}"
-         hx-target = "#comment-view"
-        ></i></button>
+              ><i class="fa-solid fa-paper-plane"
+                  
+                  
+                  ></i></button>
 
-  </div>
-</div>    
+            </div>
+          </form>    
+
+
+
+
+          <button class="btn text-nowrap rounded-0 "
+                hx-get="{% url 'likePost' post.id %}"
+                hx-trigger="click"
+                            
+                >
+                {% if not request.user in post.liked.all %} 
+                              <i class="fa-regular fa-thumbs-up"></i> {{post.liked.all|length}}</button>
+                {%else%} 
+                              <i class='fa-solid fa-thumbs-up'></i> {{post.liked.all|length}}</i> 
+                {%endif%} 
+          </button>
+
+          <button class="btn text-nowrap rounded-0"
+                hx-get="{% url 'dislikePost' post.id %}"
+                hx-trigger="click"
+                >
+                {% if not request.user in post.disliked.all %} 
+                              <i class="fa-regular fa-thumbs-down"></i> {{post.disliked.all|length}}</button>
+                {%else%} 
+                      <i class='fa-solid fa-thumbs-down'></i> {{post.disliked.all|length}}</i> 
+                {%endif%} 
+          </button>
+          <button class="btn text-nowrap rounded-0"><i class="fa-solid fa-comment-dots"></i> {{post.comments.all|length}}</button>
+
+
+
+
+
+
+
+
+
+          <button class="btn text-nowrap rounded-0" 
+                            hx-get="{% url 'savePost' post.id %}"
+                            hx-trigger="click"
+                            >
+                          
+                          {% if not request.user in post.favorite.all %} 
+                              <i class="fa-regular fa-bookmark"></i>  Save &nbsp
+                          {%else%} 
+                              <i class='fa-solid fa-bookmark'></i> Saved
+                            {%endif%} 
+                          
+                      
+          </button>           
+          <button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
+
+</div>
+
+   
+              
 
 <div id = "comment-view">
   {%include "../components/comment_view.html"%}
 </div>
 
-
-
-
-
-<button class="btn text-nowrap rounded-0 "
-      hx-get="{% url 'likePost' post.id %}"
-      hx-trigger="click"
-                  
-      >
-      {% if not request.user in post.liked.all %} 
-                    <i class="fa-regular fa-thumbs-up"></i> {{post.liked.all|length}}</button>
-      {%else%} 
-                    <i class='fa-solid fa-thumbs-up'></i> {{post.liked.all|length}}</i> 
-      {%endif%} 
-</button>
-
-<button class="btn text-nowrap rounded-0"
-      hx-get="{% url 'dislikePost' post.id %}"
-      hx-trigger="click"
-      >
-      {% if not request.user in post.disliked.all %} 
-                    <i class="fa-regular fa-thumbs-down"></i> {{post.disliked.all|length}}</button>
-      {%else%} 
-            <i class='fa-solid fa-thumbs-down'></i> {{post.disliked.all|length}}</i> 
-      {%endif%} 
-</button>
-<button class="btn text-nowrap rounded-0"><i class="fa-solid fa-comment-dots"></i> {{post.comments.all|length}}</button>
-
-
-
-
-
-
-
-
-
-<button class="btn text-nowrap rounded-0" 
-                  hx-get="{% url 'savePost' post.id %}"
-                  hx-trigger="click"
-                  >
-                
-                 {% if not request.user in post.favorite.all %} 
-                    <i class="fa-regular fa-bookmark"></i>  Save &nbsp
-                 {%else%} 
-                    <i class='fa-solid fa-bookmark'></i> Saved
-                  {%endif%} 
-                 
-            
- </button>           
-<button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
-
-   
-              
 
 
 

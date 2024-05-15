@@ -215,13 +215,15 @@ def dislikePost(request, pid):
 
 
 def commentPost(request, pid):
-    print("Commenting====================")
+    print(
+        "Commenting====================================================================="
+    )
     # if request.method == "POST":
     post = get_object_or_404(Post, pk=pid)
-    comment = request.GET.get("comment")
+    comment = request.POST.get("comment")
     Comment.objects.create(post=post, author=request.user, content=comment)
     return render(
-        request, "../comments/comment_view.html", {"comments": Comment.objects.all()}
+        request, "components/comment_view.html", {"comments": Comment.objects.all()}
     )
 
 
