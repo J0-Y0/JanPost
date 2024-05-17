@@ -1,56 +1,11 @@
 {%extends 'base/base.html' %}
 
 
-{%block navbar%}
-{%include "base/navbar.html"%}
-
-{%endblock navbar %}
-{% block sideBar %}
-<div  class="left-menu p-0 " >  
-    <a  href="{% url   'activity' %}"  type="button">
-            
-        
-        Saved post
-    </a>
-    <a href="{% url   'activity' %}" type="button">
-            
-        
-        liked Post
-    </a>
-    <a type="button" href="{% url   'activity' %}">
-            
-        
-        NetWork
-    </a>
-    
-    <a type="button" href="{% url   'activity'%}">
-            
-        
-        Report
-    </a> 
-
-
-        <a class="admin"   href="/admin/" >
-            
-            logout
-        </a>
-
-                    
-</div>
-{% endblock %}
-
 {% block content %}
+		    {% include "../base/sideBar.html" %}
 
-<div class = "container">
-    <div class = "row ">
-
-    {% for post in saved %}
-    <div class=" col-md-6 ">
-        {%include "../components/post.html"%}      
-    </div>
-       
-    {%endfor%}
-</div></div>
-  
-
+        
 {% endblock %}
+
+
+

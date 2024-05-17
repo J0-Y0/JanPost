@@ -89,6 +89,8 @@ def mailHtmlFormatter(title, subject, name, text, link):
                                 <h2 >{subject}</h2>
                     </div>
                     <div style="padding: 5%;">
+                    <img src="https://ci3.googleusercontent.com/meips/ADKq_NZmWh8yX3W_DnxLE2k8z8dh2tfhpTY9XIYZYy09L1lktAlcr3xSYF5B0iDQ998hi44VoWIa4Jzq0s8NqMDQM9B645kD1SAhM39sJxizfSmAY6Prxl7eCRhD=s0-d-e1-ft#https://sendy.colorlib.com/img/email-notifications/almost-there.gif" width="150" alt="" border="0" style="width:100%;max-width:150px;height:auto;display:block" class="CToWUd" data-bit="iit">
+
                                 <p>Hello {name}, </p>
                                     <br>
 
