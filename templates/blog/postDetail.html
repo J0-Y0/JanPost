@@ -7,86 +7,97 @@
 {% block content %}
 
 <div class=" container-fluid  ps-md-5">
-  <div class="row justify-content-center g-5">
 
-    <div class=" col-md-8 pe-md-3 pt-4">
-      <div class="post-postview">
-        <div class="cadrd post-content ">
-          <h5 class="card-header d-flex justify-content-between">
-            <a href="#" title="Author">
-              <img style="width: 40px; height: 40px" class="rounded-circle account-img"
-                src="{{post.author.profile.avatar.url}}" />
-              <p class="d-inline">{{post.author.first_name}} {{post.author.last_name}}</p>
-            </a>
+		  <div class="row g-5">
+			<div class="col-md-8">
+		
 
-            <div class="dropdown open">
-              <a class="rounded rounded-5" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">...</a>
-              <div class="dropdown-menu" aria-labelledby="triggerId">
-                
-                <a class="dropdown-item" href="#"><i class="fa-solid fa-user-plus"></i> Connect</a>
-                <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i> Follow</a>
-              </div>
-            </div>
-          </h5>
+			  <article class="blog-post">
+				<h2 class="h1 link-body-emphasis mb-1">{{post.title}}</h2>
+				<p class="blog-post-meta">{{post.published_date}} | {{post.time_difference}} ago, by  <a href="#">{{post.author}}</a></p>
+        <hr>
+        <p>{{post.content}}
+               
 
-          <div class="card-body mt-3  ">
-              <h5 class="card-title h3">{{post.title}}</h5>
-          <p class="text-secondary text-nowrap">{{post.published_date}} | {{ post.time_difference }} ago </p>
-            <p class=" card-text text-muted fs-4">{{post.content}}</p>
-          </div>
-          <img src="{{post.image.url}}" class="card-img-top" />
-           
-          <div class="card-footer p-0 bg-body-tertiary">
-           {%include '../components/post_reaction.html' %}
-          </div>
-        </div>
-      </div>
+        </p>
+           {%include 'components/post_reaction.html'%}
 
-    </div><!--end of main content-->
+        </article>
 
+			  <article class="blog-post">
+				<h2 class="display-5 link-body-emphasis mb-1">New feature</h2>
+				<p class="blog-post-meta">December 14, 2020 by <a href="#">Chris</a></p>
 
-    <div class="col-md-4 border-2 border-start ">
-      <div class="mb-3">
-        <input
-          type="text"
-          class="form-control rounded rounded-5"
-          name=""
-          id=""
-          aria-describedby="helpId"
-          placeholder="Search"
-        />
-      </div><!-- endof search field -->
+				<p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
+				<ul>
+				  <li>First list item</li>
+				  <li>Second list item with a longer description</li>
+				  <li>Third list item to close it out</li>
+				</ul>
+				<p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>
+			  </article>
 
-      <div class = "  ">
-              <p class="h5 text-muted p-2">
-              Related Posts  <hr >
-            </p>
-            {%for post in relatedPost%}
-            <div class = "related-post "> 
-                <a href="#" title="Author">
-                      <img style="width: 40px; height: 40px" class="rounded-circle account-img"
-                        src="{{post.author.profile.avatar.url}}" />
-                  <p class="author d-inline">{{post.author.first_name}} {{post.author.last_name}} </p>
-                    
-                    </a>
-                    <br>
-                    <div class = "ps-5">               
-                      
+			  <nav class="blog-pagination" aria-label="Pagination">
+				<a class="btn btn-outline-primary rounded-pill" href="#">Older</a>
+				<a class="btn btn-outline-secondary rounded-pill disabled" aria-disabled="true">Newer</a>
+			  </nav>
+
+			</div>
+
       
-                      <a href = "{% url 'postDetail' post.slug %}" class="title  h5 text-muted">{{post.title}} </a>
-                      <i class=" text-muted"> @{{post.published_date}} </i>
-                    </div>
-                  <br> 
-            </div>
-            {%endfor%}
+			<div class="col-md-4">
+       
+			  <div class="position-sticky" style="top: 2rem;">
+           <div class="mb-3">
+          <input
+            type="text"
+            class="form-control rounded rounded-5"
+            name=""
+            id=""
+            aria-describedby="helpId"
+            placeholder="Search"
+          />
+        </div><!-- endof search field -->
+				<div class="p-4 mb-3 bg-body-tertiary rounded">
+				  <h4 class="fst-italic">Tags</h4>
+				  
+				  <ol class="list-unstyled mb-0 p-4">
+                        {% for tag in post.tags.all %}
+                        <a class="btn border border-secondary rounded-5 btn-outline-dark"
+                            href="{% url 'postsInTag' tag.slug %}">{{tag.name}}</a>
+                        {%endfor%}
+				  </ol>
+				</div>
+          
 
-      </div><!-- endof related post -->
-      <div>
+				<div>
+				  <h4 class="fst-italic">Related posts</h4>
+				  <ul class="list-unstyled">
+					    {%for post in relatedPost%}
+              <li>
+                <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="{%url 'postDetail' post.slug%}">
+                <img src="{{post.image.url}}" class="bd-placeholder-img" width="100%" height="96" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <div class="col-lg-8">
+                  <h5 class="mb-0">{{post.title|truncatechars:50}}</h5>
+                  <small class="text-body-secondary">{{post.published_date}}</small>
+                </div>
+                </a>
+              </li>
+              {%endfor%}
+            
+
+          
+					
+
+				  </ul>
+				</div>
+
+
+        <div>
                 
-              <p class="h5 text-muted p-2 mt-5">
+              <h4 class="fst-italic">
                 Posts published by {{post.author.first_name}} {{post.author.last_name}} <hr >
-              </p>
+              </h4>
               {%for post in authorsPost%}
               <div class = "related-post "> 
                    <a href="#" title="Author">
@@ -105,9 +116,56 @@
               </div>
               {%endfor%}
       </div><!-- endof authors other post -->
-     
-    </div>
-  </div>
+				<div>
+				  <h4 class="fst-italic"> posts</h4>
+				  <ul class="list-unstyled">
+					<li>
+					  <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+						<svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+						<div class="col-lg-8">
+						  <h6 class="mb-0">Example blog post title</h6>
+						  <small class="text-body-secondary">January 15, 2024</small>
+						</div>
+					  </a>
+					</li>
+					<li>
+					  <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+						<svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+						<div class="col-lg-8">
+						  <h6 class="mb-0">This is another blog post title</h6>
+						  <small class="text-body-secondary">January 14, 2024</small>
+						</div>
+					  </a>
+					</li>
+					<li>
+					  <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+						<svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+						<div class="col-lg-8">
+						  <h6 class="mb-0">Longer blog post title: This one has multiple lines!</h6>
+						  <small class="text-body-secondary">January 13, 2024</small>
+						</div>
+					  </a>
+					</li>
+				  </ul>
+				</div>
+
+        
+
+
+
+
+				<div class="p-4">
+				  <h4 class="fst-italic">Elsewhere</h4>
+				  <ol class="list-unstyled">
+					<li><a href="#">GitHub</a></li>
+					<li><a href="#">Twitter</a></li>
+					<li><a href="#">Facebook</a></li>
+				  </ol>
+				</div>
+			  </div>
+			</div>
+		  </div>
+
 </div>
 
 

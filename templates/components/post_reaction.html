@@ -44,7 +44,10 @@
                           <i class='fa-solid fa-thumbs-down'></i> {{post.disliked.all|length}}</i> 
                     {%endif%} 
               </button>
-              <button class="btn text-nowrap rounded-0"><i class="fa-solid fa-comment-dots"></i> {{post.comments.all|length}}</button>
+              <button class="btn text-nowrap rounded-0" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">>
+                <i class="fa-solid fa-comment-dots">
+
+              </i> {{post.comments.all|length}}</button>
 
 
 
@@ -85,6 +88,7 @@
               </form> 
 
     {%if comments%}
+    
     <div id = "comment-view">
       <hr class= "mt-0">
       {%include "../components/comment_view.html"%}

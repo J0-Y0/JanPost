@@ -28,8 +28,8 @@ def globalContext(request):
 
 def landingPage(request):
     context = {
-        "tags": Post.tags.all(),
-        "posts": Post.objects.all(),
+        "tags": Post.tags.all()[0:15],
+        "posts": Post.newManager.all()[0:2],
     }
     return render(request, "blog/landingPage.html", context=context)
 
