@@ -4,6 +4,7 @@ from .forms import CommentForm, ReportForm
 from django.views.generic import ListView
 from .filter import PostFilterForm
 from django.conf import settings
+from django.db.models import Count
 
 
 def saveReport(request):
@@ -30,6 +31,9 @@ def landingPage(request):
     context = {
         "tags": Post.tags.all()[0:15],
         "posts": Post.newManager.all()[0:2],
+        "most_liked_posts": Post.newManager.annotate(
+            liked_count=Count("liked")
+        ).order_by("-liked_count")[:5],
     }
     return render(request, "blog/landingPage.html", context=context)
 
