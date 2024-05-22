@@ -29,19 +29,19 @@ class CommentForm(forms.ModelForm):
 # 'placeholder':'Search'}  ),required=False)
 
 
-class ReportForm(forms.ModelForm):
-    class Meta:
-        model = Report
-        fields = ("post", "name", "type", "detail")
-        widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control"}),
-            "post": forms.Select(attrs={"class": "form-control"}),
-            "type": forms.RadioSelect(attrs={"class": "form-control"}),
-            "detail": forms.Textarea(
-                attrs={
-                    "class": "form-control",
-                    "rows": "3",
-                    "placeholder": "Please enter any additional details relevant to your report",
-                }
-            ),
-        }
+# class ReportForm(forms.ModelForm):
+#     class Meta:
+#         model = Report
+#         fields = ("post", "name", "type", "detail")
+#         widgets = {
+#             "name": forms.TextInput(attrs={"class": "form-control"}),
+#             "post": forms.Select(attrs={"class": "form-control"}),
+#             "type": forms.RadioSelect(attrs={"class": "form-control"}),
+#             "detail": forms.Textarea(
+#                 attrs={
+#                     "class": "form-control",
+#                     "rows": "3",
+#                     "placeholder": "Please enter any additional details relevant to your report",
+#                 }
+#             ),
+#         }

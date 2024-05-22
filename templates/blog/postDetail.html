@@ -1,10 +1,11 @@
 {% extends '../base/base.html' %}
-{% block navbar %}
-{% include '../base/navbar.html' %}
-{% endblock %}
 
 
 {% block content %}
+
+<div class="py-3">
+	<div class="container ">{%include '../base/navbar.html'%}</div>
+</div>
 
 <div class=" container-fluid  ps-md-5">
 
@@ -47,7 +48,7 @@
       
 			<div class="col-md-4">
        
-			  <div class="position-sticky" style="top: 2rem;">
+			  <div class="position-sticky" style="top: 5rem;">
            <div class="mb-3">
           <input
             type="text"

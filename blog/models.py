@@ -123,11 +123,12 @@ class Report(models.Model):
         ("spam", "looks a spam"),
         ("other", "other"),
     )
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="reports")
-    name = models.CharField(max_length=50, verbose_name="Commented by")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reports")
     type = models.CharField(
         max_length=50, choices=report_types, verbose_name="Report type"
     )
+    otherDescription = models.TextField(verbose_name="others Details")
     detail = models.TextField(verbose_name="Additional Details")
     published_date = models.DateTimeField(auto_now_add=True)
 
@@ -140,6 +141,8 @@ class Report(models.Model):
         verbose_name = "Report"
         verbose_name_plural = "Reports"
         ordering = ("-published_date",)
+        # to prevent multiple reporting by the same user for one post
+        unique_together = ["post", "author"]
 
     def __str__(self):
-        return f"{self.name}:{self.type}"
+        return f"{self.author}:{self.type}"

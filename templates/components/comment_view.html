@@ -14,8 +14,8 @@
                     <br>
                     <div class = "ps-5">               
 
-                        <p  class="title  h5 text-muted">{{node.content}} </p>
-
+                        <p  class="title  h4 text-info text-muted">{{node.content}} </p>
+                            <hr class = "p-0 m-0">
                         <a href = "#" class=""
                             hx-target = "#comment_like_{{node.id}}"
                             hx-get  = "{%url 'likeComment' node.id %}"

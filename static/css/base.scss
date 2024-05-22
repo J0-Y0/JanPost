@@ -9,6 +9,15 @@ body {
 //    height: 100vh !important;
 
 }
+a{
+    text-decoration: none;
+    font-size: larger;
+    color :rgb(76, 76, 126);
+    &:hover{
+        color: rgb(12, 59, 199);
+
+    }
+}
 // bootstrap navbar
  .bd-placeholder-img {
         font-size: 1.125rem;

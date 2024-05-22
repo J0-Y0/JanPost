@@ -1,28 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Category
-from .forms import CommentForm, ReportForm
+from .forms import CommentForm
 from django.views.generic import ListView
 from .filter import PostFilterForm
 from django.conf import settings
 from django.db.models import Count
 
 
-def saveReport(request):
-    reportForm = ReportForm()
-    if request.method == "POST":
-        reportForm = ReportForm(request.POST)
-        if reportForm.is_valid():
-            report = reportForm.save(commit=False)
-            report.save()
-            reportForm = ReportForm()
-    return reportForm
-
-
 def globalContext(request):
     context = {
         "category": Category.objects.all(),
         "companyName": settings.COMPANY_NAME,
-        "reportForm": saveReport(request),
+        # "reportForm": saveReport(request),
     }
     return context
 

@@ -1,26 +1,7 @@
+{%load static%}
 <div id = "active-view">
-          
-
       <div class = "d-flex justify-content-between">
-                    
-            {% comment %} <form class="py-1 d-flex g-2 w-md-75 w-100 ">
-                  {% csrf_token %} 
-                    <img style="width: 42px; height: 42px" class="rounded-circle account-img" src="{{post.author.profile.avatar.url}}" />
-                    <div class="btn-group  w-75 " >
-                        <input requerd name = "comment" type="text" class="form-control  rounded rounded-5 rounded-end-0"  aria-describedby="helpId" placeholder="type your comment . . ." />
-                        <button type="submit" class="btn btn-outline-dark rounded rounded-end-5 rounded-start-0 text-nowrap"
-                          
-                            hx-post = "{%url 'commentPost' post.id%}"
-                            hx-target = "#active-view"
-
-                        ><i class="fa-solid fa-paper-plane"
-                            
-                            
-                            ></i></button>
-                    </div>
-              </form>     {% endcomment %}
-
-
+    
 
               <button class="btn text-nowrap rounded-0 "
                     hx-get="{% url 'likePost' post.id %}"
@@ -44,7 +25,7 @@
                           <i class='fa-solid fa-thumbs-down'></i> {{post.disliked.all|length}}</i> 
                     {%endif%} 
               </button>
-              <button class="btn text-nowrap rounded-0" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">>
+              <button class="btn text-nowrap rounded-0" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 <i class="fa-solid fa-comment-dots">
 
               </i> {{post.comments.all|length}}</button>
@@ -72,7 +53,7 @@
     </div>
                <form class="py-1 d-flex g-2 w-100 ">
                   {% csrf_token %} 
-                    <img style="width: 42px; height: 42px" class="rounded-circle account-img" src="{{post.author.profile.avatar.url}}" />
+                    <img style="width: 42px; height: 42px" class="rounded-circle account-img" src="{{request.user.profile.avatar.url}}" />
                     <div class="btn-group  w-100 " >
                         <input requerd name = "comment" type="text" class="form-control  rounded rounded-5 rounded-end-0"  aria-describedby="helpId" placeholder="type your comment . . ." />
                         <button type="submit" class="btn btn-outline-dark rounded rounded-end-5 rounded-start-0 text-nowrap"
@@ -99,29 +80,92 @@
 </div>
 
 <!-- Report Modal -->
+
+
 <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop2Label" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header text-bg-dark">
-        <h1 class="modal-title fs-5" id="staticBackdrop2Label">Reporting</h1>
+        <img src="{% static 'img/logo.png' %}" class="  img-fluid navbar-brand" width="30" height="20" alt="logo">
+
+        <h1 class="modal-title fs-5 px-2" id="staticBackdrop2Label">Reporting</h1>
+        
         <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body px-4 pt-4">
-        <form method="post">
-          {% csrf_token %}
-          {% for field in reportForm %}
-            <b class="pt-3 text-secondary">{{field.label}}</b>
-            {{field}}
-          {% endfor %}
-          <div class="btn-group mt-5 w-100" role="group" aria-label="Basic example">
-            {{reportForm.error}}
-            <button class="btn text-nowrap btn-outline-dark rounded rounded-5" type="submit">Send report</button>
-          </div>
-          <br>
-          <hr>
+            <form id = "reportForm" method="post" onsubmit="return validateForm()"
+            
+                    hx-post="{%url 'reportPost' post.id %}"
+                    hx-trigger="submit"
+                    hx-target="#reportForm"
+                    hx-swap="outerHTML"
+            >
+              {% csrf_token%}
+              <p class="h4 d-inline">Report type </p><span id = "error" class = " text-danger"></span>
+              <div class="form-check ps-5 h5">
+                  <input onchange="toggleField()" class="form-check-input" type="radio" name="reportType" value="not-educative" id="not-educative">
+                  <label class="form-check-label" for="not-educative">Not Educative</label><br>
+
+                  <input onchange="toggleField()" class="form-check-input" type="radio" name="reportType" value="ethnic-Violence" id="ethnic-Violence">
+                  <label class="form-check-label" for="ethnic-Violence">Ethnic Violence</label><br>
+                  
+                  <input onchange="toggleField()" class="form-check-input" type="radio" name="reportType" value="explicit" id="explicit">
+                  <label class="form-check-label" for="explicit">Explicit content</label><br>
+
+                  <input onchange="toggleField()" class="form-check-input" type="radio" name="reportType" value="politics" id="politics">
+                  <label class="form-check-label" for="politics">Politics</label><br>
+
+                  <input onchange="toggleField()" class="form-check-input" type="radio" name="reportType" value="spam" id="spam">
+                  <label class="form-check-label" for="spam">Looks spam</label><br>
+
+                  <input onchange="toggleField()" class="form-check-input" type="radio" name="reportType" value="other" id="other">
+                  <label class="form-check-label" for="other">Other</label><br>
+                  <input  disabled class="form-control" type="text" name="otherDescription" id="otherDescription" placeholder="Short description" required>
+              </div>
+              <p class="h4">Additional details</p>
+              <textarea class="form-control" rows="4" name="additionalDetails" id="additionalDetails" placeholder="Please enter any additional details relevant to your report"></textarea><br>
+
+              <div  class="btn-group w-100" role="group" aria-label="Basic example">
+                  <button
+                  
+                   
+                    class="btn text-nowrap btn-outline-primary rounded rounded-5" type="submit">Send report</button>
+              </div>
+              <br>
+              <hr>
+              
+          </form>
           <p class="text-secondary text-center mb-0">Thank you for telling us about the abuse</p>
-        </form>
       </div>
     </div>
   </div>
 </div>
+
+
+<script>
+    function toggleField() {
+        if (document.getElementById("other").checked) {
+            document.getElementById("otherDescription").disabled = false;
+        } else {
+            document.getElementById("otherDescription").disabled = true;
+        }
+    }
+    function validateForm() {
+        var radioButtons = document.getElementsByName("reportType");
+        var isChecked = false;
+        for (var i = 0; i < radioButtons.length; i++) {
+            if (radioButtons[i].checked) {
+                isChecked = true;
+                break;
+            }
+        }
+        if (!isChecked) {
+            document.getElementById("error").innerHTML = "<i class='fa-solid fa-triangle-exclamation px-2'></i><i> Please select report type</i>"           
+             return false;
+
+
+
+          }
+        return true;
+    }
+</script>

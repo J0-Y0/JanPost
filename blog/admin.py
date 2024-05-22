@@ -17,9 +17,9 @@ class CommentAdmin(MPTTModelAdmin):
 
 
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ("post", "detail", "type", "name", "published_date")
-    list_filter = ("post", "type")
-    search_fields = ("post", "detail", "name")
+    list_display = ("post", "type", "author", "published_date")
+    list_filter = ("type",)
+    search_fields = ("post", "detail", "author")
 
 
 admin.site.register(Category)

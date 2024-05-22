@@ -16,7 +16,7 @@ from django.core.mail import send_mail
 from .token import account_activation_token
 from django.conf import settings
 
-from blog.models import Post, Comment
+from blog.models import Post, Comment, Report
 from .forms import *
 
 
@@ -218,12 +218,11 @@ def dislikePost(request, pid):
 
 def commentPost(request, pid):
 
-    print("am here ============================================")
     post = get_object_or_404(Post, pk=pid)
     comment = request.POST.get("comment")
 
     if "parent" in request.POST:
-        parent = parent = request.POST.get("parent")
+        parent = request.POST.get("parent")
         parent = Comment.objects.filter(pk=parent).first()
         Comment.objects.create(
             post=post, parent=parent, author=request.user, content=comment
@@ -271,6 +270,34 @@ def likeComment(request, cid):
             )
     else:
         return HttpResponse("something went wrong ")
+
+
+def reportPost(request, pid):
+    post = get_object_or_404(Post, pk=pid)
+
+    reportType = request.POST.get("reportType")
+    otherDescription = ""
+    additionalDetails = ""
+    if reportType == "other":
+        otherDescription = request.POST.get("otherDescription")
+    if "additionalDetails" in request.POST:
+        additionalDetails = request.POST.get("additionalDetails")
+
+    if not Report.objects.filter(post=post, author=request.user).exists():
+        Report.objects.create(
+            post=post,
+            author=request.user,
+            type=reportType,
+            otherDescription=otherDescription,
+            detail=additionalDetails,
+        )
+        return HttpResponse(
+            "<h1 class = 'text-center text-success'> <i class='fa-solid fa-circle-check'></i> Your report has been received. </h1> <hr> "
+        )
+    else:
+        return HttpResponse(
+            "<h3 class = 'text-center text-info'> <i class='fa-solid fa-circle-info h1'></i> <br> You've previously reported this post, and we're already handling that record. </h3> <hr> "
+        )
 
 
 def user_profile(request):

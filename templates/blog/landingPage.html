@@ -4,31 +4,30 @@
 <!---->
 {% block navbar %}
 <div class=" bg-body-tertiary">
+	
+<div class="container landing-intro my-5 ">
+    <div class="bg-body-tertiary p-5 rounded d-flex flex-column text-center d-lg-block">
+      <div class="col-sm-8 py-5 mx-auto">
+        <h1 class="display-5 fw-normal">{{companyName}}</h1>
+        <p class="fs-5">{% lorem 1 b random %}</p>
+        <p>{% lorem 1 b random %}</p>
+        <p>
+          <a type="button" class="btn btn-outline-primary rounded-5 my-2" href="{%url 'home'%}">
+            Start reading &raquo;
+
+         </a>
+        </p>
+    </div>
+    </div>
+  </div>
     <div class="container p-0">{%include '../base/navbar.html'%}</div>
 </div>
 
 {% endblock %}
- {% block landingIntro %}
-<div class="bg-body-tertiary border pb-5 p-5 p-lg-0  mb-5 border-0 border-bottom border-dark-subtle border-3 bord">
-    <div class="container  ps-0  d-flex flex-column text-center d-lg-block  text-lg-start pb-4">
 
-        <p class="pt-4  display-4">{{companyName}}</p>
-        <p class=" fs-4 text-muted ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem sapiente
-            laudantium nisi similique consectetur. Incidunt, quos sequi maxime accusantium aliquid vel debitis rerum
-            neque, exercitationem quidem nam expedita asperiores iure.</p>
-        <a type="button" class="btn btn-outline-dark rounded-5 my-2" href="{%url 'home'%}">
-            Start reading
-
-        </a>
-    </div>
-
-</div>
-
-{% endblock %} 
 
 
 {%block content%}
-
 
 
 	<main class="container">
@@ -195,7 +194,7 @@
 			</div>
 
 			<div class="col-md-4">
-			  <div class="position-sticky" style="top: 2rem;">
+			  <div class="position-sticky" style="top: 4rem;">
 				<div class="p-4 mb-3 bg-body-tertiary rounded">
 				  <h4 class="fst-italic">About</h4>
 				  <p class="mb-0">Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.</p>
