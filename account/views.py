@@ -176,6 +176,30 @@ def activity(request):
     return render(request, "account/activity.html", context)
 
 
+def toggleView(request, target):
+    user = request.user
+    object = ""
+    title = ""
+    if target == "saved_post":
+        title = "Saved Post"
+        object = Post.newManager.filter(favorite=user).all()
+    elif target == "liked_post":
+        title = "Liked Post"
+        object = Post.newManager.filter(liked=user).all()
+    elif target == "my_post":
+        title = "My Posts"
+        object = Post.newManager.filter(author=user).all()
+
+    return render(
+        request,
+        "blog/postListView.html",
+        {
+            "posts": object,
+            "title": title,
+        },
+    )
+
+
 def likePost(request, pid):
     if request.method == "GET":
         post = get_object_or_404(Post, pk=pid)

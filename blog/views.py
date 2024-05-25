@@ -31,12 +31,11 @@ def home(request):
 
     posts = Post.newManager.all()
 
-    postFilterForm = PostFilterForm(request.GET, queryset=posts)
-    posts = postFilterForm.qs
+    # postFilterForm = PostFilterForm(request.GET, queryset=posts)
+    # posts = postFilterForm.qs
 
     context = {
-        "postFilterForm": postFilterForm,
-        "posts": posts,
+        "posts": posts[:22],
     }
 
     return render(request, "blog/home.html", context=context)

@@ -46,7 +46,7 @@
                           
               </button>           
               <button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
+                            data-bs-target="#staticBackdrop_{{post.id}}"><i class="fa-solid fa-triangle-exclamation"></i></button>
 
 
 
@@ -81,91 +81,4 @@
 
 <!-- Report Modal -->
 
-
-<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop2Label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header text-bg-dark">
-        <img src="{% static 'img/logo.png' %}" class="  img-fluid navbar-brand" width="30" height="20" alt="logo">
-
-        <h1 class="modal-title fs-5 px-2" id="staticBackdrop2Label">Reporting</h1>
-        
-        <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body px-4 pt-4">
-            <form id = "reportForm" method="post" onsubmit="return validateForm()"
-            
-                    hx-post="{%url 'reportPost' post.id %}"
-                    hx-trigger="submit"
-                    hx-target="#reportForm"
-                    hx-swap="outerHTML"
-            >
-              {% csrf_token%}
-              <p class="h4 d-inline">Report type </p><span id = "error" class = " text-danger"></span>
-              <div class="form-check ps-5 h5">
-                  <input onchange="toggleField()" class="form-check-input" type="radio" name="reportType" value="not-educative" id="not-educative">
-                  <label class="form-check-label" for="not-educative">Not Educative</label><br>
-
-                  <input onchange="toggleField()" class="form-check-input" type="radio" name="reportType" value="ethnic-Violence" id="ethnic-Violence">
-                  <label class="form-check-label" for="ethnic-Violence">Ethnic Violence</label><br>
-                  
-                  <input onchange="toggleField()" class="form-check-input" type="radio" name="reportType" value="explicit" id="explicit">
-                  <label class="form-check-label" for="explicit">Explicit content</label><br>
-
-                  <input onchange="toggleField()" class="form-check-input" type="radio" name="reportType" value="politics" id="politics">
-                  <label class="form-check-label" for="politics">Politics</label><br>
-
-                  <input onchange="toggleField()" class="form-check-input" type="radio" name="reportType" value="spam" id="spam">
-                  <label class="form-check-label" for="spam">Looks spam</label><br>
-
-                  <input onchange="toggleField()" class="form-check-input" type="radio" name="reportType" value="other" id="other">
-                  <label class="form-check-label" for="other">Other</label><br>
-                  <input  disabled class="form-control" type="text" name="otherDescription" id="otherDescription" placeholder="Short description" required>
-              </div>
-              <p class="h4">Additional details</p>
-              <textarea class="form-control" rows="4" name="additionalDetails" id="additionalDetails" placeholder="Please enter any additional details relevant to your report"></textarea><br>
-
-              <div  class="btn-group w-100" role="group" aria-label="Basic example">
-                  <button
-                  
-                   
-                    class="btn text-nowrap btn-outline-primary rounded rounded-5" type="submit">Send report</button>
-              </div>
-              <br>
-              <hr>
-              
-          </form>
-          <p class="text-secondary text-center mb-0">Thank you for telling us about the abuse</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<script>
-    function toggleField() {
-        if (document.getElementById("other").checked) {
-            document.getElementById("otherDescription").disabled = false;
-        } else {
-            document.getElementById("otherDescription").disabled = true;
-        }
-    }
-    function validateForm() {
-        var radioButtons = document.getElementsByName("reportType");
-        var isChecked = false;
-        for (var i = 0; i < radioButtons.length; i++) {
-            if (radioButtons[i].checked) {
-                isChecked = true;
-                break;
-            }
-        }
-        if (!isChecked) {
-            document.getElementById("error").innerHTML = "<i class='fa-solid fa-triangle-exclamation px-2'></i><i> Please select report type</i>"           
-             return false;
-
-
-
-          }
-        return true;
-    }
-</script>
+{%include '../base/reportModal.html'%}

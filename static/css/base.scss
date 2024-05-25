@@ -1,25 +1,13 @@
 *{
-    box-sizing: border-box;
+    box-sizing: border-box !important;
     padding: 0;
     margin: 0;
 }
 body {
     font-family: serif;
-
-//    height: 100vh !important;
-
-}
-a{
-    text-decoration: none;
-    font-size: larger;
-    color :rgb(76, 76, 126);
-    &:hover{
-        color: rgb(12, 59, 199);
-
-    }
 }
 // bootstrap navbar
- .bd-placeholder-img {
+.bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
         -webkit-user-select: none;
@@ -93,6 +81,7 @@ a{
         }
     }
 
+
     &-postview{
         
         overflow: hidden;
@@ -137,9 +126,6 @@ a{
     overflow-y: scroll;
     padding-bottom: 100px;
 }
-
-
-
 .left-menu {
     // background-color: #44494f;
     //  : #f0ab2f;
@@ -191,4 +177,18 @@ a{
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 0, 0, 0.7); /* Change color on hover */
+}
+
+.sidebar{
+    a{
+      
+        &:hover{
+           background-color: rgb(159, 159, 230);
+        }
+        &:active{
+            background-color: blue !important;
+        }
+        
+    }
+
 }

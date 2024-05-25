@@ -3,35 +3,31 @@
 {%load static %}
 <!---->
 {% block navbar %}
-<div class=" bg-body-tertiary">
-	
-<div class="container landing-intro my-5 ">
-    <div class="bg-body-tertiary p-5 rounded d-flex flex-column text-center d-lg-block">
-      <div class="col-sm-8 py-5 mx-auto">
-        <h1 class="display-5 fw-normal">{{companyName}}</h1>
-        <p class="fs-5">{% lorem 1 b random %}</p>
-        <p>{% lorem 1 b random %}</p>
-        <p>
-          <a type="button" class="btn btn-outline-primary rounded-5 my-2" href="{%url 'home'%}">
-            Start reading &raquo;
+	<div class=" bg-body-tertiary">
+		
+		<div class="container landing-intro my-5 ">
+			<div class="bg-body-tertiary p-5 rounded d-flex flex-column text-center d-lg-block">
+			<div class="col-sm-8 py-5 mx-auto">
+				<h1 class="display-5 fw-normal">{{companyName}}</h1>
+				<p class="fs-5">{% lorem 1 b random %}</p>
+				<p>{% lorem 1 b random %}</p>
+				<p>
+				<a type="button" class="btn btn-outline-primary rounded-5 my-2" href="{%url 'home'%}">
+					Start reading &raquo;
 
-         </a>
-        </p>
-    </div>
-    </div>
-  </div>
-    <div class="container p-0">{%include '../base/navbar.html'%}</div>
-</div>
-
+				</a>
+				</p>
+			</div>
+			</div>
+		</div>
+		<div class="container p-0">{%include '../base/navbar.html'%}</div>
+	</div>
 {% endblock %}
-
-
 
 {%block content%}
 
-
-	<main class="container">
-		  <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary  ">
+		<div class = "container-fluid p-5">
+				 <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary  ">
 			<div class="col-lg-6 px-0 ">
                 <h1 class="display-4 fst-italic">{{companyName}}</h1>
                 <p class="lead my-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem sapiente laudantium nisi similique consectetur. Incidunt, quos sequi maxime accusantium aliquid vel debitis rerum
@@ -46,20 +42,20 @@
 		  <div class="row mb-2">
             {% for post in posts %}
                 <div class="col-md-6">
-                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                    <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-primary-emphasis">World</strong>
-                    <h3 class="mb-0">{{post.title|truncatechars:26}}</h3>
-                    <div class="mb-1 text-body-secondary">{{post.time_difference}} ago</div>
-                    <p class="card-text mb-auto">{{post.content|truncatewords:20}}</p>
-                    <a href="{%url 'postDetail' post.slug %}" class="icon-link gap-1 icon-link-hover stretched-link">
-                        Continue reading
-                    </a>
-                    </div>
-                    <div class="col-auto d-none d-lg-block">
-                    <img src="{{post.image.url}}"    width="200" height="250"> 
-                    </div>
-                </div>
+					<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+						<div class="col p-4 d-flex flex-column position-static">
+						<strong class="d-inline-block mb-2 text-primary-emphasis">World</strong>
+						<h3 class="mb-0">{{post.title|truncatechars:26}}</h3>
+						<div class="mb-1 text-body-secondary">{{post.time_difference}} ago</div>
+						<p class="card-text mb-auto">{{post.content|truncatewords:20}}</p>
+						<a href="{%url 'postDetail' post.slug %}" class="icon-link gap-1 icon-link-hover stretched-link">
+							Continue reading
+						</a>
+						</div>
+						<div class="col-auto d-none d-lg-block">
+						<img src="{{post.image.url}}"    width="200" height="250"> 
+						</div>
+					</div>
                 </div>
 
                 {%endfor%} 
@@ -240,40 +236,18 @@
 			</div>
 		  </div>
 
-	</main>
-    <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
-      <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
-              id="bd-theme"
-              type="button"
-              aria-expanded="false"
-              data-bs-toggle="dropdown"
-              aria-label="Toggle theme (auto)">
-        <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#circle-half"></use></svg>
-        <i class="fa-solid fa-cloud-moon"></i>
-        <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
 
-      </button>
-      <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
-        <li>
-          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
-           <i class="fa-regular fa-lightbulb pe-2"></i>
-            Light
-          </button>
-        </li>
-        <li>
-          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-            <i class="fa-solid fa-lightbulb pe-2"></i>
-            Dark
-          </button>
-        </li>
-        <li>
-          <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
-                    <i class="fa-solid fa-circle-half-stroke pe-2"></i>
-            Auto
-          </button>
-        </li>
-      </ul>
-    </div>
+
+
+		</div>
+		 
 
 
 {%endblock %}
+{% block footer %}
+<div class = "container-fluid px-5 py-3">
+{%include '../base/footer.html'%}
+</div>
+
+{%endblock %}
+

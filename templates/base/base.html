@@ -2,7 +2,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="blue">
+<html lang="en" data-bs-theme="auto">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,37 +18,35 @@
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/regular.css' %}" rel="stylesheet" type="text/css">
     
-    <!--custom css-->
     <link href="{% static 'css/blog.css' %}" rel="stylesheet" type="text/css">
-
+    <link href="{% static 'css/sidebars.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/dropdowns.css' %}" rel="stylesheet" type="text/css">
+    
+    <!--custom css-->
     <link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
 
     
 </head>
 <body>
-
         {% block navbar %}
             <!-- Navbar content goes here -->
         {% endblock %}
-        <main>
 
-                {% block landingIntro %}
-                    <!-- Landing intro content goes here -->
-                {% endblock %}
-            
-                {% block sideBar %}
-                    <!-- Sidebar content goes here -->
-                {% endblock %}
+        {% block landingIntro %}
+            <!-- Landing intro content goes here -->
+        {% endblock %}
+    
+        {% block sideBar %}
+            <!-- Sidebar content goes here -->
+        {% endblock %}
+        {% block content %}
+            <!-- Main content goes here -->
+        {% endblock %}
 
-                {% block content %}
-                    <!-- Main content goes here -->
-                {% endblock %}
-         </main>
-          {% comment %} <footer >
-            
-            
-            <!-- place footer here -->
-        </footer> {% endcomment %}
+        {% block footer %}
+            <!-- footer content goes here -->
+        {% endblock %}
+        
 
 
    
@@ -86,26 +84,6 @@
     </div>
 
 
-
-<div class="container">
-  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-    <div class="col-md-4 d-flex align-items-center">
-      
-      <img src="{% static 'img/logo.png' %}" class="  img-fluid navbar-brand" width="30" height="15" alt="logo">
-      <a href = "{% url 'landingPage'%}" class="mb-3 mb-md-0 text-muted ps-2">&copy; 2024 <span class = "d-none d-md-inline">{{companyName}}</span>, Inc</a>
-    </div>
-    <a href="#" class="mb-0 d-flex flex-column text-center">
-      <i class="fa-solid fa-caret-up"></i>
-		   <small  class >Back to top</small>
-	  </a>
-
-    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-      <li class="ms-3"><a class="text-muted" target = "blank" href="https://www.linkedin.com/in/yosef-emyayu/"><i class="fa-brands fa-linkedin"></i></a></li>
-      <li class="ms-3"><a class="text-muted" target = "blank" href="https://github.com/J0-Y0/"><i class="fa-brands fa-github"></i></li>
-      <li class="ms-3"><a class="text-muted" target = "blank" href="https://gitlab.com/J0-Y0"><i class="fa-brands fa-gitlab"></i></a></li>
-    </ul>
-  </footer>
-</div>
 
 
 

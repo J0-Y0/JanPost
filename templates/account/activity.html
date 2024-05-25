@@ -1,11 +1,21 @@
 {%extends 'base/base.html' %}
 
+{% block navbar %}
+	{%include 'base/navbar.html'%}
+{% endblock %}
+{% block sideBar %}
+	<div class="container-fluid pt-5 mb-0 pb-0">
+		{% include "../base/sideBar.html" %}
+	</div>
+{% endblock %}
+ {% block footer %}
+    <div class = "container-fluid px-3 py-0 my-0">
+    {%include '../base/footer.html'%}
+    </div>
+{% endblock %} 
 
-{% block content %}
-		    {% include "../base/sideBar.html" %}
 
         
-{% endblock %}
 
 
 

@@ -1,0 +1,89 @@
+
+{%load static%}
+
+<div class="modal fade" id="staticBackdrop_{{post.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop2Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-bg-dark">
+        <img src="{% static 'img/logo.png' %}" class="  img-fluid navbar-brand" width="30" height="20" alt="logo">
+
+        <h1 class="modal-title fs-5 px-2" id="staticBackdrop2Label_{{post.id}}">Reporting</h1>
+        
+        <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-4 pt-4">
+            <form id = "reportForm_{{post.id}}" method="post"
+            
+                    hx-post="{%url 'reportPost' post.id %}"
+                    hx-trigger="submit"
+                    hx-target="#reportForm_{{post.id}}"
+                    hx-swap="outerHTML"
+            >
+              {% csrf_token%}
+              <p class="h4 d-inline">Report type </p><span id = "error_{{post.id}}" class = " text-danger"></span>
+              <div  class="form-check ps-5 h5" >
+                  <input  class="form-check-input" type="radio" name="reportType" value="not-educative" id="not-educative_{{post.id}}">
+                  <label class="form-check-label" for="not-educative_{{post.id}}">Not Educative</label><br>
+
+                  <input  class="form-check-input" type="radio" name="reportType" value="ethnic-Violence" id="ethnic-Violence_{{post.id}}">
+                  <label class="form-check-label" for="ethnic-Violence_{{post.id}}">Ethnic Violence</label><br>
+                  
+                  <input  class="form-check-input" type="radio" name="reportType" value="explicit" id="explicit_{{post.id}}">
+                  <label class="form-check-label" for="explicit_{{post.id}}">Explicit content</label><br>
+
+                  <input  class="form-check-input" type="radio" name="reportType" value="politics" id="politics_{{post.id}}">
+                  <label class="form-check-label" for="politics_{{post.id}}">Politics</label><br>
+
+                  <input  class="form-check-input" type="radio" name="reportType" value="spam" id="spam_{{post.id}}">
+                  <label class="form-check-label" for="spam_{{post.id}}">Looks spam</label><br>
+
+                  <input  checked class="form-check-input" type="radio" name="reportType" value="other" id="other_{{post.id}}">
+                  <label class="form-check-label" for="other_{{post.id}}">Other</label><br>
+                  <input    class="form-control" type="text" name="otherDescription" id="otherDescription_{{post.id}}" placeholder="Short description" required>
+              </div>
+              <p class="h4">Additional details</p>
+              <textarea class="form-control" rows="4" name="additionalDetails" id="additionalDetails_{{post.id}}" placeholder="Please enter any additional details relevant to your report"></textarea><br>
+
+              <div  class="btn-group w-100" role="group" aria-label="Basic example">
+                  <button
+                  
+                 
+                  class="btn text-nowrap btn-outline-primary rounded rounded-5" type="submit">Send report</button>
+              </div>
+              <br>
+              <hr>
+              
+          </form>
+          <p class="text-secondary text-center mb-0">Thank you for telling us about the abuse</p>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+
+<script>
+    window.onload = function() {
+      // Get reference to the radio buttons
+      var radioButtons = document.getElementsByName('reportType');
+
+      // Add event listeners to each radio button
+      for (var i = 0; i < radioButtons.length; i++) {
+        radioButtons[i].addEventListener('change', function() {
+          if (this.checked && this.value=="other") {
+              var x = document.getElementById("otherDescription_{{post.id}}")
+              x.disabled = false;
+              
+              x.focus();
+
+          } else {
+              document.getElementById("otherDescription_{{post.id}}").disabled = true;
+
+          }
+        });
+      }
+    };
+    
+    
+
+</script>
