@@ -324,6 +324,18 @@ def reportPost(request, pid):
         )
 
 
+def postSearch(request):
+
+    title = request.GET.get("search")
+    posts = Post.newManager.filter(title__icontains=title)[:5]
+
+    context = {
+        "posts": posts,
+    }
+
+    return render(request, "components/search_result.html", context=context)
+
+
 def user_profile(request):
     if request.method == "POST":
         password_form = PasswordChangeForm(request.user, request.POST)

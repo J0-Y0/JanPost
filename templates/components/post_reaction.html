@@ -56,7 +56,7 @@
                     <img style="width: 42px; height: 42px" class="rounded-circle account-img" src="{{request.user.profile.avatar.url}}" />
                     <div class="btn-group  w-100 " >
                         <input requerd name = "comment" type="text" class="form-control  rounded rounded-5 rounded-end-0"  aria-describedby="helpId" placeholder="type your comment . . ." />
-                        <button type="submit" class="btn btn-outline-dark rounded rounded-end-5 rounded-start-0 text-nowrap"
+                        <button type="submit" class="btn bg-body-secondary rounded rounded-end-5 rounded-start-0 text-nowrap"
                           
                             hx-post = "{%url 'commentPost' post.id%}"
                             hx-target = "#active-view"
