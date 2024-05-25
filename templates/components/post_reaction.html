@@ -1,0 +1,84 @@
+{%load static%}
+<div id = "active-view">
+      <div class = "d-flex justify-content-between">
+    
+
+              <button class="btn text-nowrap rounded-0 "
+                    hx-get="{% url 'likePost' post.id %}"
+                    hx-trigger="click"
+                                
+                    >
+                    {% if not request.user in post.liked.all %} 
+                                  <i class="fa-regular fa-thumbs-up"></i> {{post.liked.all|length}}</button>
+                    {%else%} 
+                                  <i class='fa-solid fa-thumbs-up'></i> {{post.liked.all|length}}</i> 
+                    {%endif%} 
+              </button>
+
+              <button class="btn text-nowrap rounded-0"
+                    hx-get="{% url 'dislikePost' post.id %}"
+                    hx-trigger="click"
+                    >
+                    {% if not request.user in post.disliked.all %} 
+                                  <i class="fa-regular fa-thumbs-down"></i> {{post.disliked.all|length}}</button>
+                    {%else%} 
+                          <i class='fa-solid fa-thumbs-down'></i> {{post.disliked.all|length}}</i> 
+                    {%endif%} 
+              </button>
+              <button class="btn text-nowrap rounded-0" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <i class="fa-solid fa-comment-dots">
+
+              </i> {{post.comments.all|length}}</button>
+
+
+
+              <button class="btn text-nowrap rounded-0" 
+                                hx-get="{% url 'savePost' post.id %}"
+                                hx-trigger="click"
+                                >
+                              
+                              {% if not request.user in post.favorite.all %} 
+                                  <i class="fa-regular fa-bookmark"></i>  Save &nbsp
+                              {%else%} 
+                                  <i class='fa-solid fa-bookmark'></i> Saved
+                                {%endif%} 
+                              
+                          
+              </button>           
+              <button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop_{{post.id}}"><i class="fa-solid fa-triangle-exclamation"></i></button>
+
+
+
+    </div>
+               <form class="py-1 d-flex g-2 w-100 ">
+                  {% csrf_token %} 
+                    <img style="width: 42px; height: 42px" class="rounded-circle account-img" src="{{request.user.profile.avatar.url}}" />
+                    <div class="btn-group  w-100 " >
+                        <input requerd name = "comment" type="text" class="form-control  rounded rounded-5 rounded-end-0"  aria-describedby="helpId" placeholder="type your comment . . ." />
+                        <button type="submit" class="btn bg-body-secondary rounded rounded-end-5 rounded-start-0 text-nowrap"
+                          
+                            hx-post = "{%url 'commentPost' post.id%}"
+                            hx-target = "#active-view"
+
+                        ><i class="fa-solid fa-paper-plane"
+                            
+                            
+                            ></i></button>
+                    </div>
+              </form> 
+
+    {%if comments%}
+    
+    <div id = "comment-view">
+      <hr class= "mt-0">
+      {%include "../components/comment_view.html"%}
+    </div>
+    {%endif%}
+    
+
+</div>
+
+<!-- Report Modal -->
+
+{%include '../base/reportModal.html'%}

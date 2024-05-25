@@ -1,67 +1,86 @@
-{%load static %}
+{% load static %}
+    
+<nav class="navbar navbar-expand-lg bg-body-secondary fixed-top" aria-label="Offcanvas navbar large">
+  <div class="container-fluid ">
+    <img src="{% static 'img/logo.png' %}" class="img-fluid navbar-brand" width="35" height="20" alt="logo">
+    <a class="navbar-brand" href="/">{{ companyName }}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+      <div class="offcanvas-header bg-body-secondary">
+            <img src="{% static 'img/logo.png' %}" class="img-fluid navbar-brand p-0 m-0 " width="30" height="20" alt="logo">
 
-<div class= "m">
-      <nav class="navbar navbar-expand-lg  mb-4  border-secondary  bg-body-tertiary   " >
-        <div class="container-fluid ps-0">
-          <img src="{% static 'img/logo.png' %}" class="  img-fluid navbar-brand" width="45" height="24" alt="logo">
-          <a class="navbar-brand fs-3 " href="/"> {{companyName}} </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button> 
-          <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <!-- <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-              </li> --> 
-              
-            
+        <h5 class="offcanvas-title text-success pe-2" id="offcanvasNavbar2Label">{{ companyName }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3  ">
+                    <li class= " nav-item flex-fill d-none d-md-block">.</li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Categories
+            </a>
+            <ul class="dropdown-menu">
+              {% for cat in category %}
+                <li><a class="dropdown-item" href="#">{{ cat }}</a></li>
+              {% endfor %}
             </ul>
+          </li>
 
-          {%if user.is_authenticated%}
-            <div class="navbar-brand dropdown me-2 border  px-3  rounded-5 pe-5 ps-0 ">
-              <a
-                class="nav-link dropdown-toggle "
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <!-- <i class="fa-solid fa-user pe-1"></i> -->
-                <img
-                  style="width: 40px; height: 40px"
-                  class="rounded-circle account-img"
-                  src="{{ request.user.profile.avatar.url }}"
-                />
-          
-                <p class=" d-none d-sm-inline ">
-                  {{request.user.first_name}}
-                </p>
-              </a>
-              <ul class="dropdown-menu w-auto">
-                <li>
-                  <a class="dropdown-item" href="{%url 'profile'%}">Profile</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{%url 'activity' %}">Activity log</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{%url 'logout' %}">Logout</a>
-                </li>
-                <li><a class="dropdown-item" href="#">Theme</a></li>
-              </ul>
-            </div>
-          {%else%}
-            <div class=" rounded   rounded-5 navbar-brand  me-2 border  px-3">
-                  <a
-                    class="nav-link btn rounded-4 fs-4 "
-                    href="{%url 'login' %}"
-                    role="button"
-                    aria-expanded="false"
-                  > <i class="fa-solid fa-arrow-right-to-bracket pe-2"></i>Login </a>       
-            </div>
-          {%endif%}
+          <li class="nav-item dropdown align-content-center  flex-fill">
+            
+            <input
+              type="text"
+              class="form-control   rounded rounded-5 dropdown-toggle"
+              name="search"
+              data-bs-toggle="dropdown"
+              aria-describedby="helpId"
+              aria-haspopup="true"
+              aria-expanded="false"7c
+              placeholder="Blog Search"
+              id="triggerId"
+              autocomplete="false"
+              hx-get="{% url 'postSearch' %}"
+              hx-trigger="input changed delay:500ms, search"
+              hx-target="#searchResult"
+            >
+            <div id="searchResult" class="dropdown-menu overflow-hidden mx-3 rounded-top-0" aria-labelledby="triggerId"></div>
+          </li><!-- end of search field -->
+            {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  <img style="width: 30px; height: 30px" class="rounded rounded-5 account-img" src="{{ request.user.profile.avatar.url }}">
 
-        </div>
-        </div>
-    </nav>
-<div>
+                    {{ request.user.first_name }}
+                  </a>
+                    <ul class="dropdown-menu">
+                          <li>
+                            <li><a class="dropdown-item" href="{% url 'activity' %}">Profile</a></li>
+                          <li><hr class="p-0 m-1 dropdown-divider"></li>
+                          <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                          </li>
+                    </ul>
+                </li>
+                  {% else %}
+                <div class="rounded rounded-5 navbar-brand me-2 border px-3">
+                  <a class="nav-link btn rounded-4 fs-4" href="{% url 'login' %}" role="button" aria-expanded="false">
+                    <i class="fa-solid fa-arrow-right-to-bracket pe-2"></i>Login
+                  </a>       
+                </div>
+              {% endif %}
+
+        </ul>
+
+         
+      </div>
+    </div>
+  </div>
+</nav>

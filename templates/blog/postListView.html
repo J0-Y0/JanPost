@@ -1,0 +1,22 @@
+
+  <h4 class="fst-italic"> {{title}}</h4>
+
+  {%if posts%}
+	<ul class="list-unstyled  row w-100  pe-lg-5 ">
+		{%for post in posts %}
+			<li class = "col-sm-6 col-md-4  " >
+				<a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="{%url 'postDetail' post.slug%}">
+					<img class="bd-placeholder-img" width="100%" height="96" src = "{{post.image.url}}" >
+					<div class="col-lg-8">
+					<h6 class="mb-0">{{post.title}}</h6>
+					<small class="text-body-secondary">{{post.published_date|date:"M d, Y"}}</small>
+					</div>
+				</a>
+			</li>
+		{%endfor%}
+
+  	</ul>
+{%else%}
+	<hr>
+  <h2 class="fst-italic">No post found. . .</h2>
+{%endif%}

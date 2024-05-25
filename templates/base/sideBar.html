@@ -1,0 +1,119 @@
+{%load static%}
+
+
+        <div class="row pt-3 " >
+
+
+            <div class=" col-3 col-sm-4 col-md-3  col-lg-2  text-center  text-sm-start d-flex flex-column flex-shrink-0 p-3   border-end border-black " >
+            
+              <ul class=" sidebar nav nav-pills flex-column ">
+                <li class="nav-item ">
+                  <a href="#" class="nav-link link-body-emphasis ">
+                    <i class=" fa-solid fa-people-arrows me-1 fs-sm-1  fs-5"></i>
+                    <span class = "d-none d-sm-inline">My Network </span>
+                      
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="nav-link link-body-emphasis "
+                     hx-get="{% url 'toggleView' 'my_post' %}"
+                            hx-trigger="click"
+                            hx-target="#mainView"
+                            hx-swap="innerHTML"
+                  
+                  >
+                    <i class=" fa-solid fa-square-rss me-2  fs-4 "></i>
+                      <span class = "d-none d-sm-inline"> My Posts </span>
+
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="mb-2 nav-link link-body-emphasis "
+                            hx-get="{% url 'toggleView' 'saved_post' %}"
+                            hx-trigger="click"
+                            hx-target="#mainView"
+                            hx-swap="innerHTML"
+
+                  
+                  
+                  
+                  >
+                    <i class=" fa-solid fa-bookmark me-2  fs-4"></i>
+                    <span class = "d-none d-sm-inline"> Saved Post </span>
+                    
+          
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="mb-2 nav-link link-body-emphasis "
+                    hx-get="{% url 'toggleView' 'liked_post' %}"
+                            hx-trigger="click"
+                            hx-target="#mainView"
+                            hx-swap="innerHTML"
+                  
+                  
+                  >
+                    <i class=" fa-brands fa-gratipay me-2  fs-4"></i>
+                    <span class = "d-none d-sm-inline"> Liked post </span>
+
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="mb-2 nav-link link-body-emphasis ">
+                  <i class=" fa-solid fa-user me-2  fs-4"></i>
+                    <span class = "d-none d-sm-inline"> My Profile </span>
+
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="mb-2 nav-link link-body-emphasis ">
+                  <i class="fa-solid fa-palette me-2  fs-4" ></i>
+                    <span class = "d-none d-sm-inline"> Preference
+                  </span>
+                </a>
+                </li>
+              </ul>
+              
+              {% comment %} <div class="dropdown">
+                <a href="#" class="d-flex align-items-center  text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="{{request.user.profile.avatar.url}}" alt="" width="32" height="32" class="rounded-circle me-2">
+                  <strong>{{request.user.first_name}}</strong>
+                </a>
+                <ul class="dropdown-menu text-small shadow">
+                  <li><a class="dropdown-item" href="#">New project...</a></li>
+                  <li><a class="dropdown-item" href="#">Settings</a></li>
+                  <li><a class="dropdown-item" href="#">Profile</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+              </div> {% endcomment %}
+            </div>
+
+        
+            <div id ="mainView"  class="col-9 col-sm-8  col-md-9 col-lg-10 " style ="height:75vh; overflow:scroll">
+            </div>
+          
+
+
+    </div>
+<script>
+
+  document.addEventListener('DOMContentLoaded', function () {
+  const links = document.querySelectorAll('.sidebar a');
+
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault(); // Prevent the default action of the anchor tag
+      
+      // Remove the 'active' class from all links
+      links.forEach(function (link) {
+        link.classList.remove('active');
+      });
+
+      // Add the 'active' class to the clicked link
+      this.classList.add('active');
+    });
+  });
+});
+
+</script>

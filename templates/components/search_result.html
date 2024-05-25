@@ -1,0 +1,24 @@
+
+
+
+
+
+  <div class="list-group">
+
+    {%for post in posts%}
+    
+        <a href="{%url 'postDetail' post.slug%}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+          {% comment %} <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0"> {% endcomment %}
+          <div class="d-flex gap-2 w-100 justify-content-between">
+            <div>
+              <p class="mb-0 opacity-75 text-wrap">{{post.title}}</p>
+            </div>
+            <small class="opacity-50 text-nowrap">{{post.published_date|date:"M d,Y"}}</small>
+          </div>
+        </a>
+                          
+    {%endfor%}              
+
+          </div>
+
+ 

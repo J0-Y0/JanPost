@@ -1,43 +1,106 @@
 {% load static %}
+
+
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="darkf">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     
+    <title>{{companyName}}</title>
+
+    <!-- bootstrap cdn -->
+    <link href="{% static 'css/bootstrap-5.3.3-css/bootstrap.min.css'%}" rel="stylesheet" >
+    <script src="{% static 'js/bootstrap-5.3.3-js/bootstrap.bundle.min.js'  %}" ></script>
+
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/regular.css' %}" rel="stylesheet" type="text/css">
+    
+    <link href="{% static 'css/blog.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/sidebars.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/dropdowns.css' %}" rel="stylesheet" type="text/css">
+    
+    <!--custom css-->
     <link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    
 </head>
 <body>
-
         {% block navbar %}
             <!-- Navbar content goes here -->
         {% endblock %}
-        <main>
 
-                {% block landingIntro %}
-                    <!-- Landing intro content goes here -->
-                {% endblock %}
-            
-                {% block sideBar %}
-                    <!-- Sidebar content goes here -->
-                {% endblock %}
+        {% block landingIntro %}
+            <!-- Landing intro content goes here -->
+        {% endblock %}
+    
+        {% block sideBar %}
+            <!-- Sidebar content goes here -->
+        {% endblock %}
+        {% block content %}
+            <!-- Main content goes here -->
+        {% endblock %}
 
-                {% block content %}
-                    <!-- Main content goes here -->
-                {% endblock %}
-         </main>
-          <footer>
-            <!-- place footer here -->
-        </footer>
+        {% block footer %}
+            <!-- footer content goes here -->
+        {% endblock %}
+        
+
+
+   
+    <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+      <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
+              id="bd-theme"
+              type="button"
+              aria-expanded="false"
+              data-bs-toggle="dropdown"
+             >
+        <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#circle-half"></use></svg>
+        <i class="fa-solid fa-cloud-moon"></i>
+
+      </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
+        <li>
+          <button onclick = "changeTheme('light')" type="button" class="dropdown-item d-flex align-items-center"  aria-pressed="false">
+           <i class="fa-regular fa-lightbulb pe-2"></i>
+            Light
+          </button>
+        </li>
+        <li>
+          <button onclick = "changeTheme('dark')" type="button" class="dropdown-item d-flex align-items-center"  aria-pressed="false">
+            <i class="fa-solid fa-lightbulb pe-2"></i>
+            Dark
+          </button>
+        </li>
+        <li>
+          <button onclick = "changeTheme('auto')" type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
+                    <i class="fa-solid fa-circle-half-stroke pe-2"></i>
+            Auto
+          </button>
+        </li>
+      </ul>
+    </div>
+
+
+
+
+
+
+
+
+    <!-- htmx -->
+    <script src="{% static 'js/htmx.min.js' %%}"></script>
+    <script>
+        function changeTheme(value) {
+                var element = document.getElementsByTagName("html")[0];
+                element.setAttribute('data-bs-theme', value);
+            }
+
+    </script>
 </body>
+
 </html>
 
 

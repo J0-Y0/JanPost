@@ -1,56 +1,21 @@
 {%extends 'base/base.html' %}
 
-
-{%block navbar%}
-{%include "base/navbar.html"%}
-
-{%endblock navbar %}
+{% block navbar %}
+	{%include 'base/navbar.html'%}
+{% endblock %}
 {% block sideBar %}
-<div  class="left-menu p-0 " >  
-    <a  href="{% url   'activity' %}"  type="button">
-            
-        
-        Saved post
-    </a>
-    <a href="{% url   'activity' %}" type="button">
-            
-        
-        liked Post
-    </a>
-    <a type="button" href="{% url   'activity' %}">
-            
-        
-        NetWork
-    </a>
-    
-    <a type="button" href="{% url   'activity'%}">
-            
-        
-        Report
-    </a> 
-
-
-        <a class="admin"   href="/admin/" >
-            
-            logout
-        </a>
-
-                    
-</div>
+	<div class="container-fluid pt-5 mb-0 pb-0">
+		{% include "../base/sideBar.html" %}
+	</div>
 {% endblock %}
-
-{% block content %}
-
-<div class = "container">
-    <div class = "row ">
-
-    {% for post in saved %}
-    <div class=" col-md-6 ">
-        {%include "../blog/post.html"%}      
+ {% block footer %}
+    <div class = "container-fluid px-3 py-0 my-0">
+    {%include '../base/footer.html'%}
     </div>
-       
-    {%endfor%}
-</div></div>
-  
+{% endblock %} 
 
-{% endblock %}
+
+        
+
+
+

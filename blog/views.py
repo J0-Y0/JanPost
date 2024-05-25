@@ -1,35 +1,28 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Category
-from .forms import CommentForm, ReportForm
+from .forms import CommentForm
 from django.views.generic import ListView
 from .filter import PostFilterForm
 from django.conf import settings
-
-
-def saveReport(request):
-    reportForm = ReportForm()
-    if request.method == "POST":
-        reportForm = ReportForm(request.POST)
-        if reportForm.is_valid():
-            report = reportForm.save(commit=False)
-            report.save()
-            reportForm = ReportForm()
-    return reportForm
+from django.db.models import Count
 
 
 def globalContext(request):
     context = {
         "category": Category.objects.all(),
         "companyName": settings.COMPANY_NAME,
-        "reportForm": saveReport(request),
+        # "reportForm": saveReport(request),
     }
     return context
 
 
 def landingPage(request):
     context = {
-        "tags": Post.tags.all(),
-        "posts": Post.objects.all(),
+        "tags": Post.tags.all()[0:15],
+        "posts": Post.newManager.all()[0:2],
+        "most_liked_posts": Post.newManager.annotate(
+            liked_count=Count("liked")
+        ).order_by("-liked_count")[:5],
     }
     return render(request, "blog/landingPage.html", context=context)
 
@@ -38,12 +31,11 @@ def home(request):
 
     posts = Post.newManager.all()
 
-    postFilterForm = PostFilterForm(request.GET, queryset=posts)
-    posts = postFilterForm.qs
+    # postFilterForm = PostFilterForm(request.GET, queryset=posts)
+    # posts = postFilterForm.qs
 
     context = {
-        "postFilterForm": postFilterForm,
-        "posts": posts,
+        "posts": posts[:22],
     }
 
     return render(request, "blog/home.html", context=context)

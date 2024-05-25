@@ -57,11 +57,9 @@ class Post(models.Model):
         blank=True,
         related_name="favorite",
     )
-    liked = models.ManyToManyField(
-        User, default=None, blank=True, related_name="disliked"
-    )
+    liked = models.ManyToManyField(User, default=None, blank=True, related_name="liked")
     disliked = models.ManyToManyField(
-        User, default=None, blank=True, related_name="liked"
+        User, default=None, blank=True, related_name="disliked"
     )
     tags = TaggableManager()
     objects = models.Manager()
@@ -95,10 +93,12 @@ class Comment(MPTTModel):
     parent = TreeForeignKey(
         "self", on_delete=models.CASCADE, null=True, blank=True, related_name="children"
     )
-    name = models.CharField(max_length=50, verbose_name="Commented by")
-    email = models.EmailField(max_length=50)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True)
+    liked = models.ManyToManyField(
+        User, default=None, blank=True, related_name="liked_comment"
+    )
 
     status = models.BooleanField(default=True)
 
@@ -111,7 +111,7 @@ class Comment(MPTTModel):
         order_insertion_by = ["-published_date"]
 
     def __str__(self):
-        return f"commented by {self.name}"
+        return f"commented by {self.author}"
 
 
 class Report(models.Model):
@@ -123,11 +123,12 @@ class Report(models.Model):
         ("spam", "looks a spam"),
         ("other", "other"),
     )
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="reports")
-    name = models.CharField(max_length=50, verbose_name="Commented by")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reports")
     type = models.CharField(
         max_length=50, choices=report_types, verbose_name="Report type"
     )
+    otherDescription = models.TextField(verbose_name="others Details")
     detail = models.TextField(verbose_name="Additional Details")
     published_date = models.DateTimeField(auto_now_add=True)
 
@@ -140,6 +141,8 @@ class Report(models.Model):
         verbose_name = "Report"
         verbose_name_plural = "Reports"
         ordering = ("-published_date",)
+        # to prevent multiple reporting by the same user for one post
+        unique_together = ["post", "author"]
 
     def __str__(self):
-        return f"{self.name}:{self.type}"
+        return f"{self.author}:{self.type}"

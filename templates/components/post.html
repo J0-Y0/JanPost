@@ -6,7 +6,7 @@
       <h5 class="card-header d-flex justify-content-between">
         <a href="#" title="Author">
           <img style="width: 40px; height: 40px" class="rounded-circle account-img" src="{{post.author.profile.avatar.url}}"/>
-          <p class="d-none d-sm-inline">{{post.author.first_name}} {{post.author.last_name}}</p>
+          <p>{{post.author.first_name}} {{post.author.last_name}}</p>
         </a>
 
         <div class="dropdown open">
@@ -23,48 +23,73 @@
         <div class="d-flex justify-content-between flex-column">
           <a class="" href="{% url 'postDetail' post.slug %}"><h5 class="card-title">{{post.title}}</h5></a>
           
-          <p class="text-secondary text-nowrap">{{post.published_date}}</p>
+          <p class="text-secondary text-nowrap">{{post.published_date}} | {{ post.time_difference }} ago </p>
         </div>
         <p class="card-text">{{post.content|truncatechars:500}} <a class="" href="{% url 'postDetail' post.slug %}">>></a></p>
       </div>
       <img src="{{post.image.url}}" class="card-img-top"/>
       
       <div class="card-footer p-0 d-flex justify-content-between">
-        <p class="text-secondary ps-2">Posted {{ post.time_difference }} ago</p> 
-        <button class="btn rounded-0"><i class="fa-regular fa-thumbs-up"></i> 444</button>
-        <button class="btn rounded-0"><i class="fa-regular fa-thumbs-down"></i> 444</button>
-        <button class="btn rounded-0"><i class="fa-solid fa-comment-dots"></i> 444</button>
-        <a class="btn rounded-0" href="{% url 'postDetail' post.slug %}">...</a>
-        <button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
+        <div id = "active-view">
+          <div class = "d-flex justify-content-between">
+    
+
+              <button class="btn text-nowrap rounded-0 "
+                    hx-get="{% url 'likePost' post.id %}"
+                    hx-trigger="click"
+                                
+                    >
+                    {% if not request.user in post.liked.all %} 
+                                  <i class="fa-regular fa-thumbs-up"></i> {{post.liked.all|length}}</button>
+                    {%else%} 
+                                  <i class='fa-solid fa-thumbs-up'></i> {{post.liked.all|length}}</i> 
+                    {%endif%} 
+              </button>
+
+              <button class="btn text-nowrap rounded-0"
+                    hx-get="{% url 'dislikePost' post.id %}"
+                    hx-trigger="click"
+                    >
+                    {% if not request.user in post.disliked.all %} 
+                                  <i class="fa-regular fa-thumbs-down"></i> {{post.disliked.all|length}}</button>
+                    {%else%} 
+                          <i class='fa-solid fa-thumbs-down'></i> {{post.disliked.all|length}}</i> 
+                    {%endif%} 
+              </button>
+              <button class="btn text-nowrap rounded-0" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <i class="fa-solid fa-comment-dots">
+
+              </i> {{post.comments.all|length}}</button>
+
+
+
+              <button class="btn text-nowrap rounded-0" 
+                                hx-get="{% url 'savePost' post.id %}"
+                                hx-trigger="click"
+                                >
+                              
+                              {% if not request.user in post.favorite.all %} 
+                                  <i class="fa-regular fa-bookmark"></i>  Save &nbsp
+                              {%else%} 
+                                  <i class='fa-solid fa-bookmark'></i> Saved
+                                {%endif%} 
+                              
+                          
+              </button>           
+              <button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop_{{post.id}}"><i class="fa-solid fa-triangle-exclamation"></i></button>
+
+
+
+            </div>
+
       </div>
+    </div>
     </div>
   </div>
 </div>
 
+
 <!-- Report Modal -->
-<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop2Label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header text-bg-dark">
-        <h1 class="modal-title fs-5" id="staticBackdrop2Label">Reporting</h1>
-        <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body px-4 pt-4">
-        <form method="post">
-          {% csrf_token %}
-          {% for field in reportForm %}
-            <b class="pt-3 text-secondary">{{field.label}}</b>
-            {{field}}
-          {% endfor %}
-          <div class="btn-group mt-5 w-100" role="group" aria-label="Basic example">
-            {{reportForm.error}}
-            <button class="btn btn-outline-dark rounded rounded-5" type="submit">Send report</button>
-          </div>
-          <br>
-          <hr>
-          <p class="text-secondary text-center mb-0">Thank you for telling us about the abuse</p>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+
+{%include '../base/reportModal.html'%}

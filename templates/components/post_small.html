@@ -7,45 +7,14 @@
     <img src="{{ post.image.url }}" class="card-img-top"/>
     <div class="card-body">
       <div class="d-flex justify-content-between flex-column">
-        <h5 class="card-title">{{ post.title }}</h5>
+        <a class="card-title h5 text-muted" href = "{%url 'postDetail' post.slug %}">{{ post.title }}</a>
         <p class="text-secondary text-nowrap">{{ post.published_date }}</p>
       </div>
       <p class="card-text">{{ post.content|truncatechars:500 }}</p>
+
     </div>
     <div class="card-footer p-0  d-flex justify-content-between">
-      {% comment %} <p class="text-secondary ps-2">Posted {{ post.time_difference }} ago</p> {% endcomment %}
-        <button class="btn  rounded-0"><i class="fa-regular fa-thumbs-up"></i> 444</button>
-        <button class="btn rounded-0"><i class="fa-regular fa-thumbs-down"></i> 444</button>
-        <button class="btn rounded-0"><i class="fa-solid fa-comment-dots"></i> 444</button>
-        <a class="btn rounded-0" href="{% url 'postDetail' post.slug %}">Read more</a>
-        <button title="Report this post" class="btn text-end text-warning rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"><i class="fa-solid fa-triangle-exclamation"></i></button>
-    </div>
-  </div>
-</div>
-
-<!-- Report Modal -->
-<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop2Label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header text-bg-success">
-        <h1 class="modal-title fs-5" id="staticBackdrop2Label">Reporting</h1>
-        <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body px-4 pt-4">
-        <form method="post">
-          {% csrf_token %}
-          {% for field in reportForm %}
-            <b class="pt-3 text-secondary">{{ field.label }}</b>
-            {{ field }}
-          {% endfor %}
-          <div class="btn-group mt-5 w-100" role="group" aria-label="Basic example">
-            <button class="btn btn-primary" type="submit">Send report</button>
-          </div>
-          <br>
-          <hr>
-          <p class="text-secondary text-center mb-0">Thank you for reporting this abuse</p>
-        </form>
-      </div>
+     {%include '../components/post_reaction.html' %}
     </div>
   </div>
 </div>

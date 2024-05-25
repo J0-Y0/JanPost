@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.utils.encoding import force_str
-from django.http import JsonResponse
+from django.http import HttpResponse
 
 
 from django.contrib.sites.shortcuts import get_current_site
-from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
+from django.contrib.auth.forms import PasswordChangeForm
 
 from django.contrib.auth import update_session_auth_hash
 
@@ -16,8 +16,8 @@ from django.core.mail import send_mail
 from .token import account_activation_token
 from django.conf import settings
 
+from blog.models import Post, Comment, Report
 from .forms import *
-from blog.models import Post
 
 
 def user_login(request):
@@ -89,6 +89,8 @@ def mailHtmlFormatter(title, subject, name, text, link):
                                 <h2 >{subject}</h2>
                     </div>
                     <div style="padding: 5%;">
+                    <img src="https://ci3.googleusercontent.com/meips/ADKq_NZmWh8yX3W_DnxLE2k8z8dh2tfhpTY9XIYZYy09L1lktAlcr3xSYF5B0iDQ998hi44VoWIa4Jzq0s8NqMDQM9B645kD1SAhM39sJxizfSmAY6Prxl7eCRhD=s0-d-e1-ft#https://sendy.colorlib.com/img/email-notifications/almost-there.gif" width="150" alt="" border="0" style="width:100%;max-width:150px;height:auto;display:block" class="CToWUd" data-bit="iit">
+
                                 <p>Hello {name}, </p>
                                     <br>
 
@@ -174,23 +176,164 @@ def activity(request):
     return render(request, "account/activity.html", context)
 
 
-def save_post(request):
+def toggleView(request, target):
+    user = request.user
+    object = ""
+    title = ""
+    if target == "saved_post":
+        title = "Saved Post"
+        object = Post.newManager.filter(favorite=user).all()
+    elif target == "liked_post":
+        title = "Liked Post"
+        object = Post.newManager.filter(liked=user).all()
+    elif target == "my_post":
+        title = "My Posts"
+        object = Post.newManager.filter(author=user).all()
+
+    return render(
+        request,
+        "blog/postListView.html",
+        {
+            "posts": object,
+            "title": title,
+        },
+    )
+
+
+def likePost(request, pid):
     if request.method == "GET":
-        pid = request.GET.get("pid")
-        print("================================" + str(pid))
         post = get_object_or_404(Post, pk=pid)
-        print("================================" + str(post.author))
+
+        if not post.liked.filter(id=request.user.id).exists():
+            post.liked.add(request.user)
+            post.save()
+            return HttpResponse(
+                f" <i class='fa-solid fa-thumbs-up'></i> {post.liked.count()}"
+            )
+        else:
+            post.liked.remove(request.user)
+            post.save()
+            return HttpResponse(
+                f" <i class='fa-regular fa-thumbs-up'></i> {post.liked.count()}"
+            )
+    else:
+        return HttpResponse("something went wrong ")
+
+
+def dislikePost(request, pid):
+    if request.method == "GET":
+        post = get_object_or_404(Post, pk=pid)
+
+        if not post.disliked.filter(id=request.user.id).exists():
+            post.disliked.add(request.user)
+            post.save()
+            return HttpResponse(
+                f"<i class='fa-solid fa-thumbs-down'></i> {post.disliked.count()}"
+            )
+        else:
+            post.disliked.remove(request.user)
+            post.save()
+            return HttpResponse(
+                f" <i class='fa-regular fa-thumbs-down'></i> {post.liked.count()}"
+            )
+    else:
+        return HttpResponse("something went wrong ")
+
+
+def commentPost(request, pid):
+
+    post = get_object_or_404(Post, pk=pid)
+    comment = request.POST.get("comment")
+
+    if "parent" in request.POST:
+        parent = request.POST.get("parent")
+        parent = Comment.objects.filter(pk=parent).first()
+        Comment.objects.create(
+            post=post, parent=parent, author=request.user, content=comment
+        )
+    else:
+        Comment.objects.create(post=post, author=request.user, content=comment)
+
+    return render(
+        request,
+        "components/post_reaction.html",
+        {"comments": Comment.objects.filter(post=post), "post": post},
+    )
+
+
+def savePost(request, pid):
+    if request.method == "GET":
+        post = get_object_or_404(Post, pk=pid)
 
         if not post.favorite.filter(id=request.user.id).exists():
             post.favorite.add(request.user)
-            data = {"class": "solid", "title": "add to favorites"}
-            return JsonResponse(data)
+            post.save()
+            return HttpResponse("<i class='fa-solid fa-bookmark'></i> Saved")
         else:
             post.favorite.remove(request.user)
-            data = {"class": "regular", "title": "remove from favorites"}
-            return JsonResponse(data)
+            post.save()
+            return HttpResponse("<i class='fa-regular fa-bookmark'></i> Save &nbsp")
     else:
-        return JsonResponse({"error": "Invalid request method"})
+        return HttpResponse("something went wrong ")
+
+
+def likeComment(request, cid):
+    if request.method == "GET":
+        comment = get_object_or_404(Comment, pk=cid)
+        if not comment.liked.filter(id=request.user.id).exists():
+            comment.liked.add(request.user)
+            comment.save()
+            return HttpResponse(
+                f" <i class='fa-solid fa-thumbs-up'></i> {comment.liked.count()}"
+            )
+        else:
+            comment.liked.remove(request.user)
+            comment.save()
+            return HttpResponse(
+                f" <i class='fa-regular fa-thumbs-up'></i> {comment.liked.count()}"
+            )
+    else:
+        return HttpResponse("something went wrong ")
+
+
+def reportPost(request, pid):
+    post = get_object_or_404(Post, pk=pid)
+
+    reportType = request.POST.get("reportType")
+    otherDescription = ""
+    additionalDetails = ""
+    if reportType == "other":
+        otherDescription = request.POST.get("otherDescription")
+    if "additionalDetails" in request.POST:
+        additionalDetails = request.POST.get("additionalDetails")
+
+    if not Report.objects.filter(post=post, author=request.user).exists():
+        Report.objects.create(
+            post=post,
+            author=request.user,
+            type=reportType,
+            otherDescription=otherDescription,
+            detail=additionalDetails,
+        )
+        return HttpResponse(
+            "<h1 class = 'text-center text-success'> <i class='fa-solid fa-circle-check'></i> Your report has been received. </h1> <hr> "
+        )
+    else:
+        return HttpResponse(
+            "<h3 class = 'text-center text-info'> <i class='fa-solid fa-circle-info h1'></i> <br> You've previously reported this post, and we're already handling that record. </h3> <hr> "
+        )
+
+
+def postSearch(request):
+
+    title = request.GET.get("search")
+    posts = Post.newManager.filter(title__icontains=title)[:5]
+
+    context = {
+        "posts": posts,
+    }
+
+    return render(request, "components/search_result.html", context=context)
 
 
 def user_profile(request):
